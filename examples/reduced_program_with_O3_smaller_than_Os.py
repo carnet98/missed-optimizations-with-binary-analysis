@@ -13,6 +13,8 @@ from diopter.compiler import (
     CompilationSetting,
     CompilerExe,
     ObjectCompilationOutput,
+    ASMCompilationOutput,
+    LLVMIRCompilationOutput,
     OptLevel,
     SourceProgram,
 )

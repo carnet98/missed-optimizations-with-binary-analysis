@@ -369,6 +369,14 @@ class SourceProgram(Source):
         )
         tf.close()
         return SourcePath(Path(tf.name), tf)
+    
+    def save_to_file(self: ProgramType, filename: str):
+        """ Saves program in filename. """
+        filename = filename + self.language.to_suffix()
+        f = open(filename, "w")
+        f.write(self.code)
+        f.close()
+        return
 
     def get_modified_code(self) -> str:
         """Returns `self.code` potentially modified to be used in `CompilationSetting`.
