@@ -20,6 +20,40 @@ from diopter.sanitizer import Sanitizer
 
 PROGRAM_PATH = "../program_examples/"
 
+# Report Class to store and summarize intersting results
+class Report():
+    def __init__(self, name, program, setting1, setting1_assembly, setting2, setting2_assembly):
+        self.name = name
+        self.program = program
+        self.setting1 = setting1
+        self.setting1_assembly = setting1_assembly
+        self.setting2 = setting2
+        self.setting2_assembly = setting2_assembly
+        self.interesting_variables = []
+        self.interesting_lines = {}
+
+    def add_interesting_variable(self, var, setting1_lines, setting2_lines):
+        self.interesting_variables.append(var)
+        lines_entry = {"setting1:": setting1_lines, "setting2": setting2_lines}
+        self.interesting_lines[var] = lines_entry
+        return
+
+    def to_string(self):
+        result = "--- Interesting Case Report --- \n\n"
+        source_code = "Source Code: \n" + self.program.code + "\n\n"
+        assembly1 = "Assembly Code with Setting 1: \n" + self.setting1_assembly + "\n\n"
+        assembly2 = "Assembly Code with Setting 2: \n" + self.setting2_assembly + "\n\n"
+        variables = "Interesting Variables: \n" + str(self.interesting_variables) + "\n\n"
+        lines = "Interesting Assembly Lines: \n" + str(self.interesting_lines) + "\n\n"
+        result = result + variables + lines + source_code + assembly1 + assembly1 + assembly2
+        return result
+    
+    def save_to_file(self):
+        f = open("../reports/" + self.name + ".txt", "w")
+        content = self.to_string()
+        f.write(content)
+        f.close()
+        return
 
 def get_globals(program):
     # TODO run matcher on program to get a list of global variables
@@ -31,7 +65,6 @@ def get_globals(program):
                 if "g_" in word and word not in g:
                     g.append(word)
     return g
-
 
 def match_instruction(word, instruction):
     if instruction in word:
@@ -61,7 +94,6 @@ def check_constant_move(g, assembly):
                 lines.append(words)
     return result, lines
 
-
 def filter(program, setting1, setting2, globals):
     setting1_result = setting1.compile_program(program, ASMCompilationOutput(None))
     setting2_result = setting2.compile_program(program, ASMCompilationOutput(None))
@@ -69,43 +101,24 @@ def filter(program, setting1, setting2, globals):
     setting2_assembly = setting2_result.output.read()
     interesting = False
     interesting_variables = []
+    report_num = len(os.listdir("../reports"))
+    report = Report("report_" + str(report_num), program, setting1, setting1_assembly, setting2, setting2_assembly)
     # do comparison
     for g in globals:
         setting1_constant_bool, setting1_constant_lines = check_constant_move(g, setting1_assembly)
-        # print(setting1_constant_bool)
-        if setting1_constant_bool:
-            print("setting 1")
-            print(setting1_constant_lines)
         setting2_constant_bool, setting2_constant_lines = check_constant_move(g, setting2_assembly)
-        # print(setting2_constant_bool)
-        if setting2_constant_bool:
-            print("setting 2")
-            print(setting2_constant_lines)
         if not setting1_constant_lines == setting2_constant_lines:
-            interesting_variables.append(g)
+            report.add_interesting_variable(g, setting1_constant_lines, setting2_constant_lines)
             interesting = True
     if interesting:
-        interesting_counter = int(len(os.listdir("../interesting_programs/")) / 2)
-        program.save_to_file("../interesting_programs/interesting_" + str(interesting_counter))
-        f = open("../interesting_programs/report_" + str(interesting_counter) + ".txt", "w")
-        f.write("--- Interesting Case Report ---\n\n")
-        f.write("Difference in Variables:" + str(interesting_variables) + "\n\n")
-        f.write("\n\n")
-        f.write("Setting 1: " + str(setting1.get_compilation_cmd) + "\n")
-        f.write("Setting 1 Assembly Code:\n")
-        f.write(setting1_assembly)
-        f.write("\n\n")
-        f.write("Setting 2: " + str(setting2.get_compilation_cmd) + "\n")
-        f.write("Setting 2 Assembly Code:\n")
-        f.write(setting2_assembly)
-        f.write("\n\n")
-        f.write("Source Code:\n")
-        f.write(program.code)
-        f.close()
-    return interesting
+        print("Interesting")
+        program.save_to_file("../programs/program_" + str(report_num))
+        report.save_to_file()
+    else:
+        del report
+    return
 
 if __name__ == "__main__":
-
     setting1 = CompilationSetting(
         compiler=CompilerExe.get_system_clang(),
         opt_level=OptLevel.O3,
@@ -151,7 +164,6 @@ if __name__ == "__main__":
         program.save_to_file("../temp_programs/sample_" + str(counter))
         globals = get_globals(program)
         globals = globals + ["global"]
-        if filter(program, setting1, setting2, globals):
-            print("Program is interesting")
+        filter(program, setting1, setting2, globals)
         counter += 1
     print("SUCCESS")
