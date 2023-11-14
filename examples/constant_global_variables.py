@@ -45,7 +45,7 @@ class Report():
         assembly2 = "Assembly Code with Setting 2: \n" + self.setting2_assembly + "\n\n"
         variables = "Interesting Variables: \n" + str(self.interesting_variables) + "\n\n"
         lines = "Interesting Assembly Lines: \n" + str(self.interesting_lines) + "\n\n"
-        result = result + variables + lines + source_code + assembly1 + assembly1 + assembly2
+        result = result + variables + lines + source_code + assembly1 + assembly2
         return result
     
     def save_to_file(self):

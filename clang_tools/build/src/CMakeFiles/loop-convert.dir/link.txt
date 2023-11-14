@@ -1,0 +1,1 @@
+/usr/bin/c++  -fno-rtti -Wall -Wextra -Wpedantic -O3 -DNDEBUG -O3 "CMakeFiles/loop-convert.dir/LoopConvert.cpp.o" -o ../bin/loop-convert  /usr/lib/libclang-cpp.so.16 /usr/lib/libLLVM-16.so 
