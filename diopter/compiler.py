@@ -376,7 +376,7 @@ class SourceProgram(Source):
         f = open(filename, "w")
         f.write(self.code)
         f.close()
-        return
+        return filename
 
     def get_modified_code(self) -> str:
         """Returns `self.code` potentially modified to be used in `CompilationSetting`.

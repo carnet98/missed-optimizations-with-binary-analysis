@@ -7,6 +7,7 @@ sys.path.insert(0, '..')
 from diopter.compiler import (
     CompilationSetting,
     CompilerExe,
+    ExeCompilationOutput,
     ObjectCompilationOutput,
     ASMCompilationOutput,
     LLVMIRCompilationOutput,
@@ -18,7 +19,12 @@ from diopter.generator import CSmithGenerator
 from diopter.reducer import Reducer, ReductionCallback
 from diopter.sanitizer import Sanitizer
 
+import subprocess
+
+import angr
+
 PROGRAM_PATH = "../program_examples/"
+TOOL_BINARY_PATH = "../clang_tools/build/bin/"
 
 # Report Class to store and summarize intersting results
 class Report():
@@ -55,8 +61,29 @@ class Report():
         f.close()
         return
 
-def get_globals(program):
+def get_globals(filename):
     # TODO run matcher on program to get a list of global variables
+    g = []
+    print("get globals")
+    binary = TOOL_BINARY_PATH + "global-detector"
+    cmd = [binary, filename, "--"]
+    print(cmd)
+    output = subprocess.run(cmd, capture_output=True)
+    output = output.stderr.decode()
+    differentWords = []
+    for line in output.splitlines():
+        # print("LINE")
+        words = line.split()
+        if (words[0] == "VarDecl"):
+            if not words[len(words) - 3] in differentWords:
+                differentWords.append(words[len(words) - 3])
+            # print(words[len(words) - 2])
+            # print(words[len(words) - 3])
+            print(words)
+    print(differentWords)
+    return g
+
+def get_globals_primitive(program):
     g = []
     print("get globals")
     for line in program.code.splitlines():
@@ -118,6 +145,17 @@ def filter(program, setting1, setting2, globals):
         del report
     return
 
+def binary_analysis(program, setting1, setting2):
+    setting1_result = setting1.compile_program(program, ExeCompilationOutput(None))
+    setting2_result = setting2.compile_program(program, ExeCompilationOutput(None))
+    setting1_project = angr.Project(setting1_result.output.filename, load_options={'auto_load_libs': False})
+    setting2_project = angr.Project(setting2_result.output.filename, load_options={'auto_load_libs': False})
+    setting1_cfg = setting1_project.analyses.CFGEmulated(keep_state=True)
+    setting2_cfg = setting2_project.analyses.CFGEmulated(keep_state=True)
+    print("CFGs:")
+    print(setting1_cfg.graph)
+    print(setting2_cfg.graph)
+
 if __name__ == "__main__":
     setting1 = CompilationSetting(
         compiler=CompilerExe.get_system_clang(),
@@ -161,9 +199,11 @@ if __name__ == "__main__":
             else:
                 print(path + " does not exist.")
         # save file for matcher
-        program.save_to_file("../temp_programs/sample_" + str(counter))
-        globals = get_globals(program)
-        globals = globals + ["global"]
+        filename = program.save_to_file("../temp_programs/sample_" + str(counter))
+        binary_analysis(program, setting1, setting2)
+        """
+        globals = get_globals_primitive(program) + ["global"]
         filter(program, setting1, setting2, globals)
+        """
         counter += 1
     print("SUCCESS")

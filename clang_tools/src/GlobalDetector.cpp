@@ -5,6 +5,7 @@
 #include "llvm/Support/CommandLine.h"
 #include "clang/ASTMatchers/ASTMatchers.h"
 #include "clang/ASTMatchers/ASTMatchFinder.h"
+#include "stdio.h"
 
 using namespace llvm;
 using namespace clang;
@@ -28,7 +29,7 @@ internal::Matcher<Decl> GlobalMatcher = varDecl(hasGlobalStorage(), isDefinition
 class GlobalPrinter : public MatchFinder::MatchCallback {
 public :
   virtual void run(const MatchFinder::MatchResult &Result) {
-    if (const Decl *FS = Result.Nodes.getNodeAs<clang::Decl>("global_var"))
+    if (const VarDecl *FS = Result.Nodes.getNodeAs<clang::VarDecl>("global_var"))
       FS->dump();
   }
 };

@@ -1,0 +1,13 @@
+# ninja log v5
+8	35423	1699970836950300977	src/CMakeFiles/global-detector.dir/GlobalDetector.cpp.o	34c9de7fa5cffb42
+7	36636	1699970838160307510	src/CMakeFiles/loop-convert.dir/LoopConvert.cpp.o	74949d81af76a2f4
+35427	37126	1699970838633643398	bin/global-detector	e4f937731dd10308
+36636	38308	1699970839820316470	bin/loop-convert	10828e425435d668
+6	17182	1700055669116950373	src/CMakeFiles/global-detector.dir/GlobalDetector.cpp.o	34c9de7fa5cffb42
+17182	18026	1700055669956956103	bin/global-detector	e4f937731dd10308
+6	17709	1700055905718525517	src/CMakeFiles/global-detector.dir/GlobalDetector.cpp.o	34c9de7fa5cffb42
+17709	18700	1700055906701864518	bin/global-detector	e4f937731dd10308
+12	16823	1700055963832196515	src/CMakeFiles/global-detector.dir/GlobalDetector.cpp.o	34c9de7fa5cffb42
+16823	17663	1700055964665534728	bin/global-detector	e4f937731dd10308
+8	22217	1700056145266614026	src/CMakeFiles/global-detector.dir/GlobalDetector.cpp.o	34c9de7fa5cffb42
+22218	23052	1700056146093285722	bin/global-detector	e4f937731dd10308

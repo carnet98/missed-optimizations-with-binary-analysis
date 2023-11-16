@@ -12,7 +12,7 @@ cmake -G Ninja .. -DCMAKE_BUILD_TYPE=Release \
                   -DCMAKE_MODULE_PATH="$CMAKE_MODULE_PATH"
 ninja 
 cd ..
-cp build/bin/ccc python_src/callchain_checker
+cp build/bin/global-detector python_src/clang_tools/
 cp setup.py.in setup.py
 sed -i "s~THIS_DIR~$(pwd)~g" setup.py
 python -m build
