@@ -145,16 +145,15 @@ def filter(program, setting1, setting2, globals):
         del report
     return
 
-def binary_analysis(program, setting1, setting2):
-    setting1_result = setting1.compile_program(program, ExeCompilationOutput(None))
-    setting2_result = setting2.compile_program(program, ExeCompilationOutput(None))
-    setting1_project = angr.Project(setting1_result.output.filename, load_options={'auto_load_libs': False})
-    setting2_project = angr.Project(setting2_result.output.filename, load_options={'auto_load_libs': False})
-    setting1_cfg = setting1_project.analyses.CFGEmulated(keep_state=True)
-    setting2_cfg = setting2_project.analyses.CFGEmulated(keep_state=True)
-    print("CFGs:")
-    print(setting1_cfg.graph)
-    print(setting2_cfg.graph)
+def binary_analysis(program, setting, globals):
+    result = setting.compile_program(program, ExeCompilationOutput(None))
+    project = angr.Project(result.output.filename, load_options={'auto_load_libs': False})
+    cfg = project.analyses.CFGEmulated(keep_state=True)
+    entry_node = cfg.get_any_node(project.entry)
+    print(entry_node.__repr__())
+    for successor in entry_node.successors:
+        print(successor.__repr__())
+
 
 if __name__ == "__main__":
     setting1 = CompilationSetting(
@@ -168,7 +167,7 @@ if __name__ == "__main__":
         flags=("-march=native",),
     )
 
-    program_num = 10
+    program_num = 2
     program_list = []
     csmith = True
     if len(sys.argv) > 1:
@@ -200,10 +199,8 @@ if __name__ == "__main__":
                 print(path + " does not exist.")
         # save file for matcher
         filename = program.save_to_file("../temp_programs/sample_" + str(counter))
-        binary_analysis(program, setting1, setting2)
-        """
         globals = get_globals_primitive(program) + ["global"]
-        filter(program, setting1, setting2, globals)
-        """
+        binary_analysis(program, setting1, globals)
+        # filter(program, setting1, setting2, globals)
         counter += 1
     print("SUCCESS")
