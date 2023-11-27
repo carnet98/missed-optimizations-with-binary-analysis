@@ -19,6 +19,10 @@ from diopter.generator import CSmithGenerator
 from diopter.reducer import Reducer, ReductionCallback
 from diopter.sanitizer import Sanitizer
 
+from elftools.elf.elffile import ELFFile
+from elftools.elf.relocation import RelocationSection
+from elftools.elf.sections import SymbolTableSection
+
 import subprocess
 
 import angr
@@ -145,24 +149,71 @@ def filter(program, setting1, setting2, globals):
         del report
     return
 
+# get the substring in s that lies between a and b
+def get_between(s, a , b):
+    i = s.find(a) + len(a)
+    j = s.find(b)
+    return s[i:j]
+
+# check if block reads or writes to a global variable
+# TODO: check if it is a constant move
+def check_block(block, g_map):
+    for index in range(len(block)):
+        instr = block[index]
+        op_str = instr.op_str
+        if "[rip + " in op_str and "]" in op_str and (index + 1) < len(block):
+            rip_rel_addr = get_between(op_str, "[rip + 0x", "]")
+            next_addr = hex(block[index + 1].address)
+            abs_addr = hex(int(rip_rel_addr, 16) + int(next_addr, 16))
+            # print(abs_addr)
+            # print(g_map)
+            if abs_addr in g_map:
+                print(g_map[abs_addr])
+            
+# go through the entire control-flow graph and run func on every block
+# TODO: adapt algorithm to be able to go through the entire graph
+def cfg_dfs(project, node, depth, g_map, func):
+    addr = node.addr
+    block = project.factory.block(addr=addr).capstone.insns
+    print(node.name)
+    func(block, g_map)
+    depth += 1
+    if depth > 100:
+        return
+    for successor in node.successors:
+        cfg_dfs(project, successor, depth, g_map, func)
+
+# creates dictionary that maps global variables to their address in the executable
+def addr_map(project, globals):
+    g_map = {}
+    for g in globals:
+        g_symbol = project.loader.find_symbol(g)
+        if g_symbol == None:
+            print(g + " is not a true global variable")
+        else:
+            g_map[hex(g_symbol.rebased_addr)] = g
+            print(g_symbol)
+    return g_map
+
+
 def binary_analysis(program, setting, globals):
     result = setting.compile_program(program, ExeCompilationOutput(None))
     project = angr.Project(result.output.filename, load_options={'auto_load_libs': False})
-    cfg = project.analyses.CFGEmulated(keep_state=True)
+    g_map = addr_map(project, globals)
+    cfg = project.analyses.CFGEmulated()
     entry_node = cfg.get_any_node(project.entry)
-    print(entry_node.__repr__())
-    for successor in entry_node.successors:
-        print(successor.__repr__())
+    cfg_dfs(project, entry_node, 0, g_map, check_block)
+    # TODO analyse results from dfs and look which successor/predecessor relations write constants to a global variable
 
 
 if __name__ == "__main__":
     setting1 = CompilationSetting(
-        compiler=CompilerExe.get_system_clang(),
+        compiler=CompilerExe.get_system_gcc(),
         opt_level=OptLevel.O3,
         flags=("-march=native",),
     )
     setting2 = CompilationSetting(
-        compiler=CompilerExe.get_system_gcc(),
+        compiler=CompilerExe.get_system_clang(),
         opt_level=OptLevel.O3,
         flags=("-march=native",),
     )
@@ -201,6 +252,7 @@ if __name__ == "__main__":
         filename = program.save_to_file("../temp_programs/sample_" + str(counter))
         globals = get_globals_primitive(program) + ["global"]
         binary_analysis(program, setting1, globals)
+        # binary_analysis(program, setting2, globals)
         # filter(program, setting1, setting2, globals)
         counter += 1
     print("SUCCESS")
