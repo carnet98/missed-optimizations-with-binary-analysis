@@ -65,26 +65,43 @@ class Report():
         f.close()
         return
 
-def get_globals(filename):
-    # TODO run matcher on program to get a list of global variables
+# gets the symbol table of the program and returns it as a list
+def get_sym_table(compiled_program):
+    filename = compiled_program.output.filename
+    # get symbol table
+    cmd = ["readelf", "-s", str(filename)]
+    sym_table = subprocess.run(cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
+    i = 0
+    lines = sym_table.splitlines()
+    sym_table_list = []
+    content = []
+    while i < len(lines):
+        if "Symbol table" in lines[i]:
+            column_names = lines[i + 1].split()
+            i += 2
+        elif lines[i] == "":
+            i += 1
+        else:
+            values = lines[i].split()
+            content.append(values)
+            i += 1
+    counter = 0
+    for entry in content:
+        entry_dict = {}
+        for i in range(min(len(column_names), len(entry))):
+            entry_dict[column_names[i]] = entry[i]
+        sym_table_list.append(entry_dict)
+        counter += 1
+    return sym_table_list
+
+# gets the global variables of the program from the symbol list
+def get_globals(compiled_program):
     g = []
     print("get globals")
-    binary = TOOL_BINARY_PATH + "global-detector"
-    cmd = [binary, filename, "--"]
-    print(cmd)
-    output = subprocess.run(cmd, capture_output=True)
-    output = output.stderr.decode()
-    differentWords = []
-    for line in output.splitlines():
-        # print("LINE")
-        words = line.split()
-        if (words[0] == "VarDecl"):
-            if not words[len(words) - 3] in differentWords:
-                differentWords.append(words[len(words) - 3])
-            # print(words[len(words) - 2])
-            # print(words[len(words) - 3])
-            print(words)
-    print(differentWords)
+    sym_table_list = get_sym_table(compiled_program)
+    for sym_entry in sym_table_list:
+        if sym_entry["Type"] == "OBJECT" and sym_entry["Vis"] == "DEFAULT":
+            g.append(sym_entry["Name"])
     return g
 
 def get_globals_primitive(program):
@@ -156,32 +173,51 @@ def get_between(s, a , b):
     return s[i:j]
 
 # check if block reads or writes to a global variable
-# TODO: check if it is a constant move
 def check_block(block, g_map):
+    categories = ["const_write", "reg_write", "glb_read"]
+    constant = False
+    write = False
+    block_report = []
     for index in range(len(block)):
         instr = block[index]
         op_str = instr.op_str
-        if "[rip + " in op_str and "]" in op_str and (index + 1) < len(block):
+        if "[rip + " in op_str and "]" in op_str and (index + 1) < len(block) and instr.mnemonic == "mov":
             rip_rel_addr = get_between(op_str, "[rip + 0x", "]")
             next_addr = hex(block[index + 1].address)
             abs_addr = hex(int(rip_rel_addr, 16) + int(next_addr, 16))
-            # print(abs_addr)
-            # print(g_map)
+            addr_str = "[rip + 0x" + rip_rel_addr + "]"
+            op_str_list = op_str.split(",")
+            if addr_str in op_str_list[0]:
+                write = True
+                arg = op_str_list[1]
+                if "0x" in arg:
+                    constant = True
+                else:
+                    try:
+                        const = int(arg)
+                        constant = True
+                    except:
+                        constant = False
+            elif addr_str in op_str_list[1]:
+                constant = True
             if abs_addr in g_map:
-                print(g_map[abs_addr])
+                entry_dict = {g_map[abs_addr]: {"write": write, "constant": constant, "instruction": instr.mnemonic + " " + op_str}}
+                block_report.append(entry_dict)
+    return block_report
             
 # go through the entire control-flow graph and run func on every block
 # TODO: adapt algorithm to be able to go through the entire graph
-def cfg_dfs(project, node, depth, g_map, func):
+def cfg_dfs(project, node, depth, g_map):
     addr = node.addr
     block = project.factory.block(addr=addr).capstone.insns
     print(node.name)
-    func(block, g_map)
+    block_report = check_block(block, g_map)
+    print(block_report)
     depth += 1
-    if depth > 100:
+    if depth >= 200:
         return
     for successor in node.successors:
-        cfg_dfs(project, successor, depth, g_map, func)
+        cfg_dfs(project, successor, depth, g_map)
 
 # creates dictionary that maps global variables to their address in the executable
 def addr_map(project, globals):
@@ -196,15 +232,20 @@ def addr_map(project, globals):
     return g_map
 
 
-def binary_analysis(program, setting, globals):
-    result = setting.compile_program(program, ExeCompilationOutput(None))
-    project = angr.Project(result.output.filename, load_options={'auto_load_libs': False})
+def binary_analysis(project, globals):
     g_map = addr_map(project, globals)
     cfg = project.analyses.CFGEmulated()
     entry_node = cfg.get_any_node(project.entry)
-    cfg_dfs(project, entry_node, 0, g_map, check_block)
+    cfg_dfs(project, entry_node, 0, g_map)
     # TODO analyse results from dfs and look which successor/predecessor relations write constants to a global variable
 
+# compiles program and creates a angr-project
+def compile_globals_project(program, setting):
+    compiled_program = setting.compile_program(program, ExeCompilationOutput(None))
+    project = angr.Project(compiled_program.output.filename, load_options={'auto_load_libs': False})
+    # globals = get_globals_primitive(program) + ["global"]
+    globals = get_globals(compiled_program)
+    return compiled_program, project, globals
 
 if __name__ == "__main__":
     setting1 = CompilationSetting(
@@ -250,9 +291,10 @@ if __name__ == "__main__":
                 print(path + " does not exist.")
         # save file for matcher
         filename = program.save_to_file("../temp_programs/sample_" + str(counter))
-        globals = get_globals_primitive(program) + ["global"]
-        binary_analysis(program, setting1, globals)
-        # binary_analysis(program, setting2, globals)
+        setting1_compiled, setting1_project, setting1_globals = compile_globals_project(program, setting1)
+        setting2_compiled, setting2_project, setting2_globals = compile_globals_project(program, setting2)        
+        binary_analysis(setting1_project, setting1_globals)
+        binary_analysis(setting2_project, setting2_globals)
         # filter(program, setting1, setting2, globals)
         counter += 1
     print("SUCCESS")
