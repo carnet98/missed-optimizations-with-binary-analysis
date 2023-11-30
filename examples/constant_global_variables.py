@@ -27,6 +27,8 @@ import subprocess
 
 import angr
 
+import time
+
 PROGRAM_PATH = "../program_examples/"
 TOOL_BINARY_PATH = "../clang_tools/build/bin/"
 
@@ -65,6 +67,60 @@ class Report():
         f.close()
         return
 
+# Object that represents instruction with additional information
+class Instruction_Entry():
+    def __init__(self, op, args, constant, write):
+        self.op = op
+        self.args = args
+        self.constant = constant
+        self.write = write
+
+    def to_string(self):
+        args_str = ""
+        for arg in self.args:
+            args_str = args_str + " " + arg
+        instr_str = "instruction: " + self.op + " " + args_str
+        constant_str = "constant: " + str(self.constant)
+        write_str = "write: " + str(self.write)
+        result = constant_str + " " + write_str + " " + instr_str
+        return result
+
+# Object that represents all the instruction in a block that write or read a variable
+class Global_Entry():
+    def __init__(self, name, instructions=[]):
+        self.name = name
+        self.instructions = instructions
+
+    def to_string(self):
+        instr_str = ""
+        for instr in self.instructions:
+            instr_str = instr_str + instr.to_string() + "\n"
+        return "Variable: " + self.name + ":\n" + instr_str
+
+# Object that represents the node in the CFG with additional information
+class Node_Extended():
+    def __init__(self, node, globals=[]):
+        self.node = node
+        self.globals = globals
+
+    def to_string(self):
+        globals_str = ""
+        for glb in self.globals:
+            globals_str = globals_str + glb.to_string() + "\n"
+        return "Node: " + self.node.name + ": \n" + globals_str
+
+    def has_constant_write(self, g):
+        result = False
+        for var in self.globals:
+            if var.name == g:
+                for instr in var.instructions:
+                    if instr.constant and instr.write:
+                        result = True
+        return result
+
+
+
+
 # gets the symbol table of the program and returns it as a list
 def get_sym_table(compiled_program):
     filename = compiled_program.output.filename
@@ -85,28 +141,27 @@ def get_sym_table(compiled_program):
             values = lines[i].split()
             content.append(values)
             i += 1
-    counter = 0
     for entry in content:
         entry_dict = {}
         for i in range(min(len(column_names), len(entry))):
             entry_dict[column_names[i]] = entry[i]
         sym_table_list.append(entry_dict)
-        counter += 1
     return sym_table_list
 
-# gets the global variables of the program from the symbol list
+# gets the global variables of the program from the symbol table
 def get_globals(compiled_program):
     g = []
-    print("get globals")
+    # print("get globals")
     sym_table_list = get_sym_table(compiled_program)
     for sym_entry in sym_table_list:
         if sym_entry["Type"] == "OBJECT" and sym_entry["Vis"] == "DEFAULT":
             g.append(sym_entry["Name"])
     return g
 
+# gets the global variables by taking every variable name g_x
 def get_globals_primitive(program):
     g = []
-    print("get globals")
+    # print("get globals")
     for line in program.code.splitlines():
         if "reads" in line or "writes" in line:
             for word in line.split():
@@ -172,21 +227,34 @@ def get_between(s, a , b):
     j = s.find(b)
     return s[i:j]
 
+# get GlobalEntry object by checking existing objects
+def get_var_obj(variables, name):
+    new = True
+    for var in variables:
+        if var.name == name:
+            return var, False
+    return Global_Entry(name, []), new
+
 # check if block reads or writes to a global variable
 def check_block(block, g_map):
     categories = ["const_write", "reg_write", "glb_read"]
     constant = False
     write = False
     block_report = []
+    variables = []
+    # iterate through every instruction
     for index in range(len(block)):
         instr = block[index]
         op_str = instr.op_str
+        # check if a instruction performs a move operation on a global variable (rip-relative address)
         if "[rip + " in op_str and "]" in op_str and (index + 1) < len(block) and instr.mnemonic == "mov":
+            # compute absolute address = rip-relative addresss + address of next instruction
             rip_rel_addr = get_between(op_str, "[rip + 0x", "]")
             next_addr = hex(block[index + 1].address)
             abs_addr = hex(int(rip_rel_addr, 16) + int(next_addr, 16))
             addr_str = "[rip + 0x" + rip_rel_addr + "]"
             op_str_list = op_str.split(",")
+            # check if it is a constant write, register write or a read
             if addr_str in op_str_list[0]:
                 write = True
                 arg = op_str_list[1]
@@ -200,24 +268,15 @@ def check_block(block, g_map):
                         constant = False
             elif addr_str in op_str_list[1]:
                 constant = True
+            # check if it the address is a global variable from our var-address map (g_map)
             if abs_addr in g_map:
-                entry_dict = {g_map[abs_addr]: {"write": write, "constant": constant, "instruction": instr.mnemonic + " " + op_str}}
-                block_report.append(entry_dict)
-    return block_report
-            
-# go through the entire control-flow graph and run func on every block
-# TODO: adapt algorithm to be able to go through the entire graph
-def cfg_dfs(project, node, depth, g_map):
-    addr = node.addr
-    block = project.factory.block(addr=addr).capstone.insns
-    print(node.name)
-    block_report = check_block(block, g_map)
-    print(block_report)
-    depth += 1
-    if depth >= 200:
-        return
-    for successor in node.successors:
-        cfg_dfs(project, successor, depth, g_map)
+                # store the instruction and its properties to the object
+                var_obj, new = get_var_obj(variables, g_map[abs_addr])
+                instr_obj = Instruction_Entry(instr.mnemonic, op_str_list, constant, write)
+                var_obj.instructions.append(instr_obj)
+                if new:
+                    variables.append(var_obj)
+    return variables
 
 # creates dictionary that maps global variables to their address in the executable
 def addr_map(project, globals):
@@ -225,18 +284,47 @@ def addr_map(project, globals):
     for g in globals:
         g_symbol = project.loader.find_symbol(g)
         if g_symbol == None:
-            print(g + " is not a true global variable")
+            # print(g + " is not a true global variable")
+            continue
         else:
             g_map[hex(g_symbol.rebased_addr)] = g
-            print(g_symbol)
+            # print(g_symbol)
     return g_map
 
 
+def check_global(g, nodes_ext):
+    for node in nodes_ext:
+        if node.has_constant_write(g):
+            print(node.node.name)
+            print(g)
+        # print(node.has_constant_write(g))
+
+
+# performs all the analysis on the binary
 def binary_analysis(project, globals):
+    # produce map of global variable names to their address in the executable file
     g_map = addr_map(project, globals)
+    # compute CFG
     cfg = project.analyses.CFGEmulated()
-    entry_node = cfg.get_any_node(project.entry)
-    cfg_dfs(project, entry_node, 0, g_map)
+    nodes = cfg.nodes()
+    nodes_ext = []
+    global_var_report = {}
+    # iterate through every node
+    for node in nodes:
+        if node.name == None:
+            # print("node is none")
+            continue
+        # get assembly code of node
+        addr = node.addr
+        block = project.factory.block(addr=addr).capstone.insns
+        # check block if it writes or reads a global variable
+        variables = check_block(block, g_map)
+        node_ext = Node_Extended(node, variables)
+        nodes_ext.append(node_ext)
+    # print(nodes_ext)
+    for g in globals:
+        check_global(g, nodes_ext)
+        
     # TODO analyse results from dfs and look which successor/predecessor relations write constants to a global variable
 
 # compiles program and creates a angr-project
@@ -250,16 +338,16 @@ def compile_globals_project(program, setting):
 if __name__ == "__main__":
     setting1 = CompilationSetting(
         compiler=CompilerExe.get_system_gcc(),
-        opt_level=OptLevel.O3,
+        opt_level=OptLevel.O0,
         flags=("-march=native",),
     )
     setting2 = CompilationSetting(
         compiler=CompilerExe.get_system_clang(),
-        opt_level=OptLevel.O3,
+        opt_level=OptLevel.O0,
         flags=("-march=native",),
     )
 
-    program_num = 2
+    program_num = 20
     program_list = []
     csmith = True
     if len(sys.argv) > 1:
@@ -270,6 +358,7 @@ if __name__ == "__main__":
 
     counter = 0
     while(counter < program_num or program_num == -1):
+        start_time = time.time()
         if csmith:
             # generate random csmith program
             sanitizer = Sanitizer()
@@ -292,9 +381,14 @@ if __name__ == "__main__":
         # save file for matcher
         filename = program.save_to_file("../temp_programs/sample_" + str(counter))
         setting1_compiled, setting1_project, setting1_globals = compile_globals_project(program, setting1)
-        setting2_compiled, setting2_project, setting2_globals = compile_globals_project(program, setting2)        
+        setting2_compiled, setting2_project, setting2_globals = compile_globals_project(program, setting2)
+        print("setting 1")    
         binary_analysis(setting1_project, setting1_globals)
+        print("setting 2")
         binary_analysis(setting2_project, setting2_globals)
         # filter(program, setting1, setting2, globals)
         counter += 1
+        end_time = time.time()
+        runtime = end_time - start_time
+        print(str(counter) + ": time: " + str(int(runtime)) + " seconds")
     print("SUCCESS")
