@@ -29,6 +29,7 @@ import angr
 
 import time
 
+# global variables
 PROGRAM_PATH = "../program_examples/"
 TOOL_BINARY_PATH = "../clang_tools/build/bin/"
 
@@ -69,11 +70,12 @@ class Report():
 
 # Object that represents instruction with additional information
 class Instruction_Entry():
-    def __init__(self, op, args, constant, write):
+    def __init__(self, op, args, constant, write, value):
         self.op = op
         self.args = args
         self.constant = constant
         self.write = write
+        self.value = value
 
     def to_string(self):
         args_str = ""
@@ -82,7 +84,7 @@ class Instruction_Entry():
         instr_str = "instruction: " + self.op + " " + args_str
         constant_str = "constant: " + str(self.constant)
         write_str = "write: " + str(self.write)
-        result = constant_str + " " + write_str + " " + instr_str
+        result = constant_str + " " + write_str + " " + instr_str + " value: " + str(self.value)
         return result
 
 # Object that represents all the instruction in a block that write or read a variable
@@ -118,8 +120,21 @@ class Node_Extended():
                         result = True
         return result
 
+    def get_successor_ext(self, nodes_ext):
+        result = []
+        successors = self.node.successors
+        for node_ext in nodes_ext:
+            if node_ext.node in successors:
+                result.append(node_ext)
+        return result
 
-
+    def get_predecessor_ext(self, nodes_ext):
+        result = []
+        predecessors = self.node.predecessors
+        for node_ext in nodes_ext:
+            if node_ext.node in predecessors:
+                result.append(node_ext)
+        return result
 
 # gets the symbol table of the program and returns it as a list
 def get_sym_table(compiled_program):
@@ -128,6 +143,7 @@ def get_sym_table(compiled_program):
     cmd = ["readelf", "-s", str(filename)]
     sym_table = subprocess.run(cmd, stdout=subprocess.PIPE).stdout.decode('utf-8')
     i = 0
+    # print(sym_table)
     lines = sym_table.splitlines()
     sym_table_list = []
     content = []
@@ -240,6 +256,7 @@ def check_block(block, g_map):
     categories = ["const_write", "reg_write", "glb_read"]
     constant = False
     write = False
+    value = None
     block_report = []
     variables = []
     # iterate through every instruction
@@ -260,19 +277,22 @@ def check_block(block, g_map):
                 arg = op_str_list[1]
                 if "0x" in arg:
                     constant = True
+                    value = int(arg, base=16)
                 else:
                     try:
-                        const = int(arg)
+                        value = int(arg)
                         constant = True
                     except:
+                        value = None
                         constant = False
             elif addr_str in op_str_list[1]:
                 constant = True
+                value = None
             # check if it the address is a global variable from our var-address map (g_map)
             if abs_addr in g_map:
                 # store the instruction and its properties to the object
                 var_obj, new = get_var_obj(variables, g_map[abs_addr])
-                instr_obj = Instruction_Entry(instr.mnemonic, op_str_list, constant, write)
+                instr_obj = Instruction_Entry(instr.mnemonic, op_str_list, constant, write, value)
                 var_obj.instructions.append(instr_obj)
                 if new:
                     variables.append(var_obj)
@@ -292,23 +312,20 @@ def addr_map(project, globals):
     return g_map
 
 
-def check_global(g, nodes_ext):
-    for node in nodes_ext:
-        if node.has_constant_write(g):
-            print(node.node.name)
-            print(g)
-        # print(node.has_constant_write(g))
-
-
 # performs all the analysis on the binary
 def binary_analysis(project, globals):
     # produce map of global variable names to their address in the executable file
     g_map = addr_map(project, globals)
     # compute CFG
-    cfg = project.analyses.CFGEmulated()
+    try:
+        cfg = project.analyses.CFGEmulated()
+    except StopIteration as e:
+        print("ERROR: CFG was not generated")
+        print(e)
+        return True
+    print(cfg.graph)
     nodes = cfg.nodes()
     nodes_ext = []
-    global_var_report = {}
     # iterate through every node
     for node in nodes:
         if node.name == None:
@@ -321,9 +338,10 @@ def binary_analysis(project, globals):
         variables = check_block(block, g_map)
         node_ext = Node_Extended(node, variables)
         nodes_ext.append(node_ext)
-    # print(nodes_ext)
-    for g in globals:
-        check_global(g, nodes_ext)
+        # print(node_ext.to_string())
+    return False
+        
+
         
     # TODO analyse results from dfs and look which successor/predecessor relations write constants to a global variable
 
@@ -338,16 +356,16 @@ def compile_globals_project(program, setting):
 if __name__ == "__main__":
     setting1 = CompilationSetting(
         compiler=CompilerExe.get_system_gcc(),
-        opt_level=OptLevel.O0,
+        opt_level=OptLevel.O3,
         flags=("-march=native",),
     )
     setting2 = CompilationSetting(
         compiler=CompilerExe.get_system_clang(),
-        opt_level=OptLevel.O0,
+        opt_level=OptLevel.O3,
         flags=("-march=native",),
     )
 
-    program_num = 20
+    program_num = 2
     program_list = []
     csmith = True
     if len(sys.argv) > 1:
@@ -378,14 +396,18 @@ if __name__ == "__main__":
                 f.close()
             else:
                 print(path + " does not exist.")
-        # save file for matcher
-        filename = program.save_to_file("../temp_programs/sample_" + str(counter))
+        # print("setting 1")     
         setting1_compiled, setting1_project, setting1_globals = compile_globals_project(program, setting1)
+        # print("setting 2")
         setting2_compiled, setting2_project, setting2_globals = compile_globals_project(program, setting2)
-        print("setting 1")    
-        binary_analysis(setting1_project, setting1_globals)
+        print("setting 1")
+        # print(setting1_globals)
+        if binary_analysis(setting1_project, setting1_globals):
+            filename = program.save_to_file("../error_programs/sample_setting1_" + str(counter))
         print("setting 2")
-        binary_analysis(setting2_project, setting2_globals)
+        # print(setting2_globals)
+        if binary_analysis(setting2_project, setting2_globals):
+            filename = program.save_to_file("../error_programs/sample_setting2_" + str(counter))
         # filter(program, setting1, setting2, globals)
         counter += 1
         end_time = time.time()
