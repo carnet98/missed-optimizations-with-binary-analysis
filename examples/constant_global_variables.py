@@ -33,6 +33,54 @@ import time
 PROGRAM_PATH = "../program_examples/"
 TOOL_BINARY_PATH = "../clang_tools/build/bin/"
 
+gcc_0 = CompilationSetting(
+    compiler=CompilerExe.get_system_gcc(),
+    opt_level=OptLevel.O0,
+    flags=("-march=native",),
+)
+gcc_1 = CompilationSetting(
+    compiler=CompilerExe.get_system_gcc(),
+    opt_level=OptLevel.O1,
+    flags=("-march=native",),
+)
+gcc_2 = CompilationSetting(
+    compiler=CompilerExe.get_system_gcc(),
+    opt_level=OptLevel.O2,
+    flags=("-march=native",),
+)
+gcc_3 = CompilationSetting(
+    compiler=CompilerExe.get_system_gcc(),
+    opt_level=OptLevel.O3,
+    flags=("-march=native",),
+)
+
+gcc_settings = [gcc_0, gcc_1, gcc_2, gcc_3]
+
+clang_0 = CompilationSetting(
+    compiler=CompilerExe.get_system_clang(),
+    opt_level=OptLevel.O0,
+    flags=("-march=native",),
+)
+clang_1 = CompilationSetting(
+    compiler=CompilerExe.get_system_clang(),
+    opt_level=OptLevel.O1,
+    flags=("-march=native",),
+)
+clang_2 = CompilationSetting(
+    compiler=CompilerExe.get_system_clang(),
+    opt_level=OptLevel.O2,
+    flags=("-march=native",),
+)
+clang_3 = CompilationSetting(
+    compiler=CompilerExe.get_system_clang(),
+    opt_level=OptLevel.O3,
+    flags=("-march=native",),
+)
+
+clang_settings = [clang_0, clang_1, clang_2, clang_3]
+settings = gcc_settings + clang_settings
+
+
 # Report Class to store and summarize intersting results
 class Report():
     def __init__(self, name, program, setting1, setting1_assembly, setting2, setting2_assembly):
@@ -113,12 +161,36 @@ class Node_Extended():
 
     def has_constant_write(self, g):
         result = False
+        num = 0
         for var in self.globals:
             if var.name == g:
                 for instr in var.instructions:
                     if instr.constant and instr.write:
                         result = True
-        return result
+                        num += 1
+        return result, num
+    
+    def has_var_write(self, g):
+        result = False
+        num = 0
+        for var in self.globals:
+            if var.name == g:
+                for instr in var.instructions:
+                    if not instr.constant and instr.write:
+                        result = True
+                        num += 1
+        return result, num
+
+    def has_read(self, g):
+        result = False
+        num = 0
+        for var in self.globals:
+            if var.name == g:
+                for instr in var.instructions:
+                    if not instr.write:
+                        result = True
+                        num += 1
+        return result, num
 
     def get_successor_ext(self, nodes_ext):
         result = []
@@ -313,7 +385,7 @@ def addr_map(project, globals):
 
 
 # performs all the analysis on the binary
-def binary_analysis(project, globals):
+def binary_analysis(project, globals, dir_name, setting_str):
     # produce map of global variable names to their address in the executable file
     g_map = addr_map(project, globals)
     # compute CFG
@@ -322,8 +394,11 @@ def binary_analysis(project, globals):
     except StopIteration as e:
         print("ERROR: CFG was not generated")
         print(e)
+        f = open(dir_name + "/" + setting_str + ".csv", "w")
+        f.write("ERROR: CFG was not generated")
+        f.close()
         return True
-    print(cfg.graph)
+    # print(cfg.graph)
     nodes = cfg.nodes()
     nodes_ext = []
     # iterate through every node
@@ -339,10 +414,23 @@ def binary_analysis(project, globals):
         node_ext = Node_Extended(node, variables)
         nodes_ext.append(node_ext)
         # print(node_ext.to_string())
-    return False
-        
-
-        
+    table = "name, constant_write, var_write, read\n"
+    for g in globals:
+        constant_num = 0
+        var_num = 0
+        read_num = 0
+        for node_ext in nodes_ext:
+            _, num = node_ext.has_constant_write(g)
+            constant_num += num
+            _, num = node_ext.has_var_write(g)
+            var_num += num
+            _, num = node_ext.has_read(g)
+            read_num += num
+        table = table + g + ", " + str(constant_num) + ", " + str(var_num) + ", " + str(read_num) + "\n"
+    f = open(dir_name + "/" + setting_str + ".csv", "w")
+    f.write(table)
+    f.close()
+    return False        
     # TODO analyse results from dfs and look which successor/predecessor relations write constants to a global variable
 
 # compiles program and creates a angr-project
@@ -352,20 +440,9 @@ def compile_globals_project(program, setting):
     # globals = get_globals_primitive(program) + ["global"]
     globals = get_globals(compiled_program)
     return compiled_program, project, globals
-
+    
 if __name__ == "__main__":
-    setting1 = CompilationSetting(
-        compiler=CompilerExe.get_system_gcc(),
-        opt_level=OptLevel.O3,
-        flags=("-march=native",),
-    )
-    setting2 = CompilationSetting(
-        compiler=CompilerExe.get_system_clang(),
-        opt_level=OptLevel.O3,
-        flags=("-march=native",),
-    )
-
-    program_num = 2
+    program_num = 1000
     program_list = []
     csmith = True
     if len(sys.argv) > 1:
@@ -396,19 +473,21 @@ if __name__ == "__main__":
                 f.close()
             else:
                 print(path + " does not exist.")
-        # print("setting 1")     
-        setting1_compiled, setting1_project, setting1_globals = compile_globals_project(program, setting1)
-        # print("setting 2")
-        setting2_compiled, setting2_project, setting2_globals = compile_globals_project(program, setting2)
-        print("setting 1")
-        # print(setting1_globals)
-        if binary_analysis(setting1_project, setting1_globals):
-            filename = program.save_to_file("../error_programs/sample_setting1_" + str(counter))
-        print("setting 2")
-        # print(setting2_globals)
-        if binary_analysis(setting2_project, setting2_globals):
-            filename = program.save_to_file("../error_programs/sample_setting2_" + str(counter))
-        # filter(program, setting1, setting2, globals)
+        dir_name = "../data/program_" + str(counter)
+        while(True):
+            try:
+                os.mkdir(dir_name)
+                break
+            except:
+                counter += 1
+                dir_name = "../data/program_" + str(counter)
+        program.save_to_file(dir_name + "/program")
+        for setting in settings:
+            setting_json = setting.to_json_dict()
+            setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
+            print(setting_str)
+            compiled, project, globals = compile_globals_project(program, setting)
+            binary_analysis(project, globals, dir_name, setting_str)
         counter += 1
         end_time = time.time()
         runtime = end_time - start_time
