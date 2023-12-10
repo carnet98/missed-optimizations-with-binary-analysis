@@ -442,7 +442,7 @@ def compile_globals_project(program, setting):
     return compiled_program, project, globals
     
 if __name__ == "__main__":
-    program_num = 5000
+    program_num = 10000
     program_list = []
     csmith = True
     if len(sys.argv) > 1:
