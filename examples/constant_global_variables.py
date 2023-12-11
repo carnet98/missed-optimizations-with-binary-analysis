@@ -80,42 +80,6 @@ clang_3 = CompilationSetting(
 clang_settings = [clang_0, clang_1, clang_2, clang_3]
 settings = gcc_settings + clang_settings
 
-
-# Report Class to store and summarize intersting results
-class Report():
-    def __init__(self, name, program, setting1, setting1_assembly, setting2, setting2_assembly):
-        self.name = name
-        self.program = program
-        self.setting1 = setting1
-        self.setting1_assembly = setting1_assembly
-        self.setting2 = setting2
-        self.setting2_assembly = setting2_assembly
-        self.interesting_variables = []
-        self.interesting_lines = {}
-
-    def add_interesting_variable(self, var, setting1_lines, setting2_lines):
-        self.interesting_variables.append(var)
-        lines_entry = {"setting1:": setting1_lines, "setting2": setting2_lines}
-        self.interesting_lines[var] = lines_entry
-        return
-
-    def to_string(self):
-        result = "--- Interesting Case Report --- \n\n"
-        source_code = "Source Code: \n" + self.program.code + "\n\n"
-        assembly1 = "Assembly Code with Setting 1: \n" + self.setting1_assembly + "\n\n"
-        assembly2 = "Assembly Code with Setting 2: \n" + self.setting2_assembly + "\n\n"
-        variables = "Interesting Variables: \n" + str(self.interesting_variables) + "\n\n"
-        lines = "Interesting Assembly Lines: \n" + str(self.interesting_lines) + "\n\n"
-        result = result + variables + lines + source_code + assembly1 + assembly2
-        return result
-    
-    def save_to_file(self):
-        f = open("../reports/" + self.name + ".txt", "w")
-        content = self.to_string()
-        f.write(content)
-        f.close()
-        return
-
 # Object that represents instruction with additional information
 class Instruction_Entry():
     def __init__(self, op, args, constant, write, value):
@@ -256,36 +220,6 @@ def get_globals_primitive(program):
                 if "g_" in word and word not in g:
                     g.append(word)
     return g
-
-def match_instruction(word, instruction):
-    if instruction in word:
-        return True
-    return False
-
-def match_constant(word):
-    if "$" in word:
-        return True
-    return False
-
-def match_global(word, g):
-    g = g + "(%rip)"
-    if word == g:
-        return True
-    return False
-
-def check_constant_move(g, assembly):
-    result = False
-    lines = []
-    for line in assembly.splitlines():
-        words = line.split()
-        if len(words) == 3:
-            temp = match_instruction(words[0], "mov") and match_constant(words[1]) and  match_global(words[2], g)
-            result = result or temp
-            if temp:
-                lines.append(words)
-    return result, lines
-
-def filter(program, setting1, setting2, globals):
     setting1_result = setting1.compile_program(program, ASMCompilationOutput(None))
     setting2_result = setting2.compile_program(program, ASMCompilationOutput(None))
     setting1_assembly = setting1_result.output.read()
@@ -310,7 +244,7 @@ def filter(program, setting1, setting2, globals):
     return
 
 # get the substring in s that lies between a and b
-def get_between(s, a , b):
+def get_between(s, a, b):
     i = s.find(a) + len(a)
     j = s.find(b)
     return s[i:j]

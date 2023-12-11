@@ -1,0 +1,7 @@
+name, constant_write, var_write, read
+g_5, 0, 0, 0
+g_242, 0, 0, 0
+_DYNAMIC, 0, 0, 0
+_GLOBAL_OFFSET_TABLE_, 0, 0, 0
+csmith_sink_, 8, 7, 0
+_IO_stdin_used, 0, 0, 0
