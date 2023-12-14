@@ -19,6 +19,10 @@ from diopter.sanitizer import Sanitizer
 
 import pandas as pd
 
+from enum import Enum
+
+from constant_global_variables import *
+
 gcc_0 = CompilationSetting(
     compiler=CompilerExe.get_system_gcc(),
     opt_level=OptLevel.O0,
@@ -65,14 +69,42 @@ clang_3 = CompilationSetting(
 
 clang_settings = [clang_0, clang_1, clang_2, clang_3]
 settings = gcc_settings + clang_settings
-table_entries = ["none", "zero", "constant", "variable"]
+
+class EntryOption(Enum):
+    none = 0
+    zero = 1
+    constant = 2
+    variable = 3
+    mixed = 4
+    read = 5
+
+    @staticmethod
+    def from_str(s: str):
+        match s:
+            case "none":
+                return EntryOption.none
+            case "zero":
+                return EntryOption.zero
+            case "constant":
+                return EntryOption.constant
+            case "variable":
+                return EntryOption.variable
+            case "mixed":
+                return EntryOption.mixed
+            case "read":
+                return EntryOption.read
+        raise ValueError(f"{s} is not a valid table entry")
+
+def setting_str_f(setting):
+    setting_json = setting.to_json_dict()
+    setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
+    return setting_str
 
 # get list of setting str
 def settings_str():
     result = []
     for setting in settings:
-        setting_json = setting.to_json_dict()
-        setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
+        setting_str = setting_str_f(setting)
         result.append(setting_str)
     return result
 
@@ -87,8 +119,7 @@ class SettingReport():
 def setup_setting_reports():
     setting_reports = []
     for setting in settings:
-        setting_json = setting.to_json_dict()
-        setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
+        setting_str = setting_str_f(setting)
         data = pd.DataFrame(columns=["program_name", "constant_write", "var_write", "read"])
         setting_reports.append(SettingReport(setting, setting_str, data))
     return setting_reports
@@ -96,8 +127,7 @@ def setup_setting_reports():
 # get setting object with file name (without file extension)
 def get_setting(name):
     for setting in settings:
-        setting_json = setting.to_json_dict()
-        setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
+        setting_str = setting_str_f(setting)
         if setting_str == name:
             return setting
     raise Exception("no setting found for file: " + name)
@@ -224,37 +254,113 @@ def data_transform_variables(dir_path):
     # print(df)
     return df
 
-        
+def init_filter(dir):
+    try:
+        data = data_transform_variables(dir)
+    except:
+        print("Something went wrong for directory (check exceptions): " + dir)
+        return
+    # check interestingness for now only clang O3 vs gcc O3
+    interesting = False
+    # print(data)
+    for row in data.to_dict(orient='records'):
+        # TODO: Optimize loop to not be twice nested
+        setting1 = clang_3
+        setting2 = gcc_3
+        setting_str1 = setting_str_f(clang_3)
+        setting_str2 = setting_str_f(gcc_3)
+        entry1 = EntryOption.from_str(row[setting_str1])
+        entry2 = EntryOption.from_str(row[setting_str2])
+        # compiler1 = setting1.compiler.project
+        # compiler2 = setting2.compiler.project
+        # optimization1 = setting1.opt_level
+        # optimization2 = setting2.opt_level
+        if entry1.name == "constant" and (entry2.name == "variable" or entry2.name == "mixed"):
+            """
+            print("interesting")
+            print(row["var_name"])
+            print(setting_str1)
+            print(entry1.name)
+            print(setting_str2)
+            print(entry2.name)
+            """
+            interesting = True
+        if entry2.name == "constant" and (entry1.name == "variable" or entry1.name == "mixed"):
+            """
+            print("interesting")
+            print(row["var_name"])
+            print(setting_str1)
+            print(entry1.name)
+            print(setting_str2)
+            print(entry2.name)
+            """
+            interesting = True
+    return interesting
 
+class ConstantGlobalVariables(ReductionCallback):
+    def __init__(self, sanitizer, settings):
+        self.sanitizer = sanitizer
+        self.settings = settings
+        self.dir = "../data/temp_reduce"
+
+    def test(self, program: SourceProgram) -> bool:
+        if not self.sanitizer.sanitize(program):
+            return False
+        program.save_to_file(self.dir + "/program")
+        for setting in self.settings:
+            setting_str = setting_str_f(setting)
+            _, project, globals = compile_globals_project(program, setting)
+            binary_analysis(project, globals, dir_name, setting_str)
+        return init_filter(self.dir)
+
+def get_program(dir):
+    files = os.listdir(dir)
+    for file in files:
+        if file.endswith(".c"):
+            path = dir + "/" + file
+            f = open(path, "r")
+            program = SourceProgram(
+                code=f.read(),
+                language=Language.C,
+                defined_macros=(),
+                include_paths=(),
+                system_include_paths=(),
+                flags=(),)
+            f.close()
+    return program
 
 if __name__ == "__main__":
     setting_reports = setup_setting_reports()
     dirs = os.walk("../data")
     # search for interesting cases and reduce the program with creduce
-    
+    limit = 10000
     counter = 0
+    interesting_counter = 0
+    """
     for dir in dirs:
-        print(dir[0])
-        try:
-            data = data_transform_variables(dir[0])
-            print(data)
-            counter += 1
-        except:
-            print("Something went wrong for directory (check exceptions): " + dir[0])
-            counter += 1
-            continue
-        if counter > 1:
+        interesting = init_filter(dir[0])
+        counter += 1
+        if counter > limit:
             break
+        if interesting:
+            interesting_counter += 1
+            program = get_program(dir[0])
+            sanitizer = Sanitizer()
+            rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, [clang_3, gcc_3]))
+            print(dir[0])
+            print(interesting)
+            print(interesting_counter)
+      """  
     
     # count accesses to global variables
-    """
+    
     counter = 0
     for dir in dirs:
         print(counter)
         print(dir[0])
         count_accesses_for_setting(dir[0], setting_reports)
         counter += 1
-        if counter > 1:
+        if counter > limit:
             break
     for report in setting_reports:
         report_str = report.data.to_string()
@@ -267,6 +373,7 @@ if __name__ == "__main__":
     f = open("../data/report.txt", "w")
     f.write(report_str)
     f.close()
-    """
+    
+    
     
     
