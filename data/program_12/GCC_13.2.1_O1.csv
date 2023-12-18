@@ -1,19 +1,24 @@
-name, constant_write, var_write, read
-g_81, 1, 0, 0
-g_883, 0, 1, 0
-g_54, 1, 0, 0
-g_725, 3, 1, 0
-g_257, 3, 0, 0
-g_30, 1, 0, 0
-g_19, 1, 0, 0
-g_21, 0, 1, 0
-g_1161, 1, 1, 0
-g_1181, 3, 0, 0
-g_156, 2, 0, 0
-g_72, 2, 0, 0
-g_549, 2, 0, 0
-g_832, 0, 0, 0
-_DYNAMIC, 0, 0, 0
-_GLOBAL_OFFSET_TABLE_, 0, 0, 0
-csmith_sink_, 32, 20, 0
-_IO_stdin_used, 0, 0, 0
+var_name,constant_write,var_write,read
+crc32_context,0,8,9
+crc32_tab,0,0,0
+g_22,1,0,0
+g_16,0,0,0
+g_24,2,0,0
+g_96,1,0,0
+g_194,2,0,1
+g_230,0,0,1
+g_339,3,0,0
+g_355,1,0,1
+g_52,0,0,0
+g_73,1,0,0
+g_92,0,0,0
+g_224,1,0,1
+g_336,1,1,0
+g_202,0,0,1
+g_340,0,0,0
+__PRETTY_FUNCTION__.1,0,0,0
+g_51,0,0,0
+g_203,0,0,0
+_DYNAMIC,0,0,0
+_GLOBAL_OFFSET_TABLE_,0,0,0
+_IO_stdin_used,0,0,0

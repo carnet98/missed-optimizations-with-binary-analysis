@@ -1,6 +1,11 @@
-name, constant_write, var_write, read
-g_12, 1, 1, 0
-_DYNAMIC, 0, 0, 0
-_GLOBAL_OFFSET_TABLE_, 0, 0, 0
-csmith_sink_, 43, 1, 0
-_IO_stdin_used, 0, 0, 0
+var_name,constant_write,var_write,read
+g_37,4,0,1
+g_184,1,1,0
+g_124,3,0,0
+__PRETTY_FUNCTION__.0,0,0,0
+g_179,0,0,0
+g_45,0,0,0
+_DYNAMIC,0,0,0
+_GLOBAL_OFFSET_TABLE_,0,0,0
+csmith_sink_,8,2,0
+_IO_stdin_used,0,0,0

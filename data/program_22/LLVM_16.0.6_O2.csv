@@ -1,7 +1,10 @@
-name, constant_write, var_write, read
-crc32_tab, 0, 0, 0
-crc32_context, 0, 1, 1
-g_569, 0, 1, 1
-_DYNAMIC, 0, 0, 0
-_GLOBAL_OFFSET_TABLE_, 0, 0, 0
-_IO_stdin_used, 0, 0, 0
+var_name,constant_write,var_write,read
+crc32_tab,0,0,0
+g_16,3,1,1
+g_69,1,2,0
+g_166,1,0,0
+crc32_context,0,1,1
+g_14,1,0,0
+_DYNAMIC,0,0,0
+_GLOBAL_OFFSET_TABLE_,0,0,0
+_IO_stdin_used,0,0,0

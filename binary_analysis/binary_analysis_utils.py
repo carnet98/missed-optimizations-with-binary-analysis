@@ -1,3 +1,33 @@
+import sys
+
+import os
+
+sys.path.insert(0, os.getcwd() + "/..")
+
+from diopter.compiler import (
+    CompilationSetting,
+    CompilerExe,
+    ExeCompilationOutput,
+    ObjectCompilationOutput,
+    ASMCompilationOutput,
+    LLVMIRCompilationOutput,
+    OptLevel,
+    SourceProgram,
+    Language,
+)
+
+import angr
+
+import subprocess
+
+import pandas as pd
+
+# save program into file
+def save_program(program, filename):
+    filename = filename + program.language.to_suffix()
+    f = open(filename, "w")
+    f.write(program.code)
+    f.close()
 
 # Object that represents instruction with additional information
 class Instruction_Entry():

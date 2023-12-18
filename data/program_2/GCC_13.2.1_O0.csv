@@ -1,14 +1,33 @@
-name, constant_write, var_write, read
-crc32_tab, 0, 0, 0
-crc32_context, 0, 0, 0
-__undefined, 0, 0, 0
-g_13, 10, 11, 99
-g_55, 2, 1, 0
-g_57, 5, 11, 75
-g_446, 3, 0, 57
-g_618, 0, 0, 0
-g_1128, 0, 0, 0
-_DYNAMIC, 0, 0, 0
-_GLOBAL_OFFSET_TABLE_, 0, 0, 0
-csmith_sink_, 0, 6, 0
-_IO_stdin_used, 0, 0, 0
+var_name,constant_write,var_write,read
+crc32_tab,0,0,0
+crc32_context,0,4,16
+__undefined,0,0,0
+g_31,12,5,44
+g_44,4,3,0
+g_68,4,2,30
+g_102,0,0,42
+g_101,0,0,0
+g_241,0,0,2
+g_319,0,0,0
+g_318,0,0,3
+g_317,3,2,2
+g_338,0,0,0
+g_413,3,3,0
+g_445,7,3,13
+g_560,4,1,12
+g_747,0,0,0
+g_945,0,0,7
+g_978,0,1,0
+g_1051,0,0,1
+g_1050,2,1,0
+__PRETTY_FUNCTION__.0,0,0,0
+__PRETTY_FUNCTION__.7,0,0,0
+__PRETTY_FUNCTION__.6,0,0,0
+__PRETTY_FUNCTION__.5,0,0,0
+__PRETTY_FUNCTION__.4,0,0,0
+__PRETTY_FUNCTION__.3,0,0,0
+__PRETTY_FUNCTION__.1,0,0,0
+__PRETTY_FUNCTION__.2,0,0,0
+_DYNAMIC,0,0,0
+_GLOBAL_OFFSET_TABLE_,0,0,0
+_IO_stdin_used,0,0,0

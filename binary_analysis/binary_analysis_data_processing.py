@@ -176,7 +176,7 @@ def count_accesses_for_setting(dir_path, setting_reports):
             file = get_file(setting_report.setting_str, files)
         except:
             continue
-        file_df = pd.read_csv(dir_path + "/" + file, sep=", ", engine="python")
+        file_df = pd.read_csv(dir_path + "/" + file, sep=",", engine="python")
         const_write_num = 0
         var_write_num = 0
         read_num = 0
@@ -203,157 +203,14 @@ def total_accesses_for_setting(setting_reports, df):
         read_percent = (read_num / access_num) * 100
         df.loc[len(df)] = [report.setting_str, access_num, const_write_num, const_write_percent, var_write_num, var_write_percent, read_num, read_percent]
 
-# get a complete list of all relevant variables
-def get_complete_var_list(file_df_dict):
-    var_list = []
-    for setting_str, df in file_df_dict.items():
-        for name in df["name"]:
-            if not name in var_list:
-                var_list.append(name)
-    return var_list
-
-# generate entry for each variable that has info for each setting
-def get_var_info(var, file_df_dict, columns):
-    entry = {}
-    for column in columns:
-        if column == "var_name":
-            entry[column] = var
-        else:
-            file_df = file_df_dict[column]
-            row = file_df.loc[file_df["name"] == var]
-            # print(file_df)
-            if row.empty:
-                entry[column] = "none"
-            else:
-                const_write_bool = row.iloc[0]["constant_write"] > 0
-                var_write_bool = row.iloc[0]["var_write"] > 0
-                read_bool = row.iloc[0]["read"] > 0
-                if not const_write_bool and not var_write_bool and not read_bool:
-                    entry[column] = "zero"
-                elif const_write_bool and not var_write_bool and not read_bool:
-                    entry[column] = "constant"
-                elif not const_write_bool and var_write_bool and not read_bool:
-                    entry[column] = "variable"
-                elif not const_write_bool and not var_write_bool and read_bool:
-                    entry[column] = "read"
-                else:
-                    entry[column] = "mixed"
-    return entry
-
-# check how variables are accessed for each setting
-def data_transform_variables(dir_path):
-    files = os.listdir(dir_path)
-    file_df_dict = get_file_df_dict(dir_path, files)
-    if not check_files(dir_path, files):
-        raise Exception("Warning: Files in " + dir_path + " are not complete (CFG was not generated)")
-    var_list = get_complete_var_list(file_df_dict)
-    df = pd.DataFrame(columns=["var_name"] + settings_str())
-    for var in var_list:
-         entry = get_var_info(var, file_df_dict, df.columns)
-         df.loc[len(df)] = entry
-    # print(df)
-    return df
-
-def init_filter(dir):
-    try:
-        data = data_transform_variables(dir)
-    except:
-        print("Something went wrong for directory (check exceptions): " + dir)
-        return
-    # check interestingness for now only clang O3 vs gcc O3
-    interesting = False
-    # print(data)
-    for row in data.to_dict(orient='records'):
-        # TODO: Optimize loop to not be twice nested
-        setting1 = clang_3
-        setting2 = gcc_3
-        setting_str1 = setting_str_f(clang_3)
-        setting_str2 = setting_str_f(gcc_3)
-        entry1 = EntryOption.from_str(row[setting_str1])
-        entry2 = EntryOption.from_str(row[setting_str2])
-        # compiler1 = setting1.compiler.project
-        # compiler2 = setting2.compiler.project
-        # optimization1 = setting1.opt_level
-        # optimization2 = setting2.opt_level
-        if entry1.name == "constant" and (entry2.name == "variable" or entry2.name == "mixed"):
-            """
-            print("interesting")
-            print(row["var_name"])
-            print(setting_str1)
-            print(entry1.name)
-            print(setting_str2)
-            print(entry2.name)
-            """
-            interesting = True
-        if entry2.name == "constant" and (entry1.name == "variable" or entry1.name == "mixed"):
-            """
-            print("interesting")
-            print(row["var_name"])
-            print(setting_str1)
-            print(entry1.name)
-            print(setting_str2)
-            print(entry2.name)
-            """
-            interesting = True
-    return interesting
-
-class ConstantGlobalVariables(ReductionCallback):
-    def __init__(self, sanitizer, settings):
-        self.sanitizer = sanitizer
-        self.settings = settings
-        self.dir = "../data/temp_reduce"
-
-    def test(self, program: SourceProgram) -> bool:
-        if not self.sanitizer.sanitize(program):
-            return False
-        program.save_to_file(self.dir + "/program")
-        for setting in self.settings:
-            setting_str = setting_str_f(setting)
-            _, project, globals = compile_globals_project(program, setting)
-            binary_analysis(project, globals, dir_name, setting_str)
-        return init_filter(self.dir)
-
-def get_program(dir):
-    files = os.listdir(dir)
-    for file in files:
-        if file.endswith(".c"):
-            path = dir + "/" + file
-            f = open(path, "r")
-            program = SourceProgram(
-                code=f.read(),
-                language=Language.C,
-                defined_macros=(),
-                include_paths=(),
-                system_include_paths=(),
-                flags=(),)
-            f.close()
-    return program
-
 if __name__ == "__main__":
     setting_reports = setup_setting_reports()
     dirs = os.walk("../data")
     # search for interesting cases and reduce the program with creduce
     limit = 10000
     counter = 0
-    interesting_counter = 0
-    """
-    for dir in dirs:
-        interesting = init_filter(dir[0])
-        counter += 1
-        if counter > limit:
-            break
-        if interesting:
-            interesting_counter += 1
-            program = get_program(dir[0])
-            sanitizer = Sanitizer()
-            rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, [clang_3, gcc_3]))
-            print(dir[0])
-            print(interesting)
-            print(interesting_counter)
-      """  
-    
+    interesting_counter = 0   
     # count accesses to global variables
-    
     counter = 0
     for dir in dirs:
         print(counter)

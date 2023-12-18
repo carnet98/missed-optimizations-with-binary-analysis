@@ -1,7 +1,23 @@
-name, constant_write, var_write, read
-crc32_context, 0, 25, 26
-crc32_tab, 0, 0, 0
-g_2, 0, 0, 0
-_DYNAMIC, 0, 0, 0
-_GLOBAL_OFFSET_TABLE_, 0, 0, 0
-_IO_stdin_used, 0, 0, 0
+var_name,constant_write,var_write,read
+g_104,1,0,0
+g_105,0,0,0
+g_340,1,1,0
+g_85,0,1,0
+g_124,3,0,0
+g_89,0,0,0
+g_206,0,1,0
+g_235,0,0,0
+g_330,1,0,0
+g_54,0,0,0
+g_49,2,0,0
+g_352,2,0,0
+g_72,2,0,0
+g_362,2,0,0
+g_122,2,0,0
+g_198,2,0,0
+g_599,0,0,0
+g_166,0,0,0
+_DYNAMIC,0,0,0
+_GLOBAL_OFFSET_TABLE_,0,0,0
+csmith_sink_,35,37,0
+_IO_stdin_used,0,0,0
