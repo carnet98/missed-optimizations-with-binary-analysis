@@ -294,7 +294,7 @@ if __name__ == "__main__":
             if not rprogram == None:
                 binary_analysis_utils.save_program(program, "/reduced_program_" + str(counter))
             else:
-                print("reduction failed")
+                print("reduction failed for program_" + str(counter))
             
         end_time = time.time()
         runtime = end_time - start_time

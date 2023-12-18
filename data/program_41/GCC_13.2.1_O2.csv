@@ -1,0 +1,15 @@
+var_name,constant_write,var_write,read
+crc32_context,0,8,9
+crc32_tab,0,0,0
+g_327,1,0,1
+g_40,2,0,1
+g_100,0,1,0
+g_41,0,2,1
+g_238,1,0,1
+g_237,1,0,1
+g_207,1,0,0
+g_292,1,0,1
+g_353,1,0,0
+_DYNAMIC,0,0,0
+_GLOBAL_OFFSET_TABLE_,0,0,0
+_IO_stdin_used,0,0,0
