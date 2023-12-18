@@ -76,7 +76,7 @@ clang_3 = CompilationSetting(
     compiler=CompilerExe.from_path(clang_path),
     opt_level=OptLevel.O3,
     flags=("-march=native",),
-)""
+)
 
 clang_settings = [clang_0, clang_1, clang_2, clang_3]
 settings = gcc_settings + clang_settings
