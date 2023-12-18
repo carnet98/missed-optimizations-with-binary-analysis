@@ -241,7 +241,7 @@ def save_program(program, filename):
     f.close()
 
 if __name__ == "__main__":
-    program_num = 10
+    program_num = 100
     program_list = []
     csmith = True
     if len(sys.argv) > 1:
