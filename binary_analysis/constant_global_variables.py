@@ -31,23 +31,26 @@ import time
 PROGRAM_PATH = "../program_examples/"
 TOOL_BINARY_PATH = "../clang_tools/build/bin/"
 
+gcc_path = "/usr/bin/gcc"
+clang_path = "/usr/bin/clang"
+
 gcc_0 = CompilationSetting(
-    compiler=CompilerExe.get_system_gcc(),
+    compiler=CompilerExe.from_path(gcc_path),
     opt_level=OptLevel.O0,
     flags=("-march=native",),
 )
 gcc_1 = CompilationSetting(
-    compiler=CompilerExe.get_system_gcc(),
+    compiler=CompilerExe.from_path(gcc_path),
     opt_level=OptLevel.O1,
     flags=("-march=native",),
 )
 gcc_2 = CompilationSetting(
-    compiler=CompilerExe.get_system_gcc(),
+    compiler=CompilerExe.from_path(gcc_path),
     opt_level=OptLevel.O2,
     flags=("-march=native",),
 )
 gcc_3 = CompilationSetting(
-    compiler=CompilerExe.get_system_gcc(),
+    compiler=CompilerExe.from_path(gcc_path),
     opt_level=OptLevel.O3,
     flags=("-march=native",),
 )
@@ -55,25 +58,25 @@ gcc_3 = CompilationSetting(
 gcc_settings = [gcc_0, gcc_1, gcc_2, gcc_3]
 
 clang_0 = CompilationSetting(
-    compiler=CompilerExe.get_system_clang(),
+    compiler=CompilerExe.from_path(clang_path),
     opt_level=OptLevel.O0,
     flags=("-march=native",),
 )
 clang_1 = CompilationSetting(
-    compiler=CompilerExe.get_system_clang(),
+    compiler=CompilerExe.from_path(clang_path),
     opt_level=OptLevel.O1,
     flags=("-march=native",),
 )
 clang_2 = CompilationSetting(
-    compiler=CompilerExe.get_system_clang(),
+    compiler=CompilerExe.from_path(clang_path),
     opt_level=OptLevel.O2,
     flags=("-march=native",),
 )
 clang_3 = CompilationSetting(
-    compiler=CompilerExe.get_system_clang(),
+    compiler=CompilerExe.from_path(clang_path),
     opt_level=OptLevel.O3,
     flags=("-march=native",),
-)
+)""
 
 clang_settings = [clang_0, clang_1, clang_2, clang_3]
 settings = gcc_settings + clang_settings
