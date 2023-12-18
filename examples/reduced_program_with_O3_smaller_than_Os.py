@@ -73,7 +73,7 @@ if __name__ == "__main__":
             break
     print(f"O3 size: {get_size(p, O3)}")
     print(f"Os size: {get_size(p, Os)}")
-    rprogram = Reducer().reduce(p, ReduceObjectSize(sanitizer, O3, Os))  # , debug=True)
+    rprogram = Reducer().reduce(p, ReduceObjectSize(sanitizer, O3, Os))
     assert rprogram
     print(f"O3 size: {get_size(rprogram, O3)}")
     print(f"Os size: {get_size(rprogram, Os)}")

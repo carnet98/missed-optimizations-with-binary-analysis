@@ -2,7 +2,7 @@
 
 import sys
 import os
-sys.path.insert(0, '..')
+sys.path.insert(0, '/home/colin/Dokumente/ETH/Master_Thesis/missed-optimizations-with-binary-analysis/')
 
 from diopter.compiler import (
     CompilationSetting,
@@ -526,7 +526,7 @@ def filter(program):
 
 
 if __name__ == "__main__":
-    program_num = 1
+    program_num = 10
     program_list = []
     csmith = True
     if len(sys.argv) > 1:
@@ -570,8 +570,11 @@ if __name__ == "__main__":
             program.save_to_file(dir_name + "/program_" + str(counter))
             # reduce
             sanitizer = Sanitizer()
-            rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, settings), debug=True)
-            # rprogram.save_to_file(dir_name + "reduced_program_" + str(counter))
+            rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, settings))
+            if not rprogram == None:
+                rprogram.save_to_file(dir_name + "/reduced_program_" + str(counter))
+            else:
+                print("reduction failed")
         end_time = time.time()
         runtime = end_time - start_time
         print(str(counter) + ": time: " + str(int(runtime)) + " seconds")
