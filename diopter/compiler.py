@@ -550,7 +550,7 @@ def parse_compiler(compiler_exe: Path) -> tuple[CompilerProject, Revision] | Non
     for line in info.stderr.splitlines():
         if "clang version" in line:
             return CompilerProject.LLVM, line[len("clang version") :].strip()
-        if "gcc-Version" in line:
+        if "gcc-Version" in line or "gcc version" in line:
             return CompilerProject.GCC, line[len("gcc version") :].strip().split()[0]
     return None
 
