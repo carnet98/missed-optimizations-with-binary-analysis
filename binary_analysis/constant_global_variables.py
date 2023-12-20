@@ -82,7 +82,7 @@ clang_settings = [clang_0, clang_1, clang_2, clang_3]
 settings = gcc_settings + clang_settings
     
 if __name__ == "__main__":
-    program_num = 10000
+    program_num = 10
     program_list = []
     csmith = True
     if len(sys.argv) > 1:

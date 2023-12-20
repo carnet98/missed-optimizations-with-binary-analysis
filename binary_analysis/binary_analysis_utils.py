@@ -216,35 +216,42 @@ def check_block(block, g_map):
     variables = []
     # iterate through every instruction
     for index in range(len(block)):
+        add_instr = False
         instr = block[index]
         op_str = instr.op_str
         # check if a instruction performs a move operation on a global variable (rip-relative address)
-        if "[rip + " in op_str and "]" in op_str and (index + 1) < len(block) and instr.mnemonic == "mov":
+        if "[rip + " in op_str and "]" in op_str and (index + 1) < len(block):
             # compute absolute address = rip-relative addresss + address of next instruction
             rip_rel_addr = get_between(op_str, "[rip + 0x", "]")
             next_addr = hex(block[index + 1].address)
             abs_addr = hex(int(rip_rel_addr, 16) + int(next_addr, 16))
             addr_str = "[rip + 0x" + rip_rel_addr + "]"
             op_str_list = op_str.split(",")
-            # check if it is a constant write, register write or a read
-            if addr_str in op_str_list[0]:
-                write = True
-                arg = op_str_list[1]
-                if "0x" in arg:
-                    constant = True
-                    value = int(arg, base=16)
-                else:
-                    try:
-                        value = int(arg)
+            if instr.mnemonic == "lea" or instr.mnemonic == "cmp":
+                add_instr = True
+                constant = False
+                write = False
+            if instr.mnemonic == "mov":
+                add_instr = True
+                # check if it is a constant write, register write or a read
+                if addr_str in op_str_list[0]:
+                    write = True
+                    arg = op_str_list[1]
+                    if "0x" in arg:
                         constant = True
-                    except:
-                        value = None
-                        constant = False
-            elif addr_str in op_str_list[1]:
-                constant = True
-                value = None
-            # check if it the address is a global variable from our var-address map (g_map)
-            if abs_addr in g_map:
+                        value = int(arg, base=16)
+                    else:
+                        try:
+                            value = int(arg)
+                            constant = True
+                        except:
+                            value = None
+                            constant = False
+                elif addr_str in op_str_list[1]:
+                    constant = False
+                    value = None
+                # check if it the address is a global variable from our var-address map (g_map)
+            if add_instr and abs_addr in g_map:
                 # store the instruction and its properties to the object
                 var_obj, new = get_var_obj(variables, g_map[abs_addr])
                 instr_obj = Instruction_Entry(instr.mnemonic, op_str_list, constant, write, value)

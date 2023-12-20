@@ -1,13 +1,5 @@
 var_name,constant_write,var_write,read
-g_89,0,0,0
-g_124,3,0,0
-g_105,0,0,0
-g_235,0,0,0
-g_122,3,2,0
-g_330,1,0,0
-g_340,1,0,0
-g_49,2,0,0
 _DYNAMIC,0,0,0
 _GLOBAL_OFFSET_TABLE_,0,0,0
-csmith_sink_,151,129,0
+csmith_sink_,26,0,0
 _IO_stdin_used,0,0,0
