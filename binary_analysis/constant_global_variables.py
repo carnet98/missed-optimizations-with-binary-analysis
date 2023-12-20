@@ -27,6 +27,8 @@ import angr
 
 import time
 
+import argparse
+
 # global variables
 PROGRAM_PATH = "../program_examples/"
 TOOL_BINARY_PATH = "../clang_tools/build/bin/"
@@ -34,63 +36,86 @@ TOOL_BINARY_PATH = "../clang_tools/build/bin/"
 gcc_path = "/usr/bin/gcc"
 clang_path = "/usr/bin/clang"
 
-gcc_0 = CompilationSetting(
-    compiler=CompilerExe.from_path(gcc_path),
-    opt_level=OptLevel.O0,
-    flags=("-march=native",),
-)
-gcc_1 = CompilationSetting(
-    compiler=CompilerExe.from_path(gcc_path),
-    opt_level=OptLevel.O1,
-    flags=("-march=native",),
-)
-gcc_2 = CompilationSetting(
-    compiler=CompilerExe.from_path(gcc_path),
-    opt_level=OptLevel.O2,
-    flags=("-march=native",),
-)
-gcc_3 = CompilationSetting(
-    compiler=CompilerExe.from_path(gcc_path),
-    opt_level=OptLevel.O3,
-    flags=("-march=native",),
-)
-
-gcc_settings = [gcc_0, gcc_1, gcc_2, gcc_3]
-
-clang_0 = CompilationSetting(
-    compiler=CompilerExe.from_path(clang_path),
-    opt_level=OptLevel.O0,
-    flags=("-march=native",),
-)
-clang_1 = CompilationSetting(
-    compiler=CompilerExe.from_path(clang_path),
-    opt_level=OptLevel.O1,
-    flags=("-march=native",),
-)
-clang_2 = CompilationSetting(
-    compiler=CompilerExe.from_path(clang_path),
-    opt_level=OptLevel.O2,
-    flags=("-march=native",),
-)
-clang_3 = CompilationSetting(
-    compiler=CompilerExe.from_path(clang_path),
-    opt_level=OptLevel.O3,
-    flags=("-march=native",),
-)
-
-clang_settings = [clang_0, clang_1, clang_2, clang_3]
-settings = gcc_settings + clang_settings
-    
 if __name__ == "__main__":
     program_num = 10
     program_list = []
     csmith = True
-    if len(sys.argv) > 1:
-        print("test program is availbable")
-        program_list = sys.argv[1:]
+    parser = argparse.ArgumentParser(
+                    prog='Constant Global Variables',
+                    description='Performs binary analysis. Checks if global variables are written with a constant value, variable value (register) or read')
+    parser.add_argument("--sample")
+    parser.add_argument("--clang_path")
+    parser.add_argument("--gcc_path")
+    args = parser.parse_args()
+    if not args.sample == None:
+        print("test program is available")
+        program_list = [args.sample]
         program_num = len(program_list)
         csmith = False
+    if not args.clang_path == None:
+        try:
+            compiler_exe = CompilerExe.from_path(args.clang_path)
+            clang_path = args.clang_path
+        except:
+            print("not valid clang compiler executable. taking default")
 
+    if not args.gcc_path == None:
+        try:
+            compiler_exe = CompilerExe.from_path(args.gcc_path)
+            gcc_path = args.gcc_path
+        except:
+            print("not valid gcc compiler executable. taking default")
+
+    print("gcc path: " + gcc_path)
+    print("clang path: " + clang_path)
+    gcc_0 = CompilationSetting(
+        compiler=CompilerExe.from_path(gcc_path),
+        opt_level=OptLevel.O0,
+        flags=("-march=native",),
+    )
+    gcc_1 = CompilationSetting(
+        compiler=CompilerExe.from_path(gcc_path),
+        opt_level=OptLevel.O1,
+        flags=("-march=native",),
+    )
+    gcc_2 = CompilationSetting(
+        compiler=CompilerExe.from_path(gcc_path),
+        opt_level=OptLevel.O2,
+        flags=("-march=native",),
+    )
+    gcc_3 = CompilationSetting(
+        compiler=CompilerExe.from_path(gcc_path),
+        opt_level=OptLevel.O3,
+        flags=("-march=native",),
+    )
+
+    gcc_settings = [gcc_0, gcc_1, gcc_2, gcc_3]
+
+    clang_0 = CompilationSetting(
+        compiler=CompilerExe.from_path(clang_path),
+        opt_level=OptLevel.O0,
+        flags=("-march=native",),
+    )
+    clang_1 = CompilationSetting(
+        compiler=CompilerExe.from_path(clang_path),
+        opt_level=OptLevel.O1,
+        flags=("-march=native",),
+    )
+    clang_2 = CompilationSetting(
+        compiler=CompilerExe.from_path(clang_path),
+        opt_level=OptLevel.O2,
+        flags=("-march=native",),
+    )
+    clang_3 = CompilationSetting(
+        compiler=CompilerExe.from_path(clang_path),
+        opt_level=OptLevel.O3,
+        flags=("-march=native",),
+    )
+
+    clang_settings = [clang_0, clang_1, clang_2, clang_3]
+    settings = gcc_settings + clang_settings
+
+    
     counter = 0
     while(counter < program_num or program_num == -1):
         start_time = time.time()
@@ -136,4 +161,5 @@ if __name__ == "__main__":
         end_time = time.time()
         runtime = end_time - start_time
         print(str(counter) + ": time: " + str(int(runtime)) + " seconds")
+    
     print("SUCCESS")
