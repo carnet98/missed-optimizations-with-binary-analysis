@@ -4,5 +4,7 @@ pip list > requirements.txt
 --clang_path /local/home/carnet/compiler_binaries/clang-d10fdd5422ed6abf9ee9a874dbe5165fbdeb47d0/bin/clang --gcc_path /local/home/carnet/compiler_binaries/gcc-13fb0413b5cc8ae50b074f9d83dea2c801863783/bin/gcc
 python3 constant_global_variables.py --clang_path /local/home/carnet/compiler_binaries/clang-d10fdd5422ed6abf9ee9a874dbe5165fbdeb47d0/bin/clang --gcc_path /local/home/carnet/compiler_binaries/gcc-13fb0413b5cc8ae50b074f9d83dea2c801863783/bin/gcc
 python3 binary_analysis_data_processing.py --clang_path /local/home/carnet/compiler_binaries/clang-d10fdd5422ed6abf9ee9a874dbe5165fbdeb47d0/bin/clang --gcc_path /local/home/carnet/compiler_binaries/gcc-13fb0413b5cc8ae50b074f9d83dea2c801863783/bin/gcc
+python3 reduced_program_binary_analysis.py --clang_path /local/home/carnet/compiler_binaries/clang-d10fdd5422ed6abf9ee9a874dbe5165fbdeb47d0/bin/clang --gcc_path /local/home/carnet/compiler_binaries/gcc-13fb0413b5cc8ae50b074f9d83dea2c801863783/bin/gcc
+
 
 

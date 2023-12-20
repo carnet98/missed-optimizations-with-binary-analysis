@@ -37,7 +37,7 @@ gcc_path = "/usr/bin/gcc"
 clang_path = "/usr/bin/clang"
 
 if __name__ == "__main__":
-    program_num = 10
+    program_num = 1000
     program_list = []
     csmith = True
     parser = argparse.ArgumentParser(
@@ -68,7 +68,7 @@ if __name__ == "__main__":
 
     print("gcc path: " + gcc_path)
     print("clang path: " + clang_path)
-    
+
     gcc_0 = CompilationSetting(
         compiler=CompilerExe.from_path(gcc_path),
         opt_level=OptLevel.O0,
