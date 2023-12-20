@@ -68,6 +68,7 @@ if __name__ == "__main__":
 
     print("gcc path: " + gcc_path)
     print("clang path: " + clang_path)
+    
     gcc_0 = CompilationSetting(
         compiler=CompilerExe.from_path(gcc_path),
         opt_level=OptLevel.O0,
@@ -115,7 +116,6 @@ if __name__ == "__main__":
     clang_settings = [clang_0, clang_1, clang_2, clang_3]
     settings = gcc_settings + clang_settings
 
-    
     counter = 0
     while(counter < program_num or program_num == -1):
         start_time = time.time()
