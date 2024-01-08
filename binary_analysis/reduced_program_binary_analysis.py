@@ -365,7 +365,7 @@ if __name__ == "__main__":
             sanitizer = Sanitizer()
             rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, settings), jobs=16)
             if not rprogram == None:
-                binary_analysis_utils.save_program(program, dir_name + "/reduced_program_" + str(counter))
+                binary_analysis_utils.save_program(rprogram, dir_name + "/reduced_program_" + str(counter))
             else:
                 print("reduction failed for program_" + str(counter))
             
