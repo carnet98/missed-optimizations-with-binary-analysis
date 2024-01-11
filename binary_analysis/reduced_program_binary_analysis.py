@@ -20,6 +20,8 @@ from diopter.generator import CSmithGenerator
 from diopter.reducer import Reducer, ReductionCallback
 from diopter.sanitizer import Sanitizer
 
+from static_globals.instrumenter import annotate_with_static
+
 import binary_analysis_utils
 
 import subprocess
@@ -229,6 +231,7 @@ def interesting_filter(setting_data_dict):
 # check interestingness with binary analysis
 def filter(program):
     setting_data_dict = {}
+    # program = annotate_with_static(program)
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         setting_str = setting_str_f(setting)
@@ -363,7 +366,7 @@ if __name__ == "__main__":
             # reduce
             
             sanitizer = Sanitizer()
-            rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, settings), jobs=16)
+            rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, settings), jobs=16, debug=True)
             if not rprogram == None:
                 binary_analysis_utils.save_program(rprogram, dir_name + "/reduced_program_" + str(counter))
             else:

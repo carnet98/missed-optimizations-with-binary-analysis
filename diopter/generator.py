@@ -82,6 +82,9 @@ def find_csmith_include_path() -> str:
     if Path("/usr/include/csmith").exists():
         return "/usr/include/csmith"
 
+    if Path("/usr/include/csmith.h").exists():
+        return "/usr/include/csmith.h"
+
     raise RuntimeError("Could not find csmith include path")
 
 
