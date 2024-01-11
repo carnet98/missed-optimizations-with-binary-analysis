@@ -231,7 +231,7 @@ def interesting_filter(setting_data_dict):
 # check interestingness with binary analysis
 def filter(program):
     setting_data_dict = {}
-    # program = annotate_with_static(program)
+    program = annotate_with_static(program)
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         setting_str = setting_str_f(setting)
