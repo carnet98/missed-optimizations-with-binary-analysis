@@ -274,17 +274,9 @@ def addr_map(project, globals):
     return g_map
 
 # performs all the analysis on the binary
-def binary_analysis(project, globals):
+def binary_analysis(project, cfg, globals):
     # produce map of global variable names to their address in the executable file
     g_map = addr_map(project, globals)
-    # compute CFG
-    try:
-        cfg = project.analyses.CFGEmulated()
-    except StopIteration as e:
-        print("ERROR: CFG was not generated")
-        print(e)
-        raise Exception("ERROR: CFG was not generated")
-    # print(cfg.graph)
     nodes = cfg.nodes()
     nodes_ext = []
     # iterate through every node
@@ -314,6 +306,26 @@ def binary_analysis(project, globals):
             read_num += num
         df.loc[len(df)] = [g, constant_num, var_num, read_num]
     return df
+
+# check if cfg contains an infinite loop
+# infinite loop: node with only one successor which is itself
+def check_loop(cfg):
+    nodes = cfg.nodes()
+    for node in nodes:
+        successors = node.successors
+        if len(successors) == 1 and successors[0] == node:
+            return True
+    return False
+
+# get cfg of program
+def get_cfg(project):
+    try: 
+        cfg = project.analyses.CFGEmulated()
+        return cfg
+    except StopIteration as e:
+        print("ERROR: CFG was not generated")
+        print(e)
+        raise Exception("ERROR: CFG was not generated")
 
 # compiles program and creates a angr-project
 def compile_globals_project(program, setting):

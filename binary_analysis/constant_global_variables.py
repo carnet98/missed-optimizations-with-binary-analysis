@@ -153,6 +153,7 @@ if __name__ == "__main__":
             print(setting_str)
             compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
             try:
+                cfg = binary_analysis_utils.get_cfg(project)
                 data = binary_analysis_utils.binary_analysis(project, globals)
                 data.to_csv(dir_name + "/" + setting_str + ".csv", sep=",", index=False)
             except:

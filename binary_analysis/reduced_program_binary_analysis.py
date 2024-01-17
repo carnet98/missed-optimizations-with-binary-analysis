@@ -236,7 +236,10 @@ def filter(program):
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         setting_str = setting_str_f(setting)
         try:
-            data = binary_analysis_utils.binary_analysis(project, globals)
+            cfg = binary_analysis_utils.get_cfg(project)
+            if binary_analysis_utils.check_loop(cfg):
+                return False
+            data = binary_analysis_utils.binary_analysis(project, cfg, globals)
             setting_data_dict[setting_str] = data
         except:
             return False
@@ -364,15 +367,13 @@ if __name__ == "__main__":
             # program.save_to_file(dir_name + "/program_" + str(counter))
             binary_analysis_utils.save_program(program, dir_name + "/program_" + str(counter))
             # reduce
-            
             sanitizer = Sanitizer()
             rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, settings), jobs=16)
             rprogram = annotate_with_static(rprogram)
             if not rprogram == None:
                 binary_analysis_utils.save_program(rprogram, dir_name + "/reduced_program_" + str(counter))
             else:
-                print("reduction failed for program_" + str(counter))
-            
+                print("reduction failed for program_" + str(counter))  
         end_time = time.time()
         runtime = end_time - start_time
         print(str(counter) + ": time: " + str(int(runtime)) + " seconds")
