@@ -1,0 +1,26 @@
+Title: Missed optimizations in the presence of pointer chains
+
+https://godbolt.org/z/hdWKn4bjc
+
+All three functions write to the same variable (b). Clang is able to optimize this. GCC -O3 cannot always do this.
+Assembly for foo is writing to **d instead to directly write 1 to b. There is similar behavior for bar and baz. Clang optimizes the code to directly write to b.
+Baz is fully optimized only if the foo and bar are removed.
+
+int b = 0;
+static int *c = &b;
+static int **d = &c;
+static int ***e = &d;
+
+void foo() {***e = 1;}
+void bar() {**d = 1;}
+void baz() {*c = 1;}
+
+Assembly code:
+foo:
+	movq	d(%rip), %rax
+	movq	(%rax), %rax
+	movl	$1, (%rax)
+	ret
+
+
+

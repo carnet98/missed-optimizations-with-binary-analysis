@@ -9,5 +9,7 @@ python3 reduced_program_binary_analysis.py --clang_path $CLANG_PATH --gcc_path $
 screen -X -S [session # you want to kill] quit
 screen -S session_name
 
+CLANG_PATH = /local/home/carnet/compiler_binaries/clang-dca6f60bcdd4a8e6c5defad454d9c470a27701fe/bin/clang
+GCC_PATH = /local/home/carnet/compiler_binaries/gcc-13fb0413b5cc8ae50b074f9d83dea2c801863783/bin/gcc
 
 

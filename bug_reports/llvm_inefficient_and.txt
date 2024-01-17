@@ -1,0 +1,25 @@
+title: AND-operation shortcut not taken; potential unnecessary load
+
+In foo0 both variables are compared to 0 and then put into the and-operation. 
+gcc takes a shortcut if the first variable is 0 (entire statement is 0). 
+llvm takes the shortcut when both variables are local or the order of the variables in the statement is switched. (foo1, foo2)
+
+https://godbolt.org/z/voE9Gfdhv
+```C
+int g;
+
+int foo0(int *b) {
+  return *b && g;
+
+}
+
+int foo1(int *b, int *c) {
+  return *b && *c;
+}
+
+int foo2(int *b){
+    return g && *b;
+}
+```
+
+

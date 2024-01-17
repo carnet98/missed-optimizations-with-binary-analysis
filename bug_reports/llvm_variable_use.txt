@@ -1,0 +1,24 @@
+Title: A constant write to a static global is replaced with a "boolean" and later reads recompute the value
+
+https://godbolt.org/z/TsKE76836
+```C
+int a;
+int *b;
+static int c = 0;
+
+void foo() {
+  if (b)
+    c = 6;
+  a = c;
+}
+
+
+int bar(){
+    return c;
+}
+```
+
+
+
+
+

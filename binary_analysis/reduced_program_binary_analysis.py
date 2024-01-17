@@ -249,7 +249,7 @@ def save_program(program, filename):
     f.close()
 
 if __name__ == "__main__":
-    program_num = 50
+    program_num = 60
     program_list = []
     csmith = True
 
@@ -367,6 +367,7 @@ if __name__ == "__main__":
             
             sanitizer = Sanitizer()
             rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, settings), jobs=16)
+            rprogram = annotate_with_static(rprogram)
             if not rprogram == None:
                 binary_analysis_utils.save_program(rprogram, dir_name + "/reduced_program_" + str(counter))
             else:
