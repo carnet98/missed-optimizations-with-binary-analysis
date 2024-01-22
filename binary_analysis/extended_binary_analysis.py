@@ -184,10 +184,10 @@ def main():
                     dir_name = "../data3/program_" + str(counter)
             # program.save_to_file(dir_name + "/program_" + str(counter))
             binary_analysis_utils.save_program(program, dir_name + "/program_" + str(counter))
-            
+            print("berfore reduce")
             # reduce
             sanitizer = Sanitizer()
-            rprogram = Reducer().reduce(program, WriteReadPaths(sanitizer, settings), jobs=16)
+            rprogram = Reducer().reduce(program, WriteReadPaths(sanitizer, settings), jobs=16, debug=True)
             # rprogram = annotate_with_static(rprogram)
             if not rprogram == None:
                 binary_analysis_utils.save_program(rprogram, dir_name + "/reduced_program_" + str(counter))
