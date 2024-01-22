@@ -36,6 +36,17 @@ from enum import Enum
 
 import argparse
 
+class WriteReadPaths(ReductionCallback):
+    def __init__(self, sanitizer, settings):
+        self.sanitizer = sanitizer
+        self.settings = settings
+        self.dir = "../data/temp_reduce"
+
+    def test(self, program: SourceProgram) -> bool:
+        if not self.sanitizer.sanitize(program):
+            return False
+        return filter(program)
+
 def setting_str_f(setting):
     setting_json = setting.to_json_dict()
     setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
@@ -175,8 +186,8 @@ def main():
             
             # reduce
             sanitizer = Sanitizer()
-            rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, settings), jobs=16)
-            rprogram = annotate_with_static(rprogram)
+            rprogram = Reducer().reduce(program, WriteReadPaths(sanitizer, settings), jobs=16)
+            # rprogram = annotate_with_static(rprogram)
             if not rprogram == None:
                 binary_analysis_utils.save_program(rprogram, dir_name + "/reduced_program_" + str(counter))
             else:
