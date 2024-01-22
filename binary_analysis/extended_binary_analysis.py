@@ -174,12 +174,8 @@ def main():
         if interesting:
             while(True):
                 print("infinite loop")
-                try:
-                    os.mkdir(dir_name)
-                    break
-                except:
-                    counter += 1
-                    dir_name = "../data3/program_" + str(counter)
+                os.mkdir(dir_name)
+                break
             # program.save_to_file(dir_name + "/program_" + str(counter))
             binary_analysis_utils.save_program(program, dir_name + "/program_" + str(counter))
             print("berfore reduce")
