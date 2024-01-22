@@ -348,7 +348,6 @@ def get_path(node_1, node_2, nodes):
     while queue:
         current = queue.pop()
         if current == node_2:
-            print("path is found")
             # reconstruct path
             path = [current]
             while parents[current]:
@@ -360,7 +359,6 @@ def get_path(node_1, node_2, nodes):
                 queue.append(successor)
                 visited[successor] = True
                 parents[successor] = current
-    print("no path found")
     return None, False
 
 # check for every write operation if there is a read operation after it.
@@ -378,7 +376,6 @@ def extended_binary_analysis(project, cfg, globals):
             read, _ = node_ext.has_read(g)
             if read:
                 read_nodes.append(node_ext)
-        print(g)
         '''
         print("write nodes:")
         for write_node in write_nodes:

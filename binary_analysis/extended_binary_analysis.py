@@ -53,11 +53,9 @@ def setting_str_f(setting):
     return setting_str
 
 def filter(program, settings):
-    print(program.code)
     setting_data_dict = {}
     program = annotate_with_static(program)
     for setting in settings:
-        print(setting_str_f(setting))
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         cfg = binary_analysis_utils.get_cfg(project)
         no_read_after_write = binary_analysis_utils.extended_binary_analysis(project, cfg, globals)
