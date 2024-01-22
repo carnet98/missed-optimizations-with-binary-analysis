@@ -36,10 +36,23 @@ from enum import Enum
 
 import argparse
 
+def setting_str_f(setting):
+    setting_json = setting.to_json_dict()
+    setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
+    return setting_str
 
-
-def filter(program):
+def filter(program, settings):
     print(program.code)
+    setting_data_dict = {}
+    program = annotate_with_static(program)
+    for setting in settings:
+        print(setting_str_f(setting))
+        compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
+        cfg = binary_analysis_utils.get_cfg(project)
+        no_read_after_write = binary_analysis_utils.extended_binary_analysis(project, cfg, globals)
+        if no_read_after_write > 0:
+            return True
+    return False
 
 def main():
     gcc_path = "/usr/bin/gcc"
@@ -123,7 +136,7 @@ def main():
     )
 
     clang_settings = [clang_0, clang_1, clang_2, clang_3]
-    settings = [clang_0, gcc_0]
+    settings = [clang_3, gcc_3]
 
     counter = 0
     while(counter < program_num or program_num == -1):
@@ -148,7 +161,7 @@ def main():
             else:
                 print(path + " does not exist.")
         dir_name = "../data3/program_" + str(counter)
-        interesting = filter(program)
+        interesting = filter(program, settings)
         if interesting:
             while(True):
                 try:
@@ -159,7 +172,7 @@ def main():
                     dir_name = "../data3/program_" + str(counter)
             # program.save_to_file(dir_name + "/program_" + str(counter))
             binary_analysis_utils.save_program(program, dir_name + "/program_" + str(counter))
-            '''
+            
             # reduce
             sanitizer = Sanitizer()
             rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, settings), jobs=16)
@@ -168,7 +181,7 @@ def main():
                 binary_analysis_utils.save_program(rprogram, dir_name + "/reduced_program_" + str(counter))
             else:
                 print("reduction failed for program_" + str(counter))
-            '''
+            
         end_time = time.time()
         runtime = end_time - start_time
         print(str(counter) + ": time: " + str(int(runtime)) + " seconds")

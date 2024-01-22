@@ -105,6 +105,11 @@ class Node_Extended():
                         num += 1
         return result, num
 
+    def has_write(self, g):
+        const_write, _ = self.has_constant_write(g)
+        var_write, _ = self.has_var_write(g)
+        return const_write or var_write
+
     def get_successor_ext(self, nodes_ext):
         result = []
         successors = self.node.successors
@@ -273,9 +278,7 @@ def addr_map(project, globals):
             # print(g_symbol)
     return g_map
 
-# performs all the analysis on the binary
-def binary_analysis(project, cfg, globals):
-    # produce map of global variable names to their address in the executable file
+def get_cfg_info(project, cfg, globals):
     g_map = addr_map(project, globals)
     nodes = cfg.nodes()
     nodes_ext = []
@@ -291,21 +294,7 @@ def binary_analysis(project, cfg, globals):
         variables = check_block(block, g_map)
         node_ext = Node_Extended(node, variables)
         nodes_ext.append(node_ext)
-        # print(node_ext.to_string())
-    df = pd.DataFrame(columns=["var_name", "constant_write", "var_write", "read"])
-    for g in globals:
-        constant_num = 0
-        var_num = 0
-        read_num = 0
-        for node_ext in nodes_ext:
-            _, num = node_ext.has_constant_write(g)
-            constant_num += num
-            _, num = node_ext.has_var_write(g)
-            var_num += num
-            _, num = node_ext.has_read(g)
-            read_num += num
-        df.loc[len(df)] = [g, constant_num, var_num, read_num]
-    return df
+    return nodes_ext
 
 # check if cfg contains an infinite loop
 # infinite loop: node with only one successor which is itself
@@ -326,6 +315,84 @@ def get_cfg(project):
         print("ERROR: CFG was not generated")
         print(e)
         raise Exception("ERROR: CFG was not generated")
+
+# performs all the analysis on the binary
+def binary_analysis(project, cfg, globals):
+    # produce map of global variable names to their address in the executable file
+    nodes_ext = get_cfg_info(project, cfg, globals)
+    df = pd.DataFrame(columns=["var_name", "constant_write", "var_write", "read"])
+    for g in globals:
+        constant_num = 0
+        var_num = 0
+        read_num = 0
+        for node_ext in nodes_ext:
+            _, num = node_ext.has_constant_write(g)
+            constant_num += num
+            _, num = node_ext.has_var_write(g)
+            var_num += num
+            _, num = node_ext.has_read(g)
+            read_num += num
+        df.loc[len(df)] = [g, constant_num, var_num, read_num]
+    return df
+
+# check if there is a path from node_1 to node_2. with BFS.
+def get_path(node_1, node_2, nodes):
+    print("get path between " + node_1.name + " and " + node_2.name)
+    visited = {}
+    parents = {}
+    for node in nodes:
+        visited[node] = False
+        parents[node] = None
+    visited[node_1] = True
+    queue = [node_1]
+    while queue:
+        current = queue.pop()
+        if current == node_2:
+            print("path is found")
+            # reconstruct path
+            path = [current]
+            while parents[current]:
+                current = parents[current]
+                path.insert(0, current)
+            return path, True
+        for successor in current.successors:
+            if visited[successor] == False:
+                queue.append(successor)
+                visited[successor] = True
+                parents[successor] = current
+    print("no path found")
+    return None, False
+
+# check for every write operation if there is a read operation after it.
+def extended_binary_analysis(project, cfg, globals):
+    nodes_ext = get_cfg_info(project, cfg, globals)
+    interesting_globals = []
+    no_read_after_write = 0
+    for g in globals:
+        write_nodes = []
+        read_nodes = []
+        for node_ext in nodes_ext:
+            write = node_ext.has_write(g)
+            if write:
+                write_nodes.append(node_ext)
+            read, _ = node_ext.has_read(g)
+            if read:
+                read_nodes.append(node_ext)
+        print(g)
+        '''
+        print("write nodes:")
+        for write_node in write_nodes:
+            print(write_node.node.name)
+        print("read nodes:")
+        for read_node in read_nodes:
+            print(read_node.node.name)
+        '''
+        for write_node in write_nodes:
+            for read_node in read_nodes:
+                _, path_bool = get_path(write_node.node, read_node.node, cfg.nodes())
+                if not path_bool:
+                    no_read_after_write += 1
+    return no_read_after_write
 
 # compiles program and creates a angr-project
 def compile_globals_project(program, setting):
