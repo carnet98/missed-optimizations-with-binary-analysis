@@ -45,7 +45,7 @@ class WriteReadPaths(ReductionCallback):
     def test(self, program: SourceProgram) -> bool:
         if not self.sanitizer.sanitize(program):
             return False
-        return filter(program)
+        return filter(program, self.settings)
 
 def setting_str_f(setting):
     setting_json = setting.to_json_dict()
@@ -173,6 +173,7 @@ def main():
                 print(path + " does not exist.")
         dir_name = "../data3/program_" + str(counter)
         interesting = filter(program, settings)
+        print("interesting")
         if interesting:
             while(True):
                 try:
