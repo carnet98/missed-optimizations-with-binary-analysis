@@ -171,9 +171,9 @@ def main():
                 print(path + " does not exist.")
         dir_name = "../data3/program_" + str(counter)
         interesting = filter(program, settings)
-        print("interesting")
         if interesting:
             while(True):
+                print("infinite loop")
                 try:
                     os.mkdir(dir_name)
                     break
