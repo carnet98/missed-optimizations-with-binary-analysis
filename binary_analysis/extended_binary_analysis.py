@@ -53,11 +53,12 @@ def setting_str_f(setting):
     return setting_str
 
 def filter(program, settings):
-    setting_data_dict = {}
     program = annotate_with_static(program)
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         cfg = binary_analysis_utils.get_cfg(project)
+        if binary_analysis_utils.check_loop(cfg):
+                return False
         no_read_after_write = binary_analysis_utils.extended_binary_analysis(project, cfg, globals)
         if no_read_after_write > 0:
             return True
@@ -187,10 +188,10 @@ def main():
             rprogram = Reducer().reduce(program, WriteReadPaths(sanitizer, settings), jobs=16)
             # rprogram = annotate_with_static(rprogram)
             if not rprogram == None:
+                rprogram = annotate_with_static(rprogram)
                 binary_analysis_utils.save_program(rprogram, dir_name + "/reduced_program_" + str(counter))
             else:
                 print("reduction failed for program_" + str(counter))
-            
         end_time = time.time()
         runtime = end_time - start_time
         print(str(counter) + ": time: " + str(int(runtime)) + " seconds")
