@@ -213,11 +213,9 @@ def get_var_obj(variables, name):
 
 # check if block reads or writes to a global variable
 def check_block(block, g_map):
-    categories = ["const_write", "reg_write", "glb_read"]
     constant = False
     write = False
     value = None
-    block_report = []
     variables = []
     # iterate through every instruction
     for index in range(len(block)):
@@ -317,7 +315,7 @@ def get_cfg(project):
         raise Exception("ERROR: CFG was not generated")
 
 # performs all the analysis on the binary
-def binary_analysis(project, cfg, globals):
+def variable_analysis(project, cfg, globals):
     # produce map of global variable names to their address in the executable file
     nodes_ext = get_cfg_info(project, cfg, globals)
     df = pd.DataFrame(columns=["var_name", "constant_write", "var_write", "read"])
@@ -362,7 +360,7 @@ def get_path(node_1, node_2, nodes):
     return None, False
 
 # check for every write operation if there is a read operation after it.
-def extended_binary_analysis(project, cfg, globals):
+def path_analysis(project, cfg, globals):
     nodes_ext = get_cfg_info(project, cfg, globals)
     interesting_globals = []
     no_read_after_write = 0

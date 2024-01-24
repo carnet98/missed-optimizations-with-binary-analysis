@@ -101,11 +101,9 @@ def main():
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         cfg = binary_analysis_utils.get_cfg(project)
-        if binary_analysis_utils.check_loop(cfg):
-            print("has infinite loop")
-        else:
-            print("no infinite loop")
-        
+        nodes = binary_analysis_utils.get_cfg_info(project, cfg, globals)
+        for node in nodes:
+            print(node.to_string())
 
 
 if __name__ == "__main__":

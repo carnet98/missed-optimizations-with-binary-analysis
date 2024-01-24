@@ -59,7 +59,7 @@ def filter(program, settings):
         cfg = binary_analysis_utils.get_cfg(project)
         if binary_analysis_utils.check_loop(cfg):
                 return False
-        no_read_after_write = binary_analysis_utils.extended_binary_analysis(project, cfg, globals)
+        no_read_after_write = binary_analysis_utils.path_analysis(project, cfg, globals)
         if no_read_after_write > 0:
             return True
     return False

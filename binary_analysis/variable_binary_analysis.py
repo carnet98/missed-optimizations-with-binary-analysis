@@ -236,7 +236,7 @@ def filter(program):
             cfg = binary_analysis_utils.get_cfg(project)
             if binary_analysis_utils.check_loop(cfg):
                 return False
-            data = binary_analysis_utils.binary_analysis(project, cfg, globals)
+            data = binary_analysis_utils.variable_analysis(project, cfg, globals)
             setting_data_dict[setting_str] = data
         except:
             return False
