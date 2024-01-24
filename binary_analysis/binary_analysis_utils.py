@@ -29,6 +29,43 @@ def save_program(program, filename):
     f.write(program.code)
     f.close()
 
+''' 
+rax	eax	ax	ah and al
+rcx	ecx	cx	ch and cl
+rdx	edx	dx	dh and dl
+rbx	ebx	bx	bh and bl
+rsp	esp	sp	spl
+rbp	ebp	bp	bpl
+rsi	esi	si	sil
+rdi	edi	di	dil
+r8	r8d	r8w	r8b
+r9	r9d	r9w	r9b
+r10	r10d    r10w	r10b
+r11	r11d	r11w	r11b
+r12	r12d	r12w	r12b
+r13	r13d	r13w	r13b
+r14	r14d	r14w	r14b
+r15	r15d	r15w	r15b
+'''
+
+X86_REGISTERS = ["rax", "eax", "ax", "ah", "al",
+                "rcx", "ecx", "cx", "ch", "cl",
+                "rdx", "edx", "dx", "dh", "dl",
+                "rbx", "ebx", "bx", "bh", "bl",
+                "rsp", "esp", "sp", "spl",
+                "rbp", "ebp", "bp", "bpl",
+                "rsi", "esi", "si", "sil",
+                "rdi", "edi", "di", "dil",
+                "r8", "r8d", "r8w", "r8b",
+                "r9", "r9d", "r9w", "r9b",
+                "r10", "r10d", "r10w", "r10b",
+                "r11", "r11d", "r11w", "r11b",
+                "r12", "r12d", "r12w", "r12b",
+                "r13", "r13d", "r13w", "r13b",
+                "r14", "r14d", "r14w", "r14b",
+                "r15", "r15d", "r15w", "r15b"]
+
+
 # Object that represents instruction with additional information
 class Instruction_Entry():
     def __init__(self, op, args, constant, write, value):
@@ -49,7 +86,7 @@ class Instruction_Entry():
         return result
 
 # Object that represents all the instruction in a block that write or read a variable
-class Global_Entry():
+class Var_Entry():
     def __init__(self, name, instructions=[]):
         self.name = name
         self.instructions = instructions
@@ -205,14 +242,107 @@ def get_between(s, a, b):
 
 # get GlobalEntry object by checking existing objects
 def get_var_obj(variables, name):
-    new = True
     for var in variables:
         if var.name == name:
             return var, False
-    return Global_Entry(name, []), new
+    return Var_Entry(name, []), True
 
-# check if block reads or writes to a global variable
+# check if operand is register
+def check_register(op):
+    for register in X86_REGISTERS:
+        if register == op:
+            return register
+    return None
+
+# check if operand is global variable
+def check_global(op, block, g_map, index):
+    name = None
+    if "[rip + " in op and "]" in op and (index + 1) < len(block):
+        rip_rel_addr = get_between(op, "[rip + 0x", "]")
+        next_addr = hex(block[index + 1].address)
+        abs_addr = hex(int(rip_rel_addr, 16) + int(next_addr, 16))
+        if abs_addr in g_map:
+            name = g_map[abs_addr]
+    return name
+
+# handle operand give out variable name, register name or constant value or None
+def handle_op(op, block, g_map, index):
+    output = check_global(op, block, g_map, index)
+    if output:
+        return "var", output
+    output = check_register(op)
+    if output:
+        return "var", output
+    if op.startswith('0x'):
+        output = int(op, base=16)
+        return "num", output
+    try:
+        output = int(op)
+        return "num", output
+    except:
+        return "none", None 
+    
+# check if block read or writes (constantly) to/from register or global variable
 def check_block(block, g_map):
+    variables = []
+    for index in range(len(block)):
+        add_instr = False
+        instr = block[index]
+        op_str_list = instr.op_str.split(", ")
+        mnemonic = instr.mnemonic
+        operands = []
+        if len(op_str_list) == 2:
+            fst_op = op_str_list[0] # write operand
+            snd_op = op_str_list[1] # read operand
+            # get info if operand is register, global variable, constant or none
+            cat1, value1 = handle_op(fst_op, block, g_map, index)
+            cat2, value2 = handle_op(snd_op, block, g_map, index)
+            var_obj_1 = None
+            var_obj_2 = None
+            # check if operand is register or global variable and get the variable object
+            # add the variable object if it is a variable not seen before
+            if cat1 == "var":
+                var_obj_1, new1 = get_var_obj(variables, value1)
+                if new1:
+                    variables.append(var_obj_1)
+            if cat2 == "var":
+                var_obj_2, new2 = get_var_obj(variables, value2)
+                if new2:
+                    variables.append(var_obj_2)
+            # handle lea and cmp instruction cases
+            if mnemonic == "lea" or mnemonic == "cmp":
+                constant = False
+                value = None
+                if var_obj_1:
+                    if cat2 == "num":
+                        constant = True
+                    instr_obj = Instruction_Entry(mnemonic, op_str_list, constant, False, value2)
+                    var_obj_1.instructions.append(instr_obj)
+                constant = False
+                value = None
+                if var_obj_2:
+                    if cat1 == "num":
+                        constant = True
+                    instr_obj = Instruction_Entry(mnemonic, op_str_list, constant, False, value1)
+                    var_obj_2.instructions.append(instr_obj)
+            # handle mov instructions
+            if mnemonic == "mov":
+                constant = False
+                if var_obj_1:
+                    if cat2 == "num":
+                        constant = True
+                    instr_obj = Instruction_Entry(mnemonic, op_str_list, constant, True, value2)
+                    var_obj_1.instructions.append(instr_obj)
+                constant = False
+                if var_obj_2:
+                    instr_obj = Instruction_Entry(mnemonic, op_str_list, constant, False, value1)
+                    var_obj_2.instructions.append(instr_obj)
+            # handle other instructions            
+    return variables
+'''
+# check if block reads or writes to a global variable
+# returns List of VarEntry objects
+def check_block_old(block, g_map):
     constant = False
     write = False
     value = None
@@ -253,15 +383,18 @@ def check_block(block, g_map):
                 elif addr_str in op_str_list[1]:
                     constant = False
                     value = None
-                # check if it the address is a global variable from our var-address map (g_map)
-            if add_instr and abs_addr in g_map:
-                # store the instruction and its properties to the object
-                var_obj, new = get_var_obj(variables, g_map[abs_addr])
-                instr_obj = Instruction_Entry(instr.mnemonic, op_str_list, constant, write, value)
-                var_obj.instructions.append(instr_obj)
-                if new:
-                    variables.append(var_obj)
+        else:
+            print(X86_REGISTERS)
+        # check if it the address is a global variable from our var-address map (g_map)
+        if add_instr and abs_addr in g_map:
+            # store the instruction and its properties to the object
+            var_obj, new = get_var_obj(variables, g_map[abs_addr])
+            instr_obj = Instruction_Entry(instr.mnemonic, op_str_list, constant, write, value)
+            var_obj.instructions.append(instr_obj)
+            if new:
+                variables.append(var_obj)
     return variables
+'''
 
 # creates dictionary that maps global variables to their address in the executable
 def addr_map(project, globals):

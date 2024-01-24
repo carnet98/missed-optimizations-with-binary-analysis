@@ -39,18 +39,18 @@ import argparse
 def main():
     gcc_path = "/usr/bin/gcc"
     clang_path = "/usr/bin/clang"
-    gcc_3 = CompilationSetting(
+    gcc_0 = CompilationSetting(
         compiler=CompilerExe.from_path(gcc_path),
-        opt_level=OptLevel.O3,
+        opt_level=OptLevel.O0,
         flags=("-march=native",),
     )
 
-    clang_3 = CompilationSetting(
+    clang_0 = CompilationSetting(
         compiler=CompilerExe.from_path(clang_path),
-        opt_level=OptLevel.O3,
+        opt_level=OptLevel.O0,
         flags=("-march=native",),
     )
-    settings = [gcc_3, clang_3]
+    settings = [gcc_0, clang_0]
 
     PROGRAM_PATH = "../program_examples/"
 
