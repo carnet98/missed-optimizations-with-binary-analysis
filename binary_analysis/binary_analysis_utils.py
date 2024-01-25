@@ -337,7 +337,7 @@ def check_block(block, g_map):
                 if var_obj_2:
                     instr_obj = Instruction_Entry(mnemonic, op_str_list, constant, False, value1)
                     var_obj_2.instructions.append(instr_obj)
-            # handle other instructions            
+            # TODO: handle other instructions            
     return variables
 '''
 # check if block reads or writes to a global variable

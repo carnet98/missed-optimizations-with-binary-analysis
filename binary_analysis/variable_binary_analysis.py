@@ -87,7 +87,10 @@ clang_3 = CompilationSetting(
     flags=("-march=native",),
 )
 
-clang_settings = [clang_0, clang_1, clang_2, clang_3]while
+clang_settings = [clang_0, clang_1, clang_2, clang_3]
+
+
+def setting_str_f(setting):
     setting_json = setting.to_json_dict()
     setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
     return setting_str
@@ -192,7 +195,6 @@ def interesting_filter(setting_data_dict):
     interesting = False
     # print(data)
     for row in data.to_dict(orient='records'):
-        # TODO: Optimize loop to not be twice nested
         setting1 = clang_3
         setting2 = gcc_3
         setting_str1 = setting_str_f(clang_3)
