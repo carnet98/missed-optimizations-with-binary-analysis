@@ -47,11 +47,6 @@ class WriteReadPaths(ReductionCallback):
             return False
         return filter(program, self.settings)
 
-def setting_str_f(setting):
-    setting_json = setting.to_json_dict()
-    setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
-    return setting_str
-
 def filter(program, settings):
     program = annotate_with_static(program)
     for setting in settings:

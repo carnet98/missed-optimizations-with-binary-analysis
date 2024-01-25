@@ -22,12 +22,32 @@ import subprocess
 
 import pandas as pd
 
+from enum import Enum
+
+#####################################
+### General Binary Analysis Tools ###
+#####################################
+
 # save program into file
 def save_program(program, filename):
     filename = filename + program.language.to_suffix()
     f = open(filename, "w")
     f.write(program.code)
     f.close()
+
+# get setting_str
+def setting_str_f(setting):
+    setting_json = setting.to_json_dict()
+    setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
+    return setting_str
+
+# get list of setting str
+def settings_str(settings):
+    result = []
+    for setting in settings:
+        setting_str = setting_str_f(setting)
+        result.append(setting_str)
+    return result
 
 ''' 
 rax	eax	ax	ah and al
@@ -447,7 +467,127 @@ def get_cfg(project):
         print(e)
         raise Exception("ERROR: CFG was not generated")
 
-# performs all the analysis on the binary
+#####################################
+#### Code for Varbiable Analysis ####
+#####################################
+
+# Entry Option object: Options for data table
+class EntryOption(Enum):
+    none = 0
+    zero = 1
+    constant = 2
+    variable = 3
+    mixed = 4
+    read = 5
+
+    @staticmethod
+    def from_str(s: str):
+        match s:
+            case "none":
+                return EntryOption.none
+            case "zero":
+                return EntryOption.zero
+            case "constant":
+                return EntryOption.constant
+            case "variable":
+                return EntryOption.variable
+            case "mixed":
+                return EntryOption.mixed
+            case "read":
+                return EntryOption.read
+        raise ValueError(f"{s} is not a valid table entry")
+
+# get a complete list of all relevant variables
+def get_complete_var_list(file_df_dict):
+    var_list = []
+    for setting_str, df in file_df_dict.items():
+        for name in df["var_name"]:
+            if not name in var_list:
+                var_list.append(name)
+    print(var_list)
+    return var_list
+
+# generate entry for each variable that has info for each setting
+def get_var_info(var, file_df_dict, columns):
+    entry = {}
+    for column in columns:
+        if column == "var_name":
+            entry[column] = var
+        else:
+            file_df = file_df_dict[column]
+            row = file_df.loc[file_df["var_name"] == var]
+            # print(file_df)
+            if row.empty:
+                entry[column] = "none"
+            else:
+                const_write_bool = row.iloc[0]["constant_write"] > 0
+                var_write_bool = row.iloc[0]["var_write"] > 0
+                read_bool = row.iloc[0]["read"] > 0
+                if not const_write_bool and not var_write_bool and not read_bool:
+                    entry[column] = "zero"
+                elif const_write_bool and not var_write_bool and not read_bool:
+                    entry[column] = "constant"
+                elif not const_write_bool and var_write_bool and not read_bool:
+                    entry[column] = "variable"
+                elif not const_write_bool and not var_write_bool and read_bool:
+                    entry[column] = "read"
+                else:
+                    entry[column] = "mixed"
+    return entry
+
+# check how variables are accessed for each setting
+def data_transform_variables(setting_data_dict, settings):
+    var_list = get_complete_var_list(setting_data_dict)
+    df = pd.DataFrame(columns=["var_name"] + settings_str(settings))
+    for var in var_list:
+         entry = get_var_info(var, setting_data_dict, df.columns)
+         df.loc[len(df)] = entry
+    # print(df)
+    return df
+
+# check interestingness by evaluating the data gathered from binary analysis
+def interesting_filter(setting_data_dict, settings):
+    if not len(settings) == 2:
+        print("ERROR: interesting filter only works with two settings you got " + str(len(settings)))
+        raise Exception
+    data = data_transform_variables(setting_data_dict, settings)
+    # check interestingness for now only clang O3 vs gcc O3
+    interesting = False
+    # print(data)
+    for row in data.to_dict(orient='records'):
+        setting1 = settings[0]
+        setting2 = settings[1]
+        setting_str1 = setting_str_f(setting1)
+        setting_str2 = setting_str_f(setting2)
+        entry1 = EntryOption.from_str(row[setting_str1])
+        entry2 = EntryOption.from_str(row[setting_str2])
+        # compiler1 = setting1.compiler.project
+        # compiler2 = setting2.compiler.project
+        # optimization1 = setting1.opt_level
+        # optimization2 = setting2.opt_level
+        if entry1.name == "constant" and (entry2.name == "variable" or entry2.name == "mixed"):
+            """
+            print("interesting")
+            print(row["var_name"])
+            print(setting_str1)
+            print(entry1.name)
+            print(setting_str2)
+            print(entry2.name)
+            """
+            interesting = True
+        if entry2.name == "constant" and (entry1.name == "variable" or entry1.name == "mixed"):
+            """
+            print("interesting")
+            print(row["var_name"])
+            print(setting_str1)
+            print(entry1.name)
+            print(setting_str2)
+            print(entry2.name)
+            """
+            interesting = True
+    return interesting
+
+# performs variable analysis only on global variables
 def variable_analysis(project, cfg, globals):
     # produce map of global variable names to their address in the executable file
     nodes_ext = get_cfg_info(project, cfg, globals)
@@ -465,6 +605,20 @@ def variable_analysis(project, cfg, globals):
             read_num += num
         df.loc[len(df)] = [g, constant_num, var_num, read_num]
     return df
+
+###########################################
+### Code for Extended Variable Analysis ###
+###########################################
+
+
+def extended_variable_analysis(project, cfg, globals):
+    print("extended variable analysis")
+
+
+
+#####################################
+###### Code for Path Analysis  ######
+#####################################
 
 # check if there is a path from node_1 to node_2. with BFS.
 def get_path(node_1, node_2, nodes):

@@ -33,13 +33,14 @@ import argparse
 PROGRAM_PATH = "../program_examples/"
 TOOL_BINARY_PATH = "../clang_tools/build/bin/"
 
-gcc_path = "/usr/bin/gcc"
-clang_path = "/usr/bin/clang"
 
-if __name__ == "__main__":
+
+def main():
     program_num = 1000
     program_list = []
     csmith = True
+    gcc_path = "/usr/bin/gcc"
+    clang_path = "/usr/bin/clang"
     parser = argparse.ArgumentParser(
                     prog='Constant Global Variables',
                     description='Performs binary analysis. Checks if global variables are written with a constant value, variable value (register) or read')
@@ -148,15 +149,15 @@ if __name__ == "__main__":
                 dir_name = "../data/program_" + str(counter)
         binary_analysis_utils.save_program(program, dir_name + "/program")
         for setting in settings:
-            setting_json = setting.to_json_dict()
-            setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
+            setting_str = binary_analysis_utils.setting_str_f(setting)
             print(setting_str)
             compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
             try:
                 cfg = binary_analysis_utils.get_cfg(project)
-                data = binary_analysis_utils.variable_analysis(project, globals)
+                data = binary_analysis_utils.variable_analysis(project, cfg, globals)
                 data.to_csv(dir_name + "/" + setting_str + ".csv", sep=",", index=False)
             except:
+                print("EXCEPTION")
                 continue
         counter += 1
         end_time = time.time()
@@ -164,3 +165,7 @@ if __name__ == "__main__":
         print(str(counter) + ": time: " + str(int(runtime)) + " seconds")
     
     print("SUCCESS")
+
+
+if __name__ == "__main__":
+    main()

@@ -101,8 +101,7 @@ def main():
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         cfg = binary_analysis_utils.get_cfg(project)
-        data = binary_analysis_utils.variable_analysis(project, cfg, globals)
-        print(data)
+        data = binary_analysis_utils.extended_variable_analysis(project, cfg, globals)
 
 if __name__ == "__main__":
     main()
