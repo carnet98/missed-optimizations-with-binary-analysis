@@ -7,7 +7,7 @@ int foo(){
     return g_2;
 }
 
-int main(int argc, const char **argv){
+int main(){
     int x = 2;
     int y = 3;
     g_2 = foo();
@@ -18,5 +18,5 @@ int main(int argc, const char **argv){
         g_2 = 2;
     }
     g_1 = 6;
-    return 1;
+    return 0;
 }

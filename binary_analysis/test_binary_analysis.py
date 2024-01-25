@@ -39,18 +39,18 @@ import argparse
 def main():
     gcc_path = "/usr/bin/gcc"
     clang_path = "/usr/bin/clang"
-    gcc_0 = CompilationSetting(
+    gcc = CompilationSetting(
         compiler=CompilerExe.from_path(gcc_path),
         opt_level=OptLevel.O0,
         flags=("-march=native",),
     )
 
-    clang_0 = CompilationSetting(
+    clang = CompilationSetting(
         compiler=CompilerExe.from_path(clang_path),
         opt_level=OptLevel.O0,
         flags=("-march=native",),
     )
-    settings = [gcc_0, clang_0]
+    settings = [gcc, clang]
 
     PROGRAM_PATH = "../program_examples/"
 
@@ -101,7 +101,9 @@ def main():
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         cfg = binary_analysis_utils.get_cfg(project)
-        data = binary_analysis_utils.extended_variable_analysis(project, cfg, globals)
+        nodes = binary_analysis_utils.extended_variable_analysis(project, cfg, globals)
+        # for node in nodes:
+            # print(node.to_string())
 
 if __name__ == "__main__":
     main()

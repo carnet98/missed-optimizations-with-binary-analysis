@@ -131,40 +131,46 @@ class Node_Extended():
 
     def has_constant_write(self, g):
         result = False
+        instructions = []
         num = 0
         for var in self.globals:
             if var.name == g:
                 for instr in var.instructions:
                     if instr.constant and instr.write:
                         result = True
+                        instructions.append(instr)
                         num += 1
-        return result, num
+        return result, num, instructions
     
     def has_var_write(self, g):
         result = False
+        instructions = []
         num = 0
         for var in self.globals:
             if var.name == g:
                 for instr in var.instructions:
                     if not instr.constant and instr.write:
                         result = True
+                        instructions.append(instr)
                         num += 1
-        return result, num
+        return result, num, instructions
 
     def has_read(self, g):
         result = False
+        instructions = []
         num = 0
         for var in self.globals:
             if var.name == g:
                 for instr in var.instructions:
                     if not instr.write:
                         result = True
+                        instructions.append(instr)
                         num += 1
-        return result, num
+        return result, num, instructions
 
     def has_write(self, g):
-        const_write, _ = self.has_constant_write(g)
-        var_write, _ = self.has_var_write(g)
+        const_write, _, _ = self.has_constant_write(g)
+        var_write, _, _ = self.has_var_write(g)
         return const_write or var_write
 
     def get_successor_ext(self, nodes_ext):
@@ -357,6 +363,12 @@ def check_block(block, g_map):
                 if var_obj_2:
                     instr_obj = Instruction_Entry(mnemonic, op_str_list, constant, False, value1)
                     var_obj_2.instructions.append(instr_obj)
+            if mnemonic == "xor":
+                constant = False
+                if var_obj_1 and var_obj_2 and var_obj_1 == var_obj_2:
+                    constant = True
+                    instr_obj = Instruction_Entry(mnemonic, op_str_list, constant, True, 0)
+                    var_obj_1.instructions.append(instr_obj)
             # TODO: handle other instructions            
     return variables
 '''
@@ -597,11 +609,11 @@ def variable_analysis(project, cfg, globals):
         var_num = 0
         read_num = 0
         for node_ext in nodes_ext:
-            _, num = node_ext.has_constant_write(g)
+            _, num, _ = node_ext.has_constant_write(g)
             constant_num += num
-            _, num = node_ext.has_var_write(g)
+            _, num, _ = node_ext.has_var_write(g)
             var_num += num
-            _, num = node_ext.has_read(g)
+            _, num, _ = node_ext.has_read(g)
             read_num += num
         df.loc[len(df)] = [g, constant_num, var_num, read_num]
     return df
@@ -610,12 +622,21 @@ def variable_analysis(project, cfg, globals):
 ### Code for Extended Variable Analysis ###
 ###########################################
 
+def backtrack_reg(reg):
+    print(reg)
 
+# performs variable analysis also considering registers
 def extended_variable_analysis(project, cfg, globals):
-    print("extended variable analysis")
-
-
-
+    nodes_ext = get_cfg_info(project, cfg, globals)
+    # TODO: backtrack registers that are written to global variables and check if they are constant earlier
+    for g in globals:
+        # print(reg)
+        for node_ext in nodes_ext:
+            write, _, instructions = node_ext.has_var_write(g)
+            if write:
+                for instruction in instructions:
+                    
+            
 #####################################
 ###### Code for Path Analysis  ######
 #####################################
@@ -655,10 +676,10 @@ def path_analysis(project, cfg, globals):
         write_nodes = []
         read_nodes = []
         for node_ext in nodes_ext:
-            write = node_ext.has_write(g)
+            write, _, _ = node_ext.has_write(g)
             if write:
                 write_nodes.append(node_ext)
-            read, _ = node_ext.has_read(g)
+            read, _, _ = node_ext.has_read(g)
             if read:
                 read_nodes.append(node_ext)
         '''
