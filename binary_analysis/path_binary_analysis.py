@@ -63,7 +63,7 @@ def main():
     gcc_path = "/usr/bin/gcc"
     clang_path = "/usr/bin/clang"
     PROGRAM_PATH = "../program_examples/"
-    program_num = 10
+    program_num = 30
     program_list = []
     csmith = True
 
@@ -165,7 +165,7 @@ def main():
                 f.close()
             else:
                 print(path + " does not exist.")
-        dir_name = "../data3/program_" + str(counter)
+        dir_name = "../data_path_analysis/program_" + str(counter)
         interesting = filter(program, settings)
         if interesting:
             while(True):
@@ -174,7 +174,7 @@ def main():
                     break
                 except:
                     counter += 1
-                    dir_name = "../data3/program_" + str(counter)
+                    dir_name = "../data_path_analysis/program_" + str(counter)
             # program.save_to_file(dir_name + "/program_" + str(counter))
             binary_analysis_utils.save_program(program, dir_name + "/program_" + str(counter))
             print("berfore reduce")

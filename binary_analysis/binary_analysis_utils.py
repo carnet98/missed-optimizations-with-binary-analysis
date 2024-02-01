@@ -716,10 +716,10 @@ def path_analysis(project, cfg, globals):
         write_nodes = []
         read_nodes = []
         for node_ext in nodes_ext:
-            write, _, _ = node_ext.has_write(g)
+            write = node_ext.has_write(g)
             if write:
                 write_nodes.append(node_ext)
-            read, _, _ = node_ext.has_read(g)
+            read = node_ext.has_read(g)
             if read:
                 read_nodes.append(node_ext)
         '''

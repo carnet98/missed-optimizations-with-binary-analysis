@@ -52,7 +52,7 @@ class ConstantGlobalVariables(ReductionCallback):
 # check interestingness with binary analysis
 def filter(program, settings):
     setting_data_dict = {}
-    # program = annotate_with_static(program)
+    program = annotate_with_static(program)
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         setting_str = binary_analysis_utils.setting_str_f(setting)
@@ -175,7 +175,7 @@ def main():
                 f.close()
             else:
                 print(path + " does not exist.")
-        dir_name = "../data_variable_analysis_nonstatic/program_" + str(counter)
+        dir_name = "../data_variable_analysis_static/program_" + str(counter)
         interesting = filter(program, settings)
         if interesting:
             while(True):
@@ -184,14 +184,14 @@ def main():
                     break
                 except:
                     counter += 1
-                    dir_name = "../data_variable_analysis_nonstatic/program_" + str(counter)
+                    dir_name = "../data_variable_analysis_static/program_" + str(counter)
             # program.save_to_file(dir_name + "/program_" + str(counter))
             binary_analysis_utils.save_program(program, dir_name + "/program_" + str(counter))
             # reduce
             sanitizer = Sanitizer()
             rprogram = Reducer().reduce(program, ConstantGlobalVariables(sanitizer, settings), jobs=16)
             if not rprogram == None:
-                # rprogram = annotate_with_static(rprogram)
+                rprogram = annotate_with_static(rprogram)
                 binary_analysis_utils.save_program(rprogram, dir_name + "/reduced_program_" + str(counter))
             else:
                 print("reduction failed for program_" + str(counter))  
