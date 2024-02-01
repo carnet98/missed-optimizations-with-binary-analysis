@@ -621,22 +621,62 @@ def variable_analysis(project, cfg, globals):
 ###########################################
 ### Code for Extended Variable Analysis ###
 ###########################################
+# check if instruction_obj from block is the same as instruction_entry object
+def compare_instruction_to_block(instruction_obj, instruction_block):
+    op_str_list = instruction_block.op_str.split(", ")
+    mnemonic = instruction_block.mnemonic
+    if mnemonic == instruction_obj.op and op_str_list == instruction_obj.args:
+        return True
+    return False
 
-def backtrack_reg(reg):
-    print(reg)
+# get index of instruction in block
+def get_instruction_index(instruction, block):
+    for index in range(len(block)):
+        block_instr = block[index]
+        if compare_instruction_to_block(instruction, block_instr):
+            return index
+
+# get latest instruction that writes to the register and check if it is constant
+def backtrack_reg(reg, instruction, current_node, nodes_ext, project, depth):
+    addr = current_node.node.addr
+    block = project.factory.block(addr=addr).capstone.insns
+    var_write_bool, _, var_write_instr = current_node.has_var_write(reg)
+    const_write_bool, _, const_write_instr = current_node.has_constant_write(reg)
+    write_instr = var_write_instr + const_write_instr
+    index_dict = {}
+    for instr in write_instr:
+        index_dict[instr] = get_instruction_index(instr, block)
+    latest_write_instr = max(index_dict, key=index_dict.get)
+    if latest_write_instr.constant:
+        instruction.constant = True
+    return
 
 # performs variable analysis also considering registers
 def extended_variable_analysis(project, cfg, globals):
     nodes_ext = get_cfg_info(project, cfg, globals)
+    depth = 0
     # TODO: backtrack registers that are written to global variables and check if they are constant earlier
     for g in globals:
-        # print(reg)
         for node_ext in nodes_ext:
-            write, _, instructions = node_ext.has_var_write(g)
-            if write:
+            result, _, instructions = node_ext.has_var_write(g)
+            if result:
                 for instruction in instructions:
-                    
-            
+                    backtrack_reg(instruction.value, instruction, node_ext, nodes_ext, project, depth)
+    df = pd.DataFrame(columns=["var_name", "constant_write", "var_write", "read"])
+    for g in globals:
+        constant_num = 0
+        var_num = 0
+        read_num = 0
+        for node_ext in nodes_ext:
+            _, num, _ = node_ext.has_constant_write(g)
+            constant_num += num
+            _, num, _ = node_ext.has_var_write(g)
+            var_num += num
+            _, num, _ = node_ext.has_read(g)
+            read_num += num
+        df.loc[len(df)] = [g, constant_num, var_num, read_num]
+    return df
+          
 #####################################
 ###### Code for Path Analysis  ######
 #####################################
