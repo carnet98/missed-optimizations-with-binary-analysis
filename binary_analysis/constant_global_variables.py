@@ -164,14 +164,16 @@ def main():
                 print("EXCEPTION")
                 continue
         try:
-            node_ratio = node_num[clang_3] / node_num[gcc_3]
-            edge_ratio = edge_num[clang_3] / edge_num[gcc_3]
+            clang_3_str = binary_analysis_utils.setting_str_f(clang_3)
+            gcc_3_str = binary_analysis_utils.setting_str_f(gcc_3)
+            node_ratio = node_num[clang_3_str] / node_num[gcc_3_str]
+            edge_ratio = edge_num[clang_3_str] / edge_num[gcc_3_str]
             ratio_str = "node ratio," + str(node_ratio) + "\nedge ratio," + str(edge_ratio)
             f = open(dir_name + "/cfg_data.txt", "w")
             f.write(ratio_str)
             f.close()
         except:
-            print("ERROR in ratio calculation")
+            print("ERROR: ratio not calculated")
         counter += 1
         end_time = time.time()
         runtime = end_time - start_time

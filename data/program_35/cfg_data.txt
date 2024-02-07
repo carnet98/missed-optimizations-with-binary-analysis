@@ -1,2 +1,0 @@
-node ratio,1.0
-edge ratio,1.0
