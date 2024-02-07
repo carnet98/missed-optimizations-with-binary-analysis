@@ -66,7 +66,7 @@ def main():
     gcc_path = "/usr/bin/gcc"
     clang_path = "/usr/bin/clang"
     PROGRAM_PATH = "../program_examples/"
-    program_num = 30
+    program_num = 60
     program_list = []
     csmith = True
 
