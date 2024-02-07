@@ -101,9 +101,9 @@ def main():
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         cfg = binary_analysis_utils.get_cfg(project)
-        nodes = binary_analysis_utils.extended_variable_analysis(project, cfg, globals)
-        # for node in nodes:
-            # print(node.to_string())
+        nodes = binary_analysis_utils.get_cfg_info(project, cfg, globals)
+        for node in nodes:
+            print(node.to_string())
 
 if __name__ == "__main__":
     main()

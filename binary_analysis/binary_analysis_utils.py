@@ -335,6 +335,7 @@ def check_block(block, g_map):
                 var_obj_2, new2 = get_var_obj(variables, value2)
                 if new2:
                     variables.append(var_obj_2)
+            # TODO: Do a switch for the instructions
             # handle lea and cmp instruction cases
             if mnemonic == "lea" or mnemonic == "cmp":
                 constant = False
@@ -722,14 +723,6 @@ def path_analysis(project, cfg, globals):
             read = node_ext.has_read(g)
             if read:
                 read_nodes.append(node_ext)
-        '''
-        print("write nodes:")
-        for write_node in write_nodes:
-            print(write_node.node.name)
-        print("read nodes:")
-        for read_node in read_nodes:
-            print(read_node.node.name)
-        '''
         for write_node in write_nodes:
             for read_node in read_nodes:
                 _, path_bool = get_path(write_node.node, read_node.node, cfg.nodes())

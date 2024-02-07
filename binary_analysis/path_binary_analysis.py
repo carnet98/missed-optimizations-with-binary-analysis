@@ -49,14 +49,17 @@ class WriteReadPaths(ReductionCallback):
 
 def filter(program, settings):
     program = annotate_with_static(program)
+    no_read_after_write = []
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         cfg = binary_analysis_utils.get_cfg(project)
         if binary_analysis_utils.check_loop(cfg):
                 return False
-        no_read_after_write = binary_analysis_utils.path_analysis(project, cfg, globals)
-        if no_read_after_write > 0:
-            return True
+        no_read_after_write.append(binary_analysis_utils.path_analysis(project, cfg, globals))
+    first = no_read_after_write[0]
+    not_equal = [x for x in no_read_after_write if not x == first]
+    if not not_equal == []:
+        return True
     return False
 
 def main():
