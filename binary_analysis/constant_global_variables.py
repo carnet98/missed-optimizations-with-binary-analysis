@@ -148,17 +148,27 @@ def main():
                 counter += 1
                 dir_name = "../data/program_" + str(counter)
         binary_analysis_utils.save_program(program, dir_name + "/program")
+        node_num = {}
+        edge_num = {}
         for setting in settings:
             setting_str = binary_analysis_utils.setting_str_f(setting)
             print(setting_str)
             compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
             try:
                 cfg = binary_analysis_utils.get_cfg(project)
+                node_num[setting] = len(cfg.graph.nodes)
+                edge_num[setting] = len(cfg.graph.edges)
                 data = binary_analysis_utils.variable_analysis(project, cfg, globals)
                 data.to_csv(dir_name + "/" + setting_str + ".csv", sep=",", index=False)
             except:
                 print("EXCEPTION")
                 continue
+        node_ratio = node_num[clang_3] / node_num[gcc_3]
+        edge_ratio = edge_num[clang_3] / edge_num[gcc_3]
+        ratio_str = "node ratio," + str(node_ratio) + "\nedge ratio," + str(edge_ratio)
+        f = open(dir_name + "/cfg_data.txt", "w")
+        f.write(ratio_str)
+        f.close()
         counter += 1
         end_time = time.time()
         runtime = end_time - start_time
