@@ -713,9 +713,8 @@ def backtrack_reg(reg, current_instr, current_node, nodes_ext, project):
         instruction.constant = True
     return
     '''
-
-# performs variable analysis also considering registers
-def extended_variable_analysis(project, cfg, globals):
+# get register backtrack information
+def get_backtrack_info(project, cfg, globals):
     nodes_ext = get_cfg_info(project, cfg, globals)
     for g in globals:
         for node_ext in nodes_ext:
@@ -723,6 +722,11 @@ def extended_variable_analysis(project, cfg, globals):
             if result:
                 for instruction in instructions:
                     backtrack_reg(instruction.value, instruction, node_ext, nodes_ext, project)
+    return nodes_ext
+
+# performs variable analysis also considering registers
+def extended_variable_analysis(project, cfg, globals):
+    nodes_ext = get_backtrack_info(project, cfg, globals)
     df = pd.DataFrame(columns=["var_name", "constant_write", "var_write", "read"])
     for g in globals:
         constant_num = 0
@@ -741,6 +745,10 @@ def extended_variable_analysis(project, cfg, globals):
 #####################################
 ###### Code for Path Analysis  ######
 #####################################
+# TODO: Implement exploration from a write instruction to the eventual read that comes after. Explore entire graph after the node. Every path should contain a read operation
+# TODO: Implement get_all_paths
+def get_all_paths(node_1, node_2, nodes):
+    print("get paths between " + node_1.name + " and " + node_2.name)
 
 # check if there is a path from node_1 to node_2. with BFS.
 def get_path(node_1, node_2, nodes):
