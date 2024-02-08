@@ -11,6 +11,6 @@ int main(){
     } else {
         g_2 = 2;
     }
-    g_1 = 6;
+    g_1 = x;
     return 0;
 }

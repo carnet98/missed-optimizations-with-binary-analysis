@@ -169,9 +169,9 @@ class Node_Extended():
         return result, num, instructions
 
     def has_write(self, g):
-        const_write, _, _ = self.has_constant_write(g)
-        var_write, _, _ = self.has_var_write(g)
-        return const_write or var_write
+        const_write, const_num, const_instructions = self.has_constant_write(g)
+        var_write, var_num, var_instructions = self.has_var_write(g)
+        return (const_write or var_write), (const_num + var_num), (const_instructions + var_instructions)
 
     def get_successor_ext(self, nodes_ext):
         result = []
@@ -636,9 +636,70 @@ def get_instruction_index(instruction, block):
         block_instr = block[index]
         if compare_instruction_to_block(instruction, block_instr):
             return index
+    return -1
+
+# looks for the latest instruction that writes to the register and then checks if it is constant
+def check_node(reg, node_ext, nodes_ext, project):
+    print("check_node for " + reg +  " in " + node_ext.node.name)
+    write, num, instructions = node_ext.has_write(reg)
+    index_dict = {}
+    if not write:
+        return False, False, None
+    addr = node_ext.node.addr
+    block = project.factory.block(addr=addr).capstone.insns
+    for instruction in instructions:
+        index_dict[instruction] = get_instruction_index(instruction, block)
+    latest_write_instr = max(index_dict, key=index_dict.get)
+    return write, latest_write_instr.constant, latest_write_instr.value
 
 # get latest instruction that writes to the register and check if it is constant
-def backtrack_reg(reg, instruction, current_node, nodes_ext, project, depth):
+def backtrack_reg(reg, current_instr, current_node, nodes_ext, project):
+    # check node in which the original write occurs
+    write, num, instructions = current_node.has_write(reg)
+    if write:
+        addr = current_node.node.addr
+        block = project.factory.block(addr=addr).capstone.insns
+        index_dict = {}
+        for instruction in instructions:
+            index = get_instruction_index(instruction, block)
+            if index < get_instruction_index(current_instr, block):
+                index_dict[instruction] = index
+        if len(index_dict) > 0:
+            latest_write_instr = max(index_dict, key=index_dict.get)
+            if latest_write_instr.constant:
+                current_instr.constant = True
+            print("first node")
+            return
+    # check the predecessors and go back to the block that writes the variable just before it is read
+    queue = current_node.get_predecessor_ext(nodes_ext)
+    value_list = []
+    constant_list = []
+    visited = []
+    while len(queue) > 0:
+        current = queue.pop(0)
+        visited.append(current)
+        write, constant, value = check_node(reg, current, nodes_ext, project)
+        if write:
+            value_list.append(value)
+            constant_list.append(constant)
+        else:
+            predecessors = current.get_predecessor_ext(nodes_ext)
+            for predecessor in predecessors:
+                if not predecessor in visited:
+                    queue.append(predecessor)
+    if len(constant_list) > 0:
+        all_constant = constant_list[0]
+        all_value = value_list[0]
+        constant_bool = True
+        for i in range(len(constant_list)):
+            if not all_constant == constant_list[i]:
+                constant_bool = False
+            if not all_value == value_list[i]:
+                constant_bool = False
+        if constant_bool:
+            current_instr.constant = True
+    return
+    '''
     addr = current_node.node.addr
     block = project.factory.block(addr=addr).capstone.insns
     var_write_bool, _, var_write_instr = current_node.has_var_write(reg)
@@ -651,18 +712,17 @@ def backtrack_reg(reg, instruction, current_node, nodes_ext, project, depth):
     if latest_write_instr.constant:
         instruction.constant = True
     return
+    '''
 
 # performs variable analysis also considering registers
 def extended_variable_analysis(project, cfg, globals):
     nodes_ext = get_cfg_info(project, cfg, globals)
-    depth = 0
-    # TODO: backtrack registers that are written to global variables and check if they are constant earlier
     for g in globals:
         for node_ext in nodes_ext:
             result, _, instructions = node_ext.has_var_write(g)
             if result:
                 for instruction in instructions:
-                    backtrack_reg(instruction.value, instruction, node_ext, nodes_ext, project, depth)
+                    backtrack_reg(instruction.value, instruction, node_ext, nodes_ext, project)
     df = pd.DataFrame(columns=["var_name", "constant_write", "var_write", "read"])
     for g in globals:
         constant_num = 0
@@ -717,10 +777,10 @@ def path_analysis(project, cfg, globals):
         write_nodes = []
         read_nodes = []
         for node_ext in nodes_ext:
-            write = node_ext.has_write(g)
+            write, _, _ = node_ext.has_write(g)
             if write:
                 write_nodes.append(node_ext)
-            read = node_ext.has_read(g)
+            read, _, _ = node_ext.has_read(g)
             if read:
                 read_nodes.append(node_ext)
         for write_node in write_nodes:
