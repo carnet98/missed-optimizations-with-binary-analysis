@@ -372,62 +372,6 @@ def check_block(block, g_map):
                     var_obj_1.instructions.append(instr_obj)
             # TODO: handle other instructions            
     return variables
-'''
-# check if block reads or writes to a global variable
-# returns List of VarEntry objects
-def check_block_old(block, g_map):
-    constant = False
-    write = False
-    value = None
-    variables = []
-    # iterate through every instruction
-    for index in range(len(block)):
-        add_instr = False
-        instr = block[index]
-        op_str = instr.op_str
-        # check if a instruction performs a move operation on a global variable (rip-relative address)
-        if "[rip + " in op_str and "]" in op_str and (index + 1) < len(block):
-            # compute absolute address = rip-relative addresss + address of next instruction
-            rip_rel_addr = get_between(op_str, "[rip + 0x", "]")
-            next_addr = hex(block[index + 1].address)
-            abs_addr = hex(int(rip_rel_addr, 16) + int(next_addr, 16))
-            addr_str = "[rip + 0x" + rip_rel_addr + "]"
-            op_str_list = op_str.split(",")
-            if instr.mnemonic == "lea" or instr.mnemonic == "cmp":
-                add_instr = True
-                constant = False
-                write = False
-            if instr.mnemonic == "mov":
-                add_instr = True
-                # check if it is a constant write, register write or a read
-                if addr_str in op_str_list[0]:
-                    write = True
-                    arg = op_str_list[1]
-                    if "0x" in arg:
-                        constant = True
-                        value = int(arg, base=16)
-                    else:
-                        try:
-                            value = int(arg)
-                            constant = True
-                        except:
-                            value = None
-                            constant = False
-                elif addr_str in op_str_list[1]:
-                    constant = False
-                    value = None
-        else:
-            print(X86_REGISTERS)
-        # check if it the address is a global variable from our var-address map (g_map)
-        if add_instr and abs_addr in g_map:
-            # store the instruction and its properties to the object
-            var_obj, new = get_var_obj(variables, g_map[abs_addr])
-            instr_obj = Instruction_Entry(instr.mnemonic, op_str_list, constant, write, value)
-            var_obj.instructions.append(instr_obj)
-            if new:
-                variables.append(var_obj)
-    return variables
-'''
 
 # creates dictionary that maps global variables to their address in the executable
 def addr_map(project, globals):
@@ -600,10 +544,7 @@ def interesting_filter(setting_data_dict, settings):
             interesting = True
     return interesting
 
-# performs variable analysis only on global variables
-def variable_analysis(project, cfg, globals):
-    # produce map of global variable names to their address in the executable file
-    nodes_ext = get_cfg_info(project, cfg, globals)
+def get_data_from_nodes_ext(nodes_ext, globals):
     df = pd.DataFrame(columns=["var_name", "constant_write", "var_write", "read"])
     for g in globals:
         constant_num = 0
@@ -617,6 +558,14 @@ def variable_analysis(project, cfg, globals):
             _, num, _ = node_ext.has_read(g)
             read_num += num
         df.loc[len(df)] = [g, constant_num, var_num, read_num]
+    return df
+
+
+# performs variable analysis only on global variables
+def variable_analysis(project, cfg, globals):
+    # produce map of global variable names to their address in the executable file
+    nodes_ext = get_cfg_info(project, cfg, globals)
+    df = get_data_from_nodes_ext(nodes_ext, globals)
     return df
 
 ###########################################
@@ -699,20 +648,7 @@ def backtrack_reg(reg, current_instr, current_node, nodes_ext, project):
         if constant_bool:
             current_instr.constant = True
     return
-    '''
-    addr = current_node.node.addr
-    block = project.factory.block(addr=addr).capstone.insns
-    var_write_bool, _, var_write_instr = current_node.has_var_write(reg)
-    const_write_bool, _, const_write_instr = current_node.has_constant_write(reg)
-    write_instr = var_write_instr + const_write_instr
-    index_dict = {}
-    for instr in write_instr:
-        index_dict[instr] = get_instruction_index(instr, block)
-    latest_write_instr = max(index_dict, key=index_dict.get)
-    if latest_write_instr.constant:
-        instruction.constant = True
-    return
-    '''
+
 # get register backtrack information
 def get_backtrack_info(project, cfg, globals):
     nodes_ext = get_cfg_info(project, cfg, globals)
@@ -727,19 +663,7 @@ def get_backtrack_info(project, cfg, globals):
 # performs variable analysis also considering registers
 def extended_variable_analysis(project, cfg, globals):
     nodes_ext = get_backtrack_info(project, cfg, globals)
-    df = pd.DataFrame(columns=["var_name", "constant_write", "var_write", "read"])
-    for g in globals:
-        constant_num = 0
-        var_num = 0
-        read_num = 0
-        for node_ext in nodes_ext:
-            _, num, _ = node_ext.has_constant_write(g)
-            constant_num += num
-            _, num, _ = node_ext.has_var_write(g)
-            var_num += num
-            _, num, _ = node_ext.has_read(g)
-            read_num += num
-        df.loc[len(df)] = [g, constant_num, var_num, read_num]
+    df = get_data_from_nodes_ext(nodes_ext, globals)
     return df
           
 #####################################
@@ -751,7 +675,7 @@ def get_all_paths(node_1, node_2, nodes):
     print("get paths between " + node_1.name + " and " + node_2.name)
 
 # check if there is a path from node_1 to node_2. with BFS.
-def get_path(node_1, node_2, nodes):
+def get_shortest_path(node_1, node_2, nodes):
     print("get path between " + node_1.name + " and " + node_2.name)
     visited = {}
     parents = {}
@@ -776,27 +700,74 @@ def get_path(node_1, node_2, nodes):
                 parents[successor] = current
     return None, False
 
+def explore_graph(instr, node, g, project, nodes_ext):
+    # explore own node
+    addr = node.node.addr
+    block = project.factory.block(addr=addr).capstone.insns
+    _, _, current_write_instr = node.has_write(g)
+    _, _, current_read_instr = node.has_read(g)
+    current_accesses = current_write_instr + current_read_instr
+    own_index = get_instruction_index(instr, block)
+    # iterate through access and get earliest one that is after instr
+    for current_access in current_accesses:
+        index = get_instruction_index(current_access, block)
+        if index > own_index:
+            if current_access.write:
+                # overwrite
+                return 1
+            else:
+                return 0
+    # explore successors with BFS (check all paths)
+    visited = [node]
+    queue = node.get_successor_ext(nodes_ext)
+    value = 0
+    while len(queue) > 0:
+        current = queue.pop(0)
+        # check if it's already visited
+        if current in visited:
+            continue
+        else:
+            visited.append(current)
+        # get accesses to g in block
+        addr = current.node.addr
+        block = project.factory.block(addr=addr).capstone.insns
+        _, _, current_write_instr = current.has_write(g)
+        _, _, current_read_instr = current.has_read(g)
+        current_accesses = current_write_instr + current_read_instr
+        # get earliest access to g
+        if len(current_accesses) > 0:
+            min_instr = current_accesses[0]
+            for current_access in current_accesses:
+                if get_instruction_index(min_instr, block) > get_instruction_index(current_access, block):
+                    min_instr = current_access
+            # check if earliest instruction is a write or read (write is a overwrite, read is ok)
+            # don't add successors because they are not relevant
+            if min_instr.write:
+                # overwrite
+                value += 1
+        # if no accesses in block add the successors if no successors are there then the end of the program is reached which means there is a unnecessary write
+        elif len(current.get_successor_ext(nodes_ext)) > 0:
+            queue = queue + current.get_successor_ext(nodes_ext)
+        else:
+            value += 1
+    return value
+
 # check for every write operation if there is a read operation after it.
-def path_analysis(project, cfg, globals):
-    nodes_ext = get_cfg_info(project, cfg, globals)
+def path_analysis(nodes_ext, globals, project):
     interesting_globals = []
-    no_read_after_write = 0
+    unnecessary_writes = {}
     for g in globals:
-        write_nodes = []
-        read_nodes = []
+        print(g)
+        writes = {}
+        value = 0
         for node_ext in nodes_ext:
-            write, _, _ = node_ext.has_write(g)
-            if write:
-                write_nodes.append(node_ext)
-            read, _, _ = node_ext.has_read(g)
-            if read:
-                read_nodes.append(node_ext)
-        for write_node in write_nodes:
-            for read_node in read_nodes:
-                _, path_bool = get_path(write_node.node, read_node.node, cfg.nodes())
-                if not path_bool:
-                    no_read_after_write += 1
-    return no_read_after_write
+            _, _, instructions = node_ext.has_write(g)
+            for instr in instructions:
+                writes[instr] = node_ext
+        for instr, node in writes.items():
+            value += explore_graph(instr, node, g, project, nodes_ext)
+        unnecessary_writes[g] = value
+    print(unnecessary_writes)
 
 # compiles program and creates a angr-project
 def compile_globals_project(program, setting):

@@ -55,7 +55,8 @@ def filter(program, settings):
         cfg = binary_analysis_utils.get_cfg(project)
         if binary_analysis_utils.check_loop(cfg):
                 return False
-        no_read_after_write.append(binary_analysis_utils.path_analysis(project, cfg, globals))
+        nodes_ext = binary_analysis_utils.get_cfg_info(project, cfg, globals)
+        no_read_after_write.append(binary_analysis_utils.path_analysis(nodes_ext, globals, project))
     first = no_read_after_write[0]
     not_equal = [x for x in no_read_after_write if not x == first]
     if not not_equal == []:
