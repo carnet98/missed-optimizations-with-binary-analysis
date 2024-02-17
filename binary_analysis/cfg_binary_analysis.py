@@ -159,7 +159,7 @@ def main():
     )
 
     clang_settings = [clang_0, clang_1, clang_2, clang_3]
-    settings = [clang_0, gcc_0]
+    settings = [clang_1, gcc_1]
     
     if not len(settings) == 2:
         print("ERROR: does not have two settings")
