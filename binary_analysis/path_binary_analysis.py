@@ -52,22 +52,14 @@ def filter(program, settings):
     unnecessary_writes = []
     globals_list = []
     for setting in settings:
-        print("TEST 1")
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
-        print("TEST 2")
         globals_list.append(globals)
-        print("TEST 3")
         cfg = binary_analysis_utils.get_cfg(project)
-        print("TEST 4")
         if binary_analysis_utils.check_loop(cfg):
                 return False
-        print("TEST 5")
         nodes_ext = binary_analysis_utils.get_cfg_info(project, cfg, globals)
-        print("TEST 6")
         unnecessary_writes.append(binary_analysis_utils.path_analysis(nodes_ext, globals, project))
-        print("TEST 7")
     globals = binary_analysis_utils.global_intersection(globals_list)
-    print("TEST 8")
     return binary_analysis_utils.path_analysis_filter(globals, unnecessary_writes)
 
 def main():
