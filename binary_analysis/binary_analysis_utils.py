@@ -299,6 +299,7 @@ def check_global(op, block, g_map, index):
 # handle operand give out variable name, register name or constant value or None
 def handle_op(op, block, g_map, index):
     output = check_global(op, block, g_map, index)
+    print(op)
     if output:
         return "var", output
     output = check_register(op)
