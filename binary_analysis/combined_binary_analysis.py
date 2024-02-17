@@ -32,11 +32,13 @@ import time
 
 import pandas as pd
 
-from enum import Enum
-
 import argparse
 
-class WriteReadPaths(ReductionCallback):
+# global variables
+PROGRAM_PATH = "../program_examples/"
+TOOL_BINARY_PATH = "../clang_tools/build/bin/"
+
+class CombindedReducer(ReductionCallback):
     def __init__(self, sanitizer, settings):
         self.sanitizer = sanitizer
         self.settings = settings
@@ -47,29 +49,30 @@ class WriteReadPaths(ReductionCallback):
             return False
         return filter(program, self.settings)
 
+# check interestingness with binary analysis
 def filter(program, settings):
+    setting_data_dict = {}
     program = annotate_with_static(program)
-    unnecessary_writes = []
-    globals_list = []
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
-        globals_list.append(globals)
-        cfg = binary_analysis_utils.get_cfg(project)
+        setting_str = binary_analysis_utils.setting_str_f(setting)
+        try:
+            cfg = binary_analysis_utils.get_cfg(project)
+        except:
+            print("EXCEPTION: CFG not created")
+            return False
         if binary_analysis_utils.check_loop(cfg):
-                return False
-        nodes_ext = binary_analysis_utils.get_cfg_info(project, cfg, globals)
-        unnecessary_writes.append(binary_analysis_utils.path_analysis(nodes_ext, globals, project))
-    globals = binary_analysis_utils.global_intersection(globals_list)
-    return binary_analysis_utils.path_analysis_filter(globals, unnecessary_writes)
+            return False
+        data = binary_analysis_utils.extended_variable_analysis(project, cfg, globals)
+        setting_data_dict[setting_str] = data
+    return(binary_analysis_utils.interesting_filter(setting_data_dict, settings))
 
 def main():
-    gcc_path = "/usr/bin/gcc"
-    clang_path = "/usr/bin/clang"
-    PROGRAM_PATH = "../program_examples/"
-    program_num = 60
+    program_num = 30
     program_list = []
     csmith = True
-
+    gcc_path = "/usr/bin/gcc"
+    clang_path = "/usr/bin/clang"
     parser = argparse.ArgumentParser(
                     prog='Reduced Program Binary Analysis',
                     description='Performs binary analysis. Checks if global variables are written with a constant value, variable value (register) or read. Compares the binaries and reduces the programs to a smaller size')
@@ -145,6 +148,11 @@ def main():
 
     clang_settings = [clang_0, clang_1, clang_2, clang_3]
     settings = [clang_3, gcc_3]
+    
+    if not len(settings) == 2:
+        print("ERROR: does not have two settings")
+        return
+    
 
     counter = 0
     while(counter < program_num or program_num == -1):
@@ -168,7 +176,7 @@ def main():
                 f.close()
             else:
                 print(path + " does not exist.")
-        dir_name = "../data_path_analysis/program_" + str(counter)
+        dir_name = "../data_combined_analyis/program_" + str(counter)
         interesting = filter(program, settings)
         if interesting:
             while(True):
@@ -176,25 +184,24 @@ def main():
                     os.mkdir(dir_name)
                     break
                 except:
-                    print("exception")
                     counter += 1
-                    dir_name = "../data_path_analysis/program_" + str(counter)
+                    dir_name = "../data_combined_analyis/program_" + str(counter)
             # program.save_to_file(dir_name + "/program_" + str(counter))
             binary_analysis_utils.save_program(program, dir_name + "/program_" + str(counter))
+            '''
             # reduce
             sanitizer = Sanitizer()
-            rprogram = Reducer().reduce(program, WriteReadPaths(sanitizer, settings), jobs=16)
-            # rprogram = annotate_with_static(rprogram)
+            rprogram = Reducer().reduce(program, CombindedReducer(sanitizer, settings), jobs=16)
             if not rprogram == None:
                 rprogram = annotate_with_static(rprogram)
                 binary_analysis_utils.save_program(rprogram, dir_name + "/reduced_program_" + str(counter))
             else:
                 print("reduction failed for program_" + str(counter))
+            '''
         end_time = time.time()
         runtime = end_time - start_time
         print(str(counter) + ": time: " + str(int(runtime)) + " seconds")
     print("SUCCESS")
-
 
 if __name__ == "__main__":
     main()

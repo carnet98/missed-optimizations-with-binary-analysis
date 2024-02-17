@@ -311,6 +311,7 @@ def handle_op(op, block, g_map, index):
         output = int(op)
         return "num", output
     except:
+        print("exception none")
         return "none", None 
     
 # check if block read or writes (constantly) to/from register or global variable
