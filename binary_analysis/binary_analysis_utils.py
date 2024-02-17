@@ -129,6 +129,11 @@ class Node_Extended():
             globals_str = globals_str + glb.to_string() + "\n"
         return "Node: " + self.node.name + ": \n" + globals_str
 
+    def get_variable(self, g):
+        for var in self.globals:
+            if var.name == g:
+                return var
+
     def has_constant_write(self, g):
         result = False
         instructions = []
@@ -487,9 +492,9 @@ def get_var_info(var, file_df_dict, columns):
                 read_bool = row.iloc[0]["read"] > 0
                 if not const_write_bool and not var_write_bool and not read_bool:
                     entry[column] = "zero"
-                elif const_write_bool and not var_write_bool and not read_bool:
+                elif const_write_bool and not var_write_bool:
                     entry[column] = "constant"
-                elif not const_write_bool and var_write_bool and not read_bool:
+                elif not const_write_bool and var_write_bool:
                     entry[column] = "variable"
                 elif not const_write_bool and not var_write_bool and read_bool:
                     entry[column] = "read"
@@ -505,6 +510,30 @@ def data_transform_variables(setting_data_dict, settings):
          entry = get_var_info(var, setting_data_dict, df.columns)
          df.loc[len(df)] = entry
     # print(df)
+    return df
+
+def get_data_from_nodes_ext(nodes_ext, globals):
+    df = pd.DataFrame(columns=["var_name", "constant_write", "var_write", "read"])
+    for g in globals:
+        constant_num = 0
+        var_num = 0
+        read_num = 0
+        for node_ext in nodes_ext:
+            _, num, _ = node_ext.has_constant_write(g)
+            constant_num += num
+            _, num, _ = node_ext.has_var_write(g)
+            var_num += num
+            _, num, _ = node_ext.has_read(g)
+            read_num += num
+        df.loc[len(df)] = [g, constant_num, var_num, read_num]
+    return df
+
+
+# performs variable analysis only on global variables
+def variable_analysis(project, cfg, globals):
+    # produce map of global variable names to their address in the executable file
+    nodes_ext = get_cfg_info(project, cfg, globals)
+    df = get_data_from_nodes_ext(nodes_ext, globals)
     return df
 
 # check interestingness by evaluating the data gathered from binary analysis
@@ -548,30 +577,6 @@ def interesting_filter(setting_data_dict, settings):
             """
             interesting = True
     return interesting
-
-def get_data_from_nodes_ext(nodes_ext, globals):
-    df = pd.DataFrame(columns=["var_name", "constant_write", "var_write", "read"])
-    for g in globals:
-        constant_num = 0
-        var_num = 0
-        read_num = 0
-        for node_ext in nodes_ext:
-            _, num, _ = node_ext.has_constant_write(g)
-            constant_num += num
-            _, num, _ = node_ext.has_var_write(g)
-            var_num += num
-            _, num, _ = node_ext.has_read(g)
-            read_num += num
-        df.loc[len(df)] = [g, constant_num, var_num, read_num]
-    return df
-
-
-# performs variable analysis only on global variables
-def variable_analysis(project, cfg, globals):
-    # produce map of global variable names to their address in the executable file
-    nodes_ext = get_cfg_info(project, cfg, globals)
-    df = get_data_from_nodes_ext(nodes_ext, globals)
-    return df
 
 ###########################################
 ### Code for Extended Variable Analysis ###
@@ -631,6 +636,8 @@ def backtrack_reg(reg, current_instr, current_node, nodes_ext, project):
     visited = []
     while len(queue) > 0:
         current = queue.pop(0)
+        if current in visited:
+            continue
         visited.append(current)
         write, constant, value = check_node(reg, current, nodes_ext, project)
         if write:
@@ -665,46 +672,28 @@ def get_backtrack_info(project, cfg, globals):
                     backtrack_reg(instruction.value, instruction, node_ext, nodes_ext, project)
     return nodes_ext
 
+def remove_unnecessary(nodes_ext, project, globals):
+    for g in globals:
+        print(g)
+        for node_ext in nodes_ext:
+            _, _, instructions = node_ext.has_write(g)
+            for instr in instructions:
+                var_obj = node_ext.get_variable(g)
+                num_unnecessary = explore_graph(instr, node_ext, g, project, nodes_ext)
+                if num_unnecessary > 0:
+                    var_obj.instructions.remove(instr)
+    return nodes_ext
+
 # performs variable analysis also considering registers
 def extended_variable_analysis(project, cfg, globals):
     nodes_ext = get_backtrack_info(project, cfg, globals)
+    nodes_ext = remove_unnecessary(nodes_ext, project, globals)
     df = get_data_from_nodes_ext(nodes_ext, globals)
     return df
           
 #####################################
 ###### Code for Path Analysis  ######
 #####################################
-# TODO: Implement exploration from a write instruction to the eventual read that comes after. Explore entire graph after the node. Every path should contain a read operation
-# TODO: Implement get_all_paths
-def get_all_paths(node_1, node_2, nodes):
-    print("get paths between " + node_1.name + " and " + node_2.name)
-
-# check if there is a path from node_1 to node_2. with BFS.
-def get_shortest_path(node_1, node_2, nodes):
-    print("get path between " + node_1.name + " and " + node_2.name)
-    visited = {}
-    parents = {}
-    for node in nodes:
-        visited[node] = False
-        parents[node] = None
-    visited[node_1] = True
-    queue = [node_1]
-    while queue:
-        current = queue.pop()
-        if current == node_2:
-            # reconstruct path
-            path = [current]
-            while parents[current]:
-                current = parents[current]
-                path.insert(0, current)
-            return path, True
-        for successor in current.successors:
-            if visited[successor] == False:
-                queue.append(successor)
-                visited[successor] = True
-                parents[successor] = current
-    return None, False
-
 def explore_graph(instr, node, g, project, nodes_ext):
     # explore own node
     addr = node.node.addr
@@ -759,7 +748,6 @@ def explore_graph(instr, node, g, project, nodes_ext):
 
 # check for every write operation if there is a read operation after it.
 def path_analysis(nodes_ext, globals, project):
-    interesting_globals = []
     unnecessary_writes = {}
     for g in globals:
         writes = {}
@@ -773,6 +761,7 @@ def path_analysis(nodes_ext, globals, project):
         unnecessary_writes[g] = value
     return unnecessary_writes
 
+# check if the unnecessary write data is interesting
 def path_analysis_filter(globals, unnecessary_writes):
     result = False
     for g in globals:

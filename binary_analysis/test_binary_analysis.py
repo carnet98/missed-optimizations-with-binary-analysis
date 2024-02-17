@@ -99,15 +99,15 @@ def main():
         print(path + " does not exist.")
     print(program.code)
     globals_list = []
+    setting_data_dict = {}
     for setting in settings:
+        setting_str = binary_analysis_utils.setting_str_f(setting)
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         globals_list.append(globals)
         cfg = binary_analysis_utils.get_cfg(project)
-        nodes = binary_analysis_utils.get_backtrack_info(project, cfg, globals)
-        for node in nodes:
-            print(node.to_string())
-        binary_analysis_utils.path_analysis(nodes, globals, project)
-    binary_analysis_utils.global_intersection(globals_list)
+        data = binary_analysis_utils.extended_variable_analysis(project, cfg, globals)
+        setting_data_dict[setting_str] = data
+    binary_analysis_utils.interesting_filter(setting_data_dict, settings)
 
 if __name__ == "__main__":
     main()
