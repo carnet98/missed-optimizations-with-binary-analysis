@@ -426,12 +426,12 @@ def get_cfg(project):
     print("GET CFG")
     try: 
         cfg = project.analyses.CFGEmulated()
+        print("CORRECT CFG")
         return cfg
     except StopIteration as e:
         print("ERROR: CFG was not generated")
         print(e)
         raise Exception("ERROR: CFG was not generated")
-    print("GOT CFG")
 
 #####################################
 #### Code for Varbiable Analysis ####
