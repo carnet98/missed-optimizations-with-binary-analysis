@@ -98,13 +98,16 @@ def main():
     else:
         print(path + " does not exist.")
     print(program.code)
+    globals_list = []
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
+        globals_list.append(globals)
         cfg = binary_analysis_utils.get_cfg(project)
         nodes = binary_analysis_utils.get_backtrack_info(project, cfg, globals)
         for node in nodes:
             print(node.to_string())
         binary_analysis_utils.path_analysis(nodes, globals, project)
+    binary_analysis_utils.global_intersection(globals_list)
 
 if __name__ == "__main__":
     main()

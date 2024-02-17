@@ -454,6 +454,11 @@ class EntryOption(Enum):
                 return EntryOption.read
         raise ValueError(f"{s} is not a valid table entry")
 
+# get intersection from multiple lists of globals
+def global_intersection(globals_list):
+    result = list(set.intersection(*map(set, globals_list)))
+    return result
+
 # get a complete list of all relevant variables
 def get_complete_var_list(file_df_dict):
     var_list = []
@@ -757,7 +762,6 @@ def path_analysis(nodes_ext, globals, project):
     interesting_globals = []
     unnecessary_writes = {}
     for g in globals:
-        print(g)
         writes = {}
         value = 0
         for node_ext in nodes_ext:
@@ -767,7 +771,16 @@ def path_analysis(nodes_ext, globals, project):
         for instr, node in writes.items():
             value += explore_graph(instr, node, g, project, nodes_ext)
         unnecessary_writes[g] = value
-    print(unnecessary_writes)
+    return unnecessary_writes
+
+def path_analysis_filter(globals, unnecessary_writes):
+    result = False
+    for g in globals:
+        val = unnecessary_writes[0][g]
+        for unnecessary_dict in unnecessary_writes:
+            if not unnecessary_dict[g] == val:
+                result = True
+    return result
 
 # compiles program and creates a angr-project
 def compile_globals_project(program, setting):

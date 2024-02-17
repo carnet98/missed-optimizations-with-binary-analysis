@@ -49,19 +49,18 @@ class WriteReadPaths(ReductionCallback):
 
 def filter(program, settings):
     program = annotate_with_static(program)
-    no_read_after_write = []
+    unnecessary_writes = []
+    globals_list = []
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
+        globals_list.append(globals)
         cfg = binary_analysis_utils.get_cfg(project)
         if binary_analysis_utils.check_loop(cfg):
                 return False
         nodes_ext = binary_analysis_utils.get_cfg_info(project, cfg, globals)
-        no_read_after_write.append(binary_analysis_utils.path_analysis(nodes_ext, globals, project))
-    first = no_read_after_write[0]
-    not_equal = [x for x in no_read_after_write if not x == first]
-    if not not_equal == []:
-        return True
-    return False
+        unnecessary_writes.append(binary_analysis_utils.path_analysis(nodes_ext, globals, project))
+    globals = binary_analysis_utils.global_intersection(globals_list)
+    return binary_analysis_utils.path_analysis_filter(globals, unnecessary_writes)
 
 def main():
     gcc_path = "/usr/bin/gcc"
@@ -181,7 +180,6 @@ def main():
                     dir_name = "../data_path_analysis/program_" + str(counter)
             # program.save_to_file(dir_name + "/program_" + str(counter))
             binary_analysis_utils.save_program(program, dir_name + "/program_" + str(counter))
-            print("berfore reduce")
             # reduce
             sanitizer = Sanitizer()
             rprogram = Reducer().reduce(program, WriteReadPaths(sanitizer, settings), jobs=16)
