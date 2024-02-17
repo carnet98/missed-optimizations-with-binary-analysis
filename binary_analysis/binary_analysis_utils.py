@@ -299,7 +299,6 @@ def check_global(op, block, g_map, index):
 # handle operand give out variable name, register name or constant value or None
 def handle_op(op, block, g_map, index):
     output = check_global(op, block, g_map, index)
-    print(op)
     if output:
         return "var", output
     output = check_register(op)
@@ -312,7 +311,6 @@ def handle_op(op, block, g_map, index):
         output = int(op)
         return "num", output
     except:
-        print("exception none")
         return "none", None 
     
 # check if block read or writes (constantly) to/from register or global variable
