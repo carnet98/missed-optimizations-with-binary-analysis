@@ -51,6 +51,7 @@ class CFGAnalysis(ReductionCallback):
 
 # check interestingness with binary analysis
 def filter(program, settings):
+    print(program.code)
     threshold = 0.4
     setting_data_dict = {}
     # program = annotate_with_static(program)
