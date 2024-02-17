@@ -423,6 +423,7 @@ def check_loop(cfg):
 
 # get cfg of program
 def get_cfg(project):
+    print("GET CFG")
     try: 
         cfg = project.analyses.CFGEmulated()
         return cfg
@@ -430,6 +431,7 @@ def get_cfg(project):
         print("ERROR: CFG was not generated")
         print(e)
         raise Exception("ERROR: CFG was not generated")
+    print("GOT CFG")
 
 #####################################
 #### Code for Varbiable Analysis ####
