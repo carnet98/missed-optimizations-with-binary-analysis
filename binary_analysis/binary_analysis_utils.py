@@ -423,10 +423,8 @@ def check_loop(cfg):
 
 # get cfg of program
 def get_cfg(project):
-    print("GET CFG")
     try: 
         cfg = project.analyses.CFGEmulated()
-        print("CORRECT CFG")
         return cfg
     except StopIteration as e:
         print("ERROR: CFG was not generated")
