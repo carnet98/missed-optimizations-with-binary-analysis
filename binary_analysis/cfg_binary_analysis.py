@@ -70,7 +70,6 @@ def filter(program, settings):
     node_min = min(node_num)
     edge_max = max(edge_num)
     edge_min = min(edge_num)
-    print(n)
     node_ratio = node_min / node_max
     edge_ratio = edge_min / edge_max
     print("node max: " + str(node_max) + "; edge max: " + str(edge_max))
