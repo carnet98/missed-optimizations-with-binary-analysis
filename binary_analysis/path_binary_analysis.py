@@ -66,7 +66,7 @@ def main():
     gcc_path = "/usr/bin/gcc"
     clang_path = "/usr/bin/clang"
     PROGRAM_PATH = "../program_examples/"
-    program_num = 60
+    program_num = 30
     program_list = []
     csmith = True
 
@@ -176,7 +176,6 @@ def main():
                     os.mkdir(dir_name)
                     break
                 except:
-                    print("exception")
                     counter += 1
                     dir_name = "../data_path_analysis/program_" + str(counter)
             # program.save_to_file(dir_name + "/program_" + str(counter))
