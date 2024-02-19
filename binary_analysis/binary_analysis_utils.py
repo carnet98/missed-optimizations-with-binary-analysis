@@ -427,7 +427,6 @@ def get_cfg(project):
     except StopIteration as e:
         print("ERROR: CFG was not generated")
         print(e)
-        raise Exception("ERROR: CFG was not generated")
 
 #####################################
 #### Code for Varbiable Analysis ####
