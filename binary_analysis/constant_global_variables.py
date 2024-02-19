@@ -154,15 +154,15 @@ def main():
             setting_str = binary_analysis_utils.setting_str_f(setting)
             print(setting_str)
             compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
-            # try:
-            cfg = binary_analysis_utils.get_cfg(project)
-            node_num[setting_str] = len(cfg.graph.nodes)
-            edge_num[setting_str] = len(cfg.graph.edges)
-            data = binary_analysis_utils.variable_analysis(project, cfg, globals)
-            data.to_csv(dir_name + "/" + setting_str + ".csv", sep=",", index=False)
-            # except:
-                # print("EXCEPTION")
-                # continue
+            try:
+                cfg = binary_analysis_utils.get_cfg(project)
+                node_num[setting_str] = len(cfg.graph.nodes)
+                edge_num[setting_str] = len(cfg.graph.edges)
+                data = binary_analysis_utils.variable_analysis(project, cfg, globals)
+                data.to_csv(dir_name + "/" + setting_str + ".csv", sep=",", index=False)
+            except:
+                print("EXCEPTION")
+                continue
         try:
             clang_3_str = binary_analysis_utils.setting_str_f(clang_3)
             gcc_3_str = binary_analysis_utils.setting_str_f(gcc_3)
