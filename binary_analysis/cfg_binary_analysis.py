@@ -58,7 +58,8 @@ def filter(program, settings):
     node_num = []
     edge_num = []
     for setting in settings:
-        compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
+        preprocessed_program = setting.preprocess_program(program)
+        compiled, project, globals = binary_analysis_utils.compile_globals_project(preprocessed_program, setting)
         setting_str = binary_analysis_utils.setting_str_f(setting)
         try:
             cfg = binary_analysis_utils.get_cfg(project)

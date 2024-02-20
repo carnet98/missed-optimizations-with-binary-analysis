@@ -52,7 +52,8 @@ def filter(program, settings):
     unnecessary_writes = []
     globals_list = []
     for setting in settings:
-        compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
+        preprocessed_program = setting.preprocess_program(program)
+        compiled, project, globals = binary_analysis_utils.compile_globals_project(preprocessed_program, setting)
         globals_list.append(globals)
         cfg = binary_analysis_utils.get_cfg(project)
         if binary_analysis_utils.check_loop(cfg):

@@ -97,10 +97,13 @@ def main():
         f.close()
     else:
         print(path + " does not exist.")
+    
     print(program.code)
     globals_list = []
     setting_data_dict = {}
     for setting in settings:
+        temp_program = setting.preprocess_program(program)
+        print(temp_program.code)
         setting_str = binary_analysis_utils.setting_str_f(setting)
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         globals_list.append(globals)
