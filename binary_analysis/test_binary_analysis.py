@@ -102,10 +102,10 @@ def main():
     globals_list = []
     setting_data_dict = {}
     for setting in settings:
-        temp_program = setting.preprocess_program(program)
-        print(temp_program.code)
+        temp_program = setting.preprocess_program(program, make_compiler_agnostic=True)
         setting_str = binary_analysis_utils.setting_str_f(setting)
-        compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
+        binary_analysis_utils.save_program(temp_program, "../program_examples/preprocessed_" + setting_str)
+        compiled, project, globals = binary_analysis_utils.compile_globals_project(temp_program, setting)
         globals_list.append(globals)
         cfg = binary_analysis_utils.get_cfg(project)
         data = binary_analysis_utils.extended_variable_analysis(project, cfg, globals)

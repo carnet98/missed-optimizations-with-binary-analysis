@@ -1,587 +1,2012 @@
-/*
- * This is a RANDOMLY GENERATED PROGRAM.
- *
- * Generator: csmith 2.4.0
- * Git version: 0ec6f1b
- * Options:   --no-unions --safe-math --no-argc --no-volatiles --no-volatile-pointers --no-arrays --no-bitfields --no-checksum --no-comma-operators --compound-assignment --consts --divs --embedded-assigns --no-jumps --longlong --no-force-non-uniform-arrays --no-math64 --no-muls --packed-struct --no-paranoid --no-pointers --no-structs --no-inline-function --return-structs --no-arg-structs --dangling-global-pointers
- * Seed:      13638433936318725204
- */
+typedef long unsigned int size_t;
+extern void *memcpy (void *__restrict __dest, const void *__restrict __src,
+       size_t __n) __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern void *memmove (void *__dest, const void *__src, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern void *memccpy (void *__restrict __dest, const void *__restrict __src,
+        int __c, size_t __n)
+    __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2))) ;
+extern void *memset (void *__s, int __c, size_t __n) __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1)));
+extern int memcmp (const void *__s1, const void *__s2, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int __memcmpeq (const void *__s1, const void *__s2, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern void *memchr (const void *__s, int __c, size_t __n)
+      __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern char *strcpy (char *__restrict __dest, const char *__restrict __src)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strncpy (char *__restrict __dest,
+        const char *__restrict __src, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strcat (char *__restrict __dest, const char *__restrict __src)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strncat (char *__restrict __dest, const char *__restrict __src,
+        size_t __n) __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern int strcmp (const char *__s1, const char *__s2)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int strncmp (const char *__s1, const char *__s2, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int strcoll (const char *__s1, const char *__s2)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern size_t strxfrm (char *__restrict __dest,
+         const char *__restrict __src, size_t __n)
+    __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (2))) ;
+struct __locale_struct
+{
+  struct __locale_data *__locales[13];
+  const unsigned short int *__ctype_b;
+  const int *__ctype_tolower;
+  const int *__ctype_toupper;
+  const char *__names[13];
+};
+typedef struct __locale_struct *__locale_t;
 
-#include "csmith.h"
+typedef __locale_t locale_t;
+extern int strcoll_l (const char *__s1, const char *__s2, locale_t __l)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2, 3)));
+extern size_t strxfrm_l (char *__dest, const char *__src, size_t __n,
+    locale_t __l) __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (2, 4)))
+                                           ;
+extern char *strdup (const char *__s)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__malloc__)) __attribute__ ((__nonnull__ (1)));
+extern char *strndup (const char *__string, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__malloc__)) __attribute__ ((__nonnull__ (1)));
+extern char *strchr (const char *__s, int __c)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern char *strrchr (const char *__s, int __c)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern char *strchrnul (const char *__s, int __c)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern size_t strcspn (const char *__s, const char *__reject)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern size_t strspn (const char *__s, const char *__accept)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strpbrk (const char *__s, const char *__accept)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strstr (const char *__haystack, const char *__needle)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strtok (char *__restrict __s, const char *__restrict __delim)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (2)));
+extern char *__strtok_r (char *__restrict __s,
+    const char *__restrict __delim,
+    char **__restrict __save_ptr)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (2, 3)));
+extern char *strtok_r (char *__restrict __s, const char *__restrict __delim,
+         char **__restrict __save_ptr)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (2, 3)));
+extern char *strcasestr (const char *__haystack, const char *__needle)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern void *memmem (const void *__haystack, size_t __haystacklen,
+       const void *__needle, size_t __needlelen)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 3)))
+                                         ;
+extern void *__mempcpy (void *__restrict __dest,
+   const void *__restrict __src, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern void *mempcpy (void *__restrict __dest,
+        const void *__restrict __src, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern size_t strlen (const char *__s)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern size_t strnlen (const char *__string, size_t __maxlen)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern char *strerror (int __errnum) __attribute__ ((__nothrow__ ));
+extern int strerror_r (int __errnum, char *__buf, size_t __buflen) __asm__ ("" "__xpg_strerror_r") __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (2)))
+                                          ;
+extern char *strerror_l (int __errnum, locale_t __l) __attribute__ ((__nothrow__ ));
+extern int bcmp (const void *__s1, const void *__s2, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern void bcopy (const void *__src, void *__dest, size_t __n)
+  __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern void bzero (void *__s, size_t __n) __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1)));
+extern char *index (const char *__s, int __c)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern char *rindex (const char *__s, int __c)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern int ffs (int __i) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern int ffsl (long int __l) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+__extension__ extern int ffsll (long long int __ll)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern int strcasecmp (const char *__s1, const char *__s2)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int strncasecmp (const char *__s1, const char *__s2, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int strcasecmp_l (const char *__s1, const char *__s2, locale_t __loc)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2, 3)));
+extern int strncasecmp_l (const char *__s1, const char *__s2,
+     size_t __n, locale_t __loc)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2, 4)));
+extern void explicit_bzero (void *__s, size_t __n) __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1)))
+                                                  ;
+extern char *strsep (char **__restrict __stringp,
+       const char *__restrict __delim)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strsignal (int __sig) __attribute__ ((__nothrow__ ));
+extern char *__stpcpy (char *__restrict __dest, const char *__restrict __src)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern char *stpcpy (char *__restrict __dest, const char *__restrict __src)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern char *__stpncpy (char *__restrict __dest,
+   const char *__restrict __src, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern char *stpncpy (char *__restrict __dest,
+        const char *__restrict __src, size_t __n)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2)));
+extern size_t strlcpy (char *__restrict __dest,
+         const char *__restrict __src, size_t __n)
+  __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2))) ;
+extern size_t strlcat (char *__restrict __dest,
+         const char *__restrict __src, size_t __n)
+  __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (1, 2))) ;
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+typedef signed long int __int64_t;
+typedef unsigned long int __uint64_t;
+typedef __int8_t __int_least8_t;
+typedef __uint8_t __uint_least8_t;
+typedef __int16_t __int_least16_t;
+typedef __uint16_t __uint_least16_t;
+typedef __int32_t __int_least32_t;
+typedef __uint32_t __uint_least32_t;
+typedef __int64_t __int_least64_t;
+typedef __uint64_t __uint_least64_t;
+typedef long int __quad_t;
+typedef unsigned long int __u_quad_t;
+typedef long int __intmax_t;
+typedef unsigned long int __uintmax_t;
+typedef unsigned long int __dev_t;
+typedef unsigned int __uid_t;
+typedef unsigned int __gid_t;
+typedef unsigned long int __ino_t;
+typedef unsigned long int __ino64_t;
+typedef unsigned int __mode_t;
+typedef unsigned long int __nlink_t;
+typedef long int __off_t;
+typedef long int __off64_t;
+typedef int __pid_t;
+typedef struct { int __val[2]; } __fsid_t;
+typedef long int __clock_t;
+typedef unsigned long int __rlim_t;
+typedef unsigned long int __rlim64_t;
+typedef unsigned int __id_t;
+typedef long int __time_t;
+typedef unsigned int __useconds_t;
+typedef long int __suseconds_t;
+typedef long int __suseconds64_t;
+typedef int __daddr_t;
+typedef int __key_t;
+typedef int __clockid_t;
+typedef void * __timer_t;
+typedef long int __blksize_t;
+typedef long int __blkcnt_t;
+typedef long int __blkcnt64_t;
+typedef unsigned long int __fsblkcnt_t;
+typedef unsigned long int __fsblkcnt64_t;
+typedef unsigned long int __fsfilcnt_t;
+typedef unsigned long int __fsfilcnt64_t;
+typedef long int __fsword_t;
+typedef long int __ssize_t;
+typedef long int __syscall_slong_t;
+typedef unsigned long int __syscall_ulong_t;
+typedef __off64_t __loff_t;
+typedef char *__caddr_t;
+typedef long int __intptr_t;
+typedef unsigned int __socklen_t;
+typedef int __sig_atomic_t;
 
-volatile uint32_t csmith_sink_ = 0;
 
+
+
+typedef float float_t;
+typedef double double_t;
+extern int __fpclassify (double __value) __attribute__ ((__nothrow__ ))
+     __attribute__ ((__const__));
+extern int __signbit (double __value) __attribute__ ((__nothrow__ ))
+     __attribute__ ((__const__));
+extern int __isinf (double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int __finite (double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int __isnan (double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int __iseqsig (double __x, double __y) __attribute__ ((__nothrow__ ));
+extern int __issignaling (double __value) __attribute__ ((__nothrow__ ))
+     __attribute__ ((__const__));
+ extern double acos (double __x) __attribute__ ((__nothrow__ )); extern double __acos (double __x) __attribute__ ((__nothrow__ ));
+ extern double asin (double __x) __attribute__ ((__nothrow__ )); extern double __asin (double __x) __attribute__ ((__nothrow__ ));
+ extern double atan (double __x) __attribute__ ((__nothrow__ )); extern double __atan (double __x) __attribute__ ((__nothrow__ ));
+ extern double atan2 (double __y, double __x) __attribute__ ((__nothrow__ )); extern double __atan2 (double __y, double __x) __attribute__ ((__nothrow__ ));
+ extern double cos (double __x) __attribute__ ((__nothrow__ )); extern double __cos (double __x) __attribute__ ((__nothrow__ ));
+ extern double sin (double __x) __attribute__ ((__nothrow__ )); extern double __sin (double __x) __attribute__ ((__nothrow__ ));
+ extern double tan (double __x) __attribute__ ((__nothrow__ )); extern double __tan (double __x) __attribute__ ((__nothrow__ ));
+ extern double cosh (double __x) __attribute__ ((__nothrow__ )); extern double __cosh (double __x) __attribute__ ((__nothrow__ ));
+ extern double sinh (double __x) __attribute__ ((__nothrow__ )); extern double __sinh (double __x) __attribute__ ((__nothrow__ ));
+ extern double tanh (double __x) __attribute__ ((__nothrow__ )); extern double __tanh (double __x) __attribute__ ((__nothrow__ ));
+ extern double acosh (double __x) __attribute__ ((__nothrow__ )); extern double __acosh (double __x) __attribute__ ((__nothrow__ ));
+ extern double asinh (double __x) __attribute__ ((__nothrow__ )); extern double __asinh (double __x) __attribute__ ((__nothrow__ ));
+ extern double atanh (double __x) __attribute__ ((__nothrow__ )); extern double __atanh (double __x) __attribute__ ((__nothrow__ ));
+ extern double exp (double __x) __attribute__ ((__nothrow__ )); extern double __exp (double __x) __attribute__ ((__nothrow__ ));
+extern double frexp (double __x, int *__exponent) __attribute__ ((__nothrow__ )); extern double __frexp (double __x, int *__exponent) __attribute__ ((__nothrow__ ));
+extern double ldexp (double __x, int __exponent) __attribute__ ((__nothrow__ )); extern double __ldexp (double __x, int __exponent) __attribute__ ((__nothrow__ ));
+ extern double log (double __x) __attribute__ ((__nothrow__ )); extern double __log (double __x) __attribute__ ((__nothrow__ ));
+ extern double log10 (double __x) __attribute__ ((__nothrow__ )); extern double __log10 (double __x) __attribute__ ((__nothrow__ ));
+extern double modf (double __x, double *__iptr) __attribute__ ((__nothrow__ )); extern double __modf (double __x, double *__iptr) __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (2)));
+ extern double expm1 (double __x) __attribute__ ((__nothrow__ )); extern double __expm1 (double __x) __attribute__ ((__nothrow__ ));
+ extern double log1p (double __x) __attribute__ ((__nothrow__ )); extern double __log1p (double __x) __attribute__ ((__nothrow__ ));
+extern double logb (double __x) __attribute__ ((__nothrow__ )); extern double __logb (double __x) __attribute__ ((__nothrow__ ));
+ extern double exp2 (double __x) __attribute__ ((__nothrow__ )); extern double __exp2 (double __x) __attribute__ ((__nothrow__ ));
+ extern double log2 (double __x) __attribute__ ((__nothrow__ )); extern double __log2 (double __x) __attribute__ ((__nothrow__ ));
+ extern double pow (double __x, double __y) __attribute__ ((__nothrow__ )); extern double __pow (double __x, double __y) __attribute__ ((__nothrow__ ));
+extern double sqrt (double __x) __attribute__ ((__nothrow__ )); extern double __sqrt (double __x) __attribute__ ((__nothrow__ ));
+ extern double hypot (double __x, double __y) __attribute__ ((__nothrow__ )); extern double __hypot (double __x, double __y) __attribute__ ((__nothrow__ ));
+ extern double cbrt (double __x) __attribute__ ((__nothrow__ )); extern double __cbrt (double __x) __attribute__ ((__nothrow__ ));
+extern double ceil (double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern double __ceil (double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern double fabs (double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern double __fabs (double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern double floor (double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern double __floor (double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern double fmod (double __x, double __y) __attribute__ ((__nothrow__ )); extern double __fmod (double __x, double __y) __attribute__ ((__nothrow__ ));
+extern int isinf (double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int finite (double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern double drem (double __x, double __y) __attribute__ ((__nothrow__ )); extern double __drem (double __x, double __y) __attribute__ ((__nothrow__ ));
+extern double significand (double __x) __attribute__ ((__nothrow__ )); extern double __significand (double __x) __attribute__ ((__nothrow__ ));
+extern double copysign (double __x, double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern double __copysign (double __x, double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern double nan (const char *__tagb) __attribute__ ((__nothrow__ )); extern double __nan (const char *__tagb) __attribute__ ((__nothrow__ ));
+extern int isnan (double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern double j0 (double) __attribute__ ((__nothrow__ )); extern double __j0 (double) __attribute__ ((__nothrow__ ));
+extern double j1 (double) __attribute__ ((__nothrow__ )); extern double __j1 (double) __attribute__ ((__nothrow__ ));
+extern double jn (int, double) __attribute__ ((__nothrow__ )); extern double __jn (int, double) __attribute__ ((__nothrow__ ));
+extern double y0 (double) __attribute__ ((__nothrow__ )); extern double __y0 (double) __attribute__ ((__nothrow__ ));
+extern double y1 (double) __attribute__ ((__nothrow__ )); extern double __y1 (double) __attribute__ ((__nothrow__ ));
+extern double yn (int, double) __attribute__ ((__nothrow__ )); extern double __yn (int, double) __attribute__ ((__nothrow__ ));
+ extern double erf (double) __attribute__ ((__nothrow__ )); extern double __erf (double) __attribute__ ((__nothrow__ ));
+ extern double erfc (double) __attribute__ ((__nothrow__ )); extern double __erfc (double) __attribute__ ((__nothrow__ ));
+extern double lgamma (double) __attribute__ ((__nothrow__ )); extern double __lgamma (double) __attribute__ ((__nothrow__ ));
+extern double tgamma (double) __attribute__ ((__nothrow__ )); extern double __tgamma (double) __attribute__ ((__nothrow__ ));
+extern double gamma (double) __attribute__ ((__nothrow__ )); extern double __gamma (double) __attribute__ ((__nothrow__ ));
+extern double lgamma_r (double, int *__signgamp) __attribute__ ((__nothrow__ )); extern double __lgamma_r (double, int *__signgamp) __attribute__ ((__nothrow__ ));
+extern double rint (double __x) __attribute__ ((__nothrow__ )); extern double __rint (double __x) __attribute__ ((__nothrow__ ));
+extern double nextafter (double __x, double __y) __attribute__ ((__nothrow__ )); extern double __nextafter (double __x, double __y) __attribute__ ((__nothrow__ ));
+extern double nexttoward (double __x, long double __y) __attribute__ ((__nothrow__ )); extern double __nexttoward (double __x, long double __y) __attribute__ ((__nothrow__ ));
+extern double remainder (double __x, double __y) __attribute__ ((__nothrow__ )); extern double __remainder (double __x, double __y) __attribute__ ((__nothrow__ ));
+extern double scalbn (double __x, int __n) __attribute__ ((__nothrow__ )); extern double __scalbn (double __x, int __n) __attribute__ ((__nothrow__ ));
+extern int ilogb (double __x) __attribute__ ((__nothrow__ )); extern int __ilogb (double __x) __attribute__ ((__nothrow__ ));
+extern double scalbln (double __x, long int __n) __attribute__ ((__nothrow__ )); extern double __scalbln (double __x, long int __n) __attribute__ ((__nothrow__ ));
+extern double nearbyint (double __x) __attribute__ ((__nothrow__ )); extern double __nearbyint (double __x) __attribute__ ((__nothrow__ ));
+extern double round (double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern double __round (double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern double trunc (double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern double __trunc (double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern double remquo (double __x, double __y, int *__quo) __attribute__ ((__nothrow__ )); extern double __remquo (double __x, double __y, int *__quo) __attribute__ ((__nothrow__ ));
+extern long int lrint (double __x) __attribute__ ((__nothrow__ )); extern long int __lrint (double __x) __attribute__ ((__nothrow__ ));
+__extension__
+extern long long int llrint (double __x) __attribute__ ((__nothrow__ )); extern long long int __llrint (double __x) __attribute__ ((__nothrow__ ));
+extern long int lround (double __x) __attribute__ ((__nothrow__ )); extern long int __lround (double __x) __attribute__ ((__nothrow__ ));
+__extension__
+extern long long int llround (double __x) __attribute__ ((__nothrow__ )); extern long long int __llround (double __x) __attribute__ ((__nothrow__ ));
+extern double fdim (double __x, double __y) __attribute__ ((__nothrow__ )); extern double __fdim (double __x, double __y) __attribute__ ((__nothrow__ ));
+extern double fmax (double __x, double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern double __fmax (double __x, double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern double fmin (double __x, double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern double __fmin (double __x, double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern double fma (double __x, double __y, double __z) __attribute__ ((__nothrow__ )); extern double __fma (double __x, double __y, double __z) __attribute__ ((__nothrow__ ));
+extern double scalb (double __x, double __n) __attribute__ ((__nothrow__ )); extern double __scalb (double __x, double __n) __attribute__ ((__nothrow__ ));
+extern int __fpclassifyf (float __value) __attribute__ ((__nothrow__ ))
+     __attribute__ ((__const__));
+extern int __signbitf (float __value) __attribute__ ((__nothrow__ ))
+     __attribute__ ((__const__));
+extern int __isinff (float __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int __finitef (float __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int __isnanf (float __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int __iseqsigf (float __x, float __y) __attribute__ ((__nothrow__ ));
+extern int __issignalingf (float __value) __attribute__ ((__nothrow__ ))
+     __attribute__ ((__const__));
+ extern float acosf (float __x) __attribute__ ((__nothrow__ )); extern float __acosf (float __x) __attribute__ ((__nothrow__ ));
+ extern float asinf (float __x) __attribute__ ((__nothrow__ )); extern float __asinf (float __x) __attribute__ ((__nothrow__ ));
+ extern float atanf (float __x) __attribute__ ((__nothrow__ )); extern float __atanf (float __x) __attribute__ ((__nothrow__ ));
+ extern float atan2f (float __y, float __x) __attribute__ ((__nothrow__ )); extern float __atan2f (float __y, float __x) __attribute__ ((__nothrow__ ));
+ extern float cosf (float __x) __attribute__ ((__nothrow__ )); extern float __cosf (float __x) __attribute__ ((__nothrow__ ));
+ extern float sinf (float __x) __attribute__ ((__nothrow__ )); extern float __sinf (float __x) __attribute__ ((__nothrow__ ));
+ extern float tanf (float __x) __attribute__ ((__nothrow__ )); extern float __tanf (float __x) __attribute__ ((__nothrow__ ));
+ extern float coshf (float __x) __attribute__ ((__nothrow__ )); extern float __coshf (float __x) __attribute__ ((__nothrow__ ));
+ extern float sinhf (float __x) __attribute__ ((__nothrow__ )); extern float __sinhf (float __x) __attribute__ ((__nothrow__ ));
+ extern float tanhf (float __x) __attribute__ ((__nothrow__ )); extern float __tanhf (float __x) __attribute__ ((__nothrow__ ));
+ extern float acoshf (float __x) __attribute__ ((__nothrow__ )); extern float __acoshf (float __x) __attribute__ ((__nothrow__ ));
+ extern float asinhf (float __x) __attribute__ ((__nothrow__ )); extern float __asinhf (float __x) __attribute__ ((__nothrow__ ));
+ extern float atanhf (float __x) __attribute__ ((__nothrow__ )); extern float __atanhf (float __x) __attribute__ ((__nothrow__ ));
+ extern float expf (float __x) __attribute__ ((__nothrow__ )); extern float __expf (float __x) __attribute__ ((__nothrow__ ));
+extern float frexpf (float __x, int *__exponent) __attribute__ ((__nothrow__ )); extern float __frexpf (float __x, int *__exponent) __attribute__ ((__nothrow__ ));
+extern float ldexpf (float __x, int __exponent) __attribute__ ((__nothrow__ )); extern float __ldexpf (float __x, int __exponent) __attribute__ ((__nothrow__ ));
+ extern float logf (float __x) __attribute__ ((__nothrow__ )); extern float __logf (float __x) __attribute__ ((__nothrow__ ));
+ extern float log10f (float __x) __attribute__ ((__nothrow__ )); extern float __log10f (float __x) __attribute__ ((__nothrow__ ));
+extern float modff (float __x, float *__iptr) __attribute__ ((__nothrow__ )); extern float __modff (float __x, float *__iptr) __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (2)));
+ extern float expm1f (float __x) __attribute__ ((__nothrow__ )); extern float __expm1f (float __x) __attribute__ ((__nothrow__ ));
+ extern float log1pf (float __x) __attribute__ ((__nothrow__ )); extern float __log1pf (float __x) __attribute__ ((__nothrow__ ));
+extern float logbf (float __x) __attribute__ ((__nothrow__ )); extern float __logbf (float __x) __attribute__ ((__nothrow__ ));
+ extern float exp2f (float __x) __attribute__ ((__nothrow__ )); extern float __exp2f (float __x) __attribute__ ((__nothrow__ ));
+ extern float log2f (float __x) __attribute__ ((__nothrow__ )); extern float __log2f (float __x) __attribute__ ((__nothrow__ ));
+ extern float powf (float __x, float __y) __attribute__ ((__nothrow__ )); extern float __powf (float __x, float __y) __attribute__ ((__nothrow__ ));
+extern float sqrtf (float __x) __attribute__ ((__nothrow__ )); extern float __sqrtf (float __x) __attribute__ ((__nothrow__ ));
+ extern float hypotf (float __x, float __y) __attribute__ ((__nothrow__ )); extern float __hypotf (float __x, float __y) __attribute__ ((__nothrow__ ));
+ extern float cbrtf (float __x) __attribute__ ((__nothrow__ )); extern float __cbrtf (float __x) __attribute__ ((__nothrow__ ));
+extern float ceilf (float __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern float __ceilf (float __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern float fabsf (float __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern float __fabsf (float __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern float floorf (float __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern float __floorf (float __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern float fmodf (float __x, float __y) __attribute__ ((__nothrow__ )); extern float __fmodf (float __x, float __y) __attribute__ ((__nothrow__ ));
+extern int isinff (float __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int finitef (float __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern float dremf (float __x, float __y) __attribute__ ((__nothrow__ )); extern float __dremf (float __x, float __y) __attribute__ ((__nothrow__ ));
+extern float significandf (float __x) __attribute__ ((__nothrow__ )); extern float __significandf (float __x) __attribute__ ((__nothrow__ ));
+extern float copysignf (float __x, float __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern float __copysignf (float __x, float __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern float nanf (const char *__tagb) __attribute__ ((__nothrow__ )); extern float __nanf (const char *__tagb) __attribute__ ((__nothrow__ ));
+extern int isnanf (float __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern float j0f (float) __attribute__ ((__nothrow__ )); extern float __j0f (float) __attribute__ ((__nothrow__ ));
+extern float j1f (float) __attribute__ ((__nothrow__ )); extern float __j1f (float) __attribute__ ((__nothrow__ ));
+extern float jnf (int, float) __attribute__ ((__nothrow__ )); extern float __jnf (int, float) __attribute__ ((__nothrow__ ));
+extern float y0f (float) __attribute__ ((__nothrow__ )); extern float __y0f (float) __attribute__ ((__nothrow__ ));
+extern float y1f (float) __attribute__ ((__nothrow__ )); extern float __y1f (float) __attribute__ ((__nothrow__ ));
+extern float ynf (int, float) __attribute__ ((__nothrow__ )); extern float __ynf (int, float) __attribute__ ((__nothrow__ ));
+ extern float erff (float) __attribute__ ((__nothrow__ )); extern float __erff (float) __attribute__ ((__nothrow__ ));
+ extern float erfcf (float) __attribute__ ((__nothrow__ )); extern float __erfcf (float) __attribute__ ((__nothrow__ ));
+extern float lgammaf (float) __attribute__ ((__nothrow__ )); extern float __lgammaf (float) __attribute__ ((__nothrow__ ));
+extern float tgammaf (float) __attribute__ ((__nothrow__ )); extern float __tgammaf (float) __attribute__ ((__nothrow__ ));
+extern float gammaf (float) __attribute__ ((__nothrow__ )); extern float __gammaf (float) __attribute__ ((__nothrow__ ));
+extern float lgammaf_r (float, int *__signgamp) __attribute__ ((__nothrow__ )); extern float __lgammaf_r (float, int *__signgamp) __attribute__ ((__nothrow__ ));
+extern float rintf (float __x) __attribute__ ((__nothrow__ )); extern float __rintf (float __x) __attribute__ ((__nothrow__ ));
+extern float nextafterf (float __x, float __y) __attribute__ ((__nothrow__ )); extern float __nextafterf (float __x, float __y) __attribute__ ((__nothrow__ ));
+extern float nexttowardf (float __x, long double __y) __attribute__ ((__nothrow__ )); extern float __nexttowardf (float __x, long double __y) __attribute__ ((__nothrow__ ));
+extern float remainderf (float __x, float __y) __attribute__ ((__nothrow__ )); extern float __remainderf (float __x, float __y) __attribute__ ((__nothrow__ ));
+extern float scalbnf (float __x, int __n) __attribute__ ((__nothrow__ )); extern float __scalbnf (float __x, int __n) __attribute__ ((__nothrow__ ));
+extern int ilogbf (float __x) __attribute__ ((__nothrow__ )); extern int __ilogbf (float __x) __attribute__ ((__nothrow__ ));
+extern float scalblnf (float __x, long int __n) __attribute__ ((__nothrow__ )); extern float __scalblnf (float __x, long int __n) __attribute__ ((__nothrow__ ));
+extern float nearbyintf (float __x) __attribute__ ((__nothrow__ )); extern float __nearbyintf (float __x) __attribute__ ((__nothrow__ ));
+extern float roundf (float __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern float __roundf (float __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern float truncf (float __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern float __truncf (float __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern float remquof (float __x, float __y, int *__quo) __attribute__ ((__nothrow__ )); extern float __remquof (float __x, float __y, int *__quo) __attribute__ ((__nothrow__ ));
+extern long int lrintf (float __x) __attribute__ ((__nothrow__ )); extern long int __lrintf (float __x) __attribute__ ((__nothrow__ ));
+__extension__
+extern long long int llrintf (float __x) __attribute__ ((__nothrow__ )); extern long long int __llrintf (float __x) __attribute__ ((__nothrow__ ));
+extern long int lroundf (float __x) __attribute__ ((__nothrow__ )); extern long int __lroundf (float __x) __attribute__ ((__nothrow__ ));
+__extension__
+extern long long int llroundf (float __x) __attribute__ ((__nothrow__ )); extern long long int __llroundf (float __x) __attribute__ ((__nothrow__ ));
+extern float fdimf (float __x, float __y) __attribute__ ((__nothrow__ )); extern float __fdimf (float __x, float __y) __attribute__ ((__nothrow__ ));
+extern float fmaxf (float __x, float __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern float __fmaxf (float __x, float __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern float fminf (float __x, float __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern float __fminf (float __x, float __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern float fmaf (float __x, float __y, float __z) __attribute__ ((__nothrow__ )); extern float __fmaf (float __x, float __y, float __z) __attribute__ ((__nothrow__ ));
+extern float scalbf (float __x, float __n) __attribute__ ((__nothrow__ )); extern float __scalbf (float __x, float __n) __attribute__ ((__nothrow__ ));
+extern int __fpclassifyl (long double __value) __attribute__ ((__nothrow__ ))
+     __attribute__ ((__const__));
+extern int __signbitl (long double __value) __attribute__ ((__nothrow__ ))
+     __attribute__ ((__const__));
+extern int __isinfl (long double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int __finitel (long double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int __isnanl (long double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int __iseqsigl (long double __x, long double __y) __attribute__ ((__nothrow__ ));
+extern int __issignalingl (long double __value) __attribute__ ((__nothrow__ ))
+     __attribute__ ((__const__));
+ extern long double acosl (long double __x) __attribute__ ((__nothrow__ )); extern long double __acosl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double asinl (long double __x) __attribute__ ((__nothrow__ )); extern long double __asinl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double atanl (long double __x) __attribute__ ((__nothrow__ )); extern long double __atanl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double atan2l (long double __y, long double __x) __attribute__ ((__nothrow__ )); extern long double __atan2l (long double __y, long double __x) __attribute__ ((__nothrow__ ));
+ extern long double cosl (long double __x) __attribute__ ((__nothrow__ )); extern long double __cosl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double sinl (long double __x) __attribute__ ((__nothrow__ )); extern long double __sinl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double tanl (long double __x) __attribute__ ((__nothrow__ )); extern long double __tanl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double coshl (long double __x) __attribute__ ((__nothrow__ )); extern long double __coshl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double sinhl (long double __x) __attribute__ ((__nothrow__ )); extern long double __sinhl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double tanhl (long double __x) __attribute__ ((__nothrow__ )); extern long double __tanhl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double acoshl (long double __x) __attribute__ ((__nothrow__ )); extern long double __acoshl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double asinhl (long double __x) __attribute__ ((__nothrow__ )); extern long double __asinhl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double atanhl (long double __x) __attribute__ ((__nothrow__ )); extern long double __atanhl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double expl (long double __x) __attribute__ ((__nothrow__ )); extern long double __expl (long double __x) __attribute__ ((__nothrow__ ));
+extern long double frexpl (long double __x, int *__exponent) __attribute__ ((__nothrow__ )); extern long double __frexpl (long double __x, int *__exponent) __attribute__ ((__nothrow__ ));
+extern long double ldexpl (long double __x, int __exponent) __attribute__ ((__nothrow__ )); extern long double __ldexpl (long double __x, int __exponent) __attribute__ ((__nothrow__ ));
+ extern long double logl (long double __x) __attribute__ ((__nothrow__ )); extern long double __logl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double log10l (long double __x) __attribute__ ((__nothrow__ )); extern long double __log10l (long double __x) __attribute__ ((__nothrow__ ));
+extern long double modfl (long double __x, long double *__iptr) __attribute__ ((__nothrow__ )); extern long double __modfl (long double __x, long double *__iptr) __attribute__ ((__nothrow__ )) __attribute__ ((__nonnull__ (2)));
+ extern long double expm1l (long double __x) __attribute__ ((__nothrow__ )); extern long double __expm1l (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double log1pl (long double __x) __attribute__ ((__nothrow__ )); extern long double __log1pl (long double __x) __attribute__ ((__nothrow__ ));
+extern long double logbl (long double __x) __attribute__ ((__nothrow__ )); extern long double __logbl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double exp2l (long double __x) __attribute__ ((__nothrow__ )); extern long double __exp2l (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double log2l (long double __x) __attribute__ ((__nothrow__ )); extern long double __log2l (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double powl (long double __x, long double __y) __attribute__ ((__nothrow__ )); extern long double __powl (long double __x, long double __y) __attribute__ ((__nothrow__ ));
+extern long double sqrtl (long double __x) __attribute__ ((__nothrow__ )); extern long double __sqrtl (long double __x) __attribute__ ((__nothrow__ ));
+ extern long double hypotl (long double __x, long double __y) __attribute__ ((__nothrow__ )); extern long double __hypotl (long double __x, long double __y) __attribute__ ((__nothrow__ ));
+ extern long double cbrtl (long double __x) __attribute__ ((__nothrow__ )); extern long double __cbrtl (long double __x) __attribute__ ((__nothrow__ ));
+extern long double ceill (long double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern long double __ceill (long double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern long double fabsl (long double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern long double __fabsl (long double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern long double floorl (long double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern long double __floorl (long double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern long double fmodl (long double __x, long double __y) __attribute__ ((__nothrow__ )); extern long double __fmodl (long double __x, long double __y) __attribute__ ((__nothrow__ ));
+extern int isinfl (long double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern int finitel (long double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern long double dreml (long double __x, long double __y) __attribute__ ((__nothrow__ )); extern long double __dreml (long double __x, long double __y) __attribute__ ((__nothrow__ ));
+extern long double significandl (long double __x) __attribute__ ((__nothrow__ )); extern long double __significandl (long double __x) __attribute__ ((__nothrow__ ));
+extern long double copysignl (long double __x, long double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern long double __copysignl (long double __x, long double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern long double nanl (const char *__tagb) __attribute__ ((__nothrow__ )); extern long double __nanl (const char *__tagb) __attribute__ ((__nothrow__ ));
+extern int isnanl (long double __value) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__const__));
+extern long double j0l (long double) __attribute__ ((__nothrow__ )); extern long double __j0l (long double) __attribute__ ((__nothrow__ ));
+extern long double j1l (long double) __attribute__ ((__nothrow__ )); extern long double __j1l (long double) __attribute__ ((__nothrow__ ));
+extern long double jnl (int, long double) __attribute__ ((__nothrow__ )); extern long double __jnl (int, long double) __attribute__ ((__nothrow__ ));
+extern long double y0l (long double) __attribute__ ((__nothrow__ )); extern long double __y0l (long double) __attribute__ ((__nothrow__ ));
+extern long double y1l (long double) __attribute__ ((__nothrow__ )); extern long double __y1l (long double) __attribute__ ((__nothrow__ ));
+extern long double ynl (int, long double) __attribute__ ((__nothrow__ )); extern long double __ynl (int, long double) __attribute__ ((__nothrow__ ));
+ extern long double erfl (long double) __attribute__ ((__nothrow__ )); extern long double __erfl (long double) __attribute__ ((__nothrow__ ));
+ extern long double erfcl (long double) __attribute__ ((__nothrow__ )); extern long double __erfcl (long double) __attribute__ ((__nothrow__ ));
+extern long double lgammal (long double) __attribute__ ((__nothrow__ )); extern long double __lgammal (long double) __attribute__ ((__nothrow__ ));
+extern long double tgammal (long double) __attribute__ ((__nothrow__ )); extern long double __tgammal (long double) __attribute__ ((__nothrow__ ));
+extern long double gammal (long double) __attribute__ ((__nothrow__ )); extern long double __gammal (long double) __attribute__ ((__nothrow__ ));
+extern long double lgammal_r (long double, int *__signgamp) __attribute__ ((__nothrow__ )); extern long double __lgammal_r (long double, int *__signgamp) __attribute__ ((__nothrow__ ));
+extern long double rintl (long double __x) __attribute__ ((__nothrow__ )); extern long double __rintl (long double __x) __attribute__ ((__nothrow__ ));
+extern long double nextafterl (long double __x, long double __y) __attribute__ ((__nothrow__ )); extern long double __nextafterl (long double __x, long double __y) __attribute__ ((__nothrow__ ));
+extern long double nexttowardl (long double __x, long double __y) __attribute__ ((__nothrow__ )); extern long double __nexttowardl (long double __x, long double __y) __attribute__ ((__nothrow__ ));
+extern long double remainderl (long double __x, long double __y) __attribute__ ((__nothrow__ )); extern long double __remainderl (long double __x, long double __y) __attribute__ ((__nothrow__ ));
+extern long double scalbnl (long double __x, int __n) __attribute__ ((__nothrow__ )); extern long double __scalbnl (long double __x, int __n) __attribute__ ((__nothrow__ ));
+extern int ilogbl (long double __x) __attribute__ ((__nothrow__ )); extern int __ilogbl (long double __x) __attribute__ ((__nothrow__ ));
+extern long double scalblnl (long double __x, long int __n) __attribute__ ((__nothrow__ )); extern long double __scalblnl (long double __x, long int __n) __attribute__ ((__nothrow__ ));
+extern long double nearbyintl (long double __x) __attribute__ ((__nothrow__ )); extern long double __nearbyintl (long double __x) __attribute__ ((__nothrow__ ));
+extern long double roundl (long double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern long double __roundl (long double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern long double truncl (long double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern long double __truncl (long double __x) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern long double remquol (long double __x, long double __y, int *__quo) __attribute__ ((__nothrow__ )); extern long double __remquol (long double __x, long double __y, int *__quo) __attribute__ ((__nothrow__ ));
+extern long int lrintl (long double __x) __attribute__ ((__nothrow__ )); extern long int __lrintl (long double __x) __attribute__ ((__nothrow__ ));
+__extension__
+extern long long int llrintl (long double __x) __attribute__ ((__nothrow__ )); extern long long int __llrintl (long double __x) __attribute__ ((__nothrow__ ));
+extern long int lroundl (long double __x) __attribute__ ((__nothrow__ )); extern long int __lroundl (long double __x) __attribute__ ((__nothrow__ ));
+__extension__
+extern long long int llroundl (long double __x) __attribute__ ((__nothrow__ )); extern long long int __llroundl (long double __x) __attribute__ ((__nothrow__ ));
+extern long double fdiml (long double __x, long double __y) __attribute__ ((__nothrow__ )); extern long double __fdiml (long double __x, long double __y) __attribute__ ((__nothrow__ ));
+extern long double fmaxl (long double __x, long double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern long double __fmaxl (long double __x, long double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern long double fminl (long double __x, long double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__)); extern long double __fminl (long double __x, long double __y) __attribute__ ((__nothrow__ )) __attribute__ ((__const__));
+extern long double fmal (long double __x, long double __y, long double __z) __attribute__ ((__nothrow__ )); extern long double __fmal (long double __x, long double __y, long double __z) __attribute__ ((__nothrow__ ));
+extern long double scalbl (long double __x, long double __n) __attribute__ ((__nothrow__ )); extern long double __scalbl (long double __x, long double __n) __attribute__ ((__nothrow__ ));
+extern int signgam;
+enum
+  {
+    FP_NAN =
+      0,
+    FP_INFINITE =
+      1,
+    FP_ZERO =
+      2,
+    FP_SUBNORMAL =
+      3,
+    FP_NORMAL =
+      4
+  };
+
+typedef __int8_t int8_t;
+typedef __int16_t int16_t;
+typedef __int32_t int32_t;
+typedef __int64_t int64_t;
+typedef __uint8_t uint8_t;
+typedef __uint16_t uint16_t;
+typedef __uint32_t uint32_t;
+typedef __uint64_t uint64_t;
+typedef __int_least8_t int_least8_t;
+typedef __int_least16_t int_least16_t;
+typedef __int_least32_t int_least32_t;
+typedef __int_least64_t int_least64_t;
+typedef __uint_least8_t uint_least8_t;
+typedef __uint_least16_t uint_least16_t;
+typedef __uint_least32_t uint_least32_t;
+typedef __uint_least64_t uint_least64_t;
+typedef signed char int_fast8_t;
+typedef long int int_fast16_t;
+typedef long int int_fast32_t;
+typedef long int int_fast64_t;
+typedef unsigned char uint_fast8_t;
+typedef unsigned long int uint_fast16_t;
+typedef unsigned long int uint_fast32_t;
+typedef unsigned long int uint_fast64_t;
+typedef long int intptr_t;
+typedef unsigned long int uintptr_t;
+typedef __intmax_t intmax_t;
+typedef __uintmax_t uintmax_t;
+extern void __assert_fail (const char *__assertion, const char *__file,
+      unsigned int __line, const char *__function)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__noreturn__));
+extern void __assert_perror_fail (int __errnum, const char *__file,
+      unsigned int __line, const char *__function)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__noreturn__));
+extern void __assert (const char *__assertion, const char *__file, int __line)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__noreturn__));
+typedef __builtin_va_list __gnuc_va_list;
+typedef struct
+{
+  int __count;
+  union
+  {
+    unsigned int __wch;
+    char __wchb[4];
+  } __value;
+} __mbstate_t;
+typedef struct _G_fpos_t
+{
+  __off_t __pos;
+  __mbstate_t __state;
+} __fpos_t;
+typedef struct _G_fpos64_t
+{
+  __off64_t __pos;
+  __mbstate_t __state;
+} __fpos64_t;
+struct _IO_FILE;
+typedef struct _IO_FILE __FILE;
+struct _IO_FILE;
+typedef struct _IO_FILE FILE;
+struct _IO_FILE;
+struct _IO_marker;
+struct _IO_codecvt;
+struct _IO_wide_data;
+typedef void _IO_lock_t;
+struct _IO_FILE
+{
+  int _flags;
+  char *_IO_read_ptr;
+  char *_IO_read_end;
+  char *_IO_read_base;
+  char *_IO_write_base;
+  char *_IO_write_ptr;
+  char *_IO_write_end;
+  char *_IO_buf_base;
+  char *_IO_buf_end;
+  char *_IO_save_base;
+  char *_IO_backup_base;
+  char *_IO_save_end;
+  struct _IO_marker *_markers;
+  struct _IO_FILE *_chain;
+  int _fileno;
+  int _flags2;
+  __off_t _old_offset;
+  unsigned short _cur_column;
+  signed char _vtable_offset;
+  char _shortbuf[1];
+  _IO_lock_t *_lock;
+  __off64_t _offset;
+  struct _IO_codecvt *_codecvt;
+  struct _IO_wide_data *_wide_data;
+  struct _IO_FILE *_freeres_list;
+  void *_freeres_buf;
+  size_t __pad5;
+  int _mode;
+  char _unused2[15 * sizeof (int) - 4 * sizeof (void *) - sizeof (size_t)];
+};
+typedef __ssize_t cookie_read_function_t (void *__cookie, char *__buf,
+                                          size_t __nbytes);
+typedef __ssize_t cookie_write_function_t (void *__cookie, const char *__buf,
+                                           size_t __nbytes);
+typedef int cookie_seek_function_t (void *__cookie, __off64_t *__pos, int __w);
+typedef int cookie_close_function_t (void *__cookie);
+typedef struct _IO_cookie_io_functions_t
+{
+  cookie_read_function_t *read;
+  cookie_write_function_t *write;
+  cookie_seek_function_t *seek;
+  cookie_close_function_t *close;
+} cookie_io_functions_t;
+typedef __gnuc_va_list va_list;
+typedef __off_t off_t;
+typedef __ssize_t ssize_t;
+typedef __fpos_t fpos_t;
+extern FILE *stdin;
+extern FILE *stdout;
+extern FILE *stderr;
+extern int remove (const char *__filename) __attribute__ ((__nothrow__ ));
+extern int rename (const char *__old, const char *__new) __attribute__ ((__nothrow__ ));
+extern int renameat (int __oldfd, const char *__old, int __newfd,
+       const char *__new) __attribute__ ((__nothrow__ ));
+extern int fclose (FILE *__stream) __attribute__ ((__nonnull__ (1)));
+extern FILE *tmpfile (void)
+  __attribute__ ((__malloc__)) ;
+extern char *tmpnam (char[20]) __attribute__ ((__nothrow__ )) ;
+extern char *tmpnam_r (char __s[20]) __attribute__ ((__nothrow__ )) ;
+extern char *tempnam (const char *__dir, const char *__pfx)
+   __attribute__ ((__nothrow__ )) __attribute__ ((__malloc__)) ;
+extern int fflush (FILE *__stream);
+extern int fflush_unlocked (FILE *__stream);
+extern FILE *fopen (const char *__restrict __filename,
+      const char *__restrict __modes)
+  __attribute__ ((__malloc__)) ;
+extern FILE *freopen (const char *__restrict __filename,
+        const char *__restrict __modes,
+        FILE *__restrict __stream) __attribute__ ((__nonnull__ (3)));
+extern FILE *fdopen (int __fd, const char *__modes) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__malloc__)) ;
+extern FILE *fopencookie (void *__restrict __magic_cookie,
+     const char *__restrict __modes,
+     cookie_io_functions_t __io_funcs) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__malloc__)) ;
+extern FILE *fmemopen (void *__s, size_t __len, const char *__modes)
+  __attribute__ ((__nothrow__ )) __attribute__ ((__malloc__)) ;
+extern FILE *open_memstream (char **__bufloc, size_t *__sizeloc) __attribute__ ((__nothrow__ ))
+  __attribute__ ((__malloc__)) ;
+extern void setbuf (FILE *__restrict __stream, char *__restrict __buf) __attribute__ ((__nothrow__ ));
+extern int setvbuf (FILE *__restrict __stream, char *__restrict __buf,
+      int __modes, size_t __n) __attribute__ ((__nothrow__ ));
+extern void setbuffer (FILE *__restrict __stream, char *__restrict __buf,
+         size_t __size) __attribute__ ((__nothrow__ ));
+extern void setlinebuf (FILE *__stream) __attribute__ ((__nothrow__ ));
+extern int fprintf (FILE *__restrict __stream,
+      const char *__restrict __format, ...);
+extern int printf (const char *__restrict __format, ...);
+extern int sprintf (char *__restrict __s,
+      const char *__restrict __format, ...) __attribute__ ((__nothrow__));
+extern int vfprintf (FILE *__restrict __s, const char *__restrict __format,
+       __gnuc_va_list __arg);
+extern int vprintf (const char *__restrict __format, __gnuc_va_list __arg);
+extern int vsprintf (char *__restrict __s, const char *__restrict __format,
+       __gnuc_va_list __arg) __attribute__ ((__nothrow__));
+extern int snprintf (char *__restrict __s, size_t __maxlen,
+       const char *__restrict __format, ...)
+     __attribute__ ((__nothrow__)) __attribute__ ((__format__ (__printf__, 3, 4)));
+extern int vsnprintf (char *__restrict __s, size_t __maxlen,
+        const char *__restrict __format, __gnuc_va_list __arg)
+     __attribute__ ((__nothrow__)) __attribute__ ((__format__ (__printf__, 3, 0)));
+extern int vasprintf (char **__restrict __ptr, const char *__restrict __f,
+        __gnuc_va_list __arg)
+     __attribute__ ((__nothrow__)) __attribute__ ((__format__ (__printf__, 2, 0))) ;
+extern int __asprintf (char **__restrict __ptr,
+         const char *__restrict __fmt, ...)
+     __attribute__ ((__nothrow__)) __attribute__ ((__format__ (__printf__, 2, 3))) ;
+extern int asprintf (char **__restrict __ptr,
+       const char *__restrict __fmt, ...)
+     __attribute__ ((__nothrow__)) __attribute__ ((__format__ (__printf__, 2, 3))) ;
+extern int vdprintf (int __fd, const char *__restrict __fmt,
+       __gnuc_va_list __arg)
+     __attribute__ ((__format__ (__printf__, 2, 0)));
+extern int dprintf (int __fd, const char *__restrict __fmt, ...)
+     __attribute__ ((__format__ (__printf__, 2, 3)));
+extern int fscanf (FILE *__restrict __stream,
+     const char *__restrict __format, ...) ;
+extern int scanf (const char *__restrict __format, ...) ;
+extern int sscanf (const char *__restrict __s,
+     const char *__restrict __format, ...) __attribute__ ((__nothrow__ ));
+extern int fscanf (FILE *__restrict __stream, const char *__restrict __format, ...) __asm__ ("" "__isoc99_fscanf") ;
+extern int scanf (const char *__restrict __format, ...) __asm__ ("" "__isoc99_scanf") ;
+extern int sscanf (const char *__restrict __s, const char *__restrict __format, ...) __asm__ ("" "__isoc99_sscanf") __attribute__ ((__nothrow__ ));
+extern int vfscanf (FILE *__restrict __s, const char *__restrict __format,
+      __gnuc_va_list __arg)
+     __attribute__ ((__format__ (__scanf__, 2, 0))) ;
+extern int vscanf (const char *__restrict __format, __gnuc_va_list __arg)
+     __attribute__ ((__format__ (__scanf__, 1, 0))) ;
+extern int vsscanf (const char *__restrict __s,
+      const char *__restrict __format, __gnuc_va_list __arg)
+     __attribute__ ((__nothrow__ )) __attribute__ ((__format__ (__scanf__, 2, 0)));
+extern int vfscanf (FILE *__restrict __s, const char *__restrict __format, __gnuc_va_list __arg) __asm__ ("" "__isoc99_vfscanf")
+     __attribute__ ((__format__ (__scanf__, 2, 0))) ;
+extern int vscanf (const char *__restrict __format, __gnuc_va_list __arg) __asm__ ("" "__isoc99_vscanf")
+     __attribute__ ((__format__ (__scanf__, 1, 0))) ;
+extern int vsscanf (const char *__restrict __s, const char *__restrict __format, __gnuc_va_list __arg) __asm__ ("" "__isoc99_vsscanf") __attribute__ ((__nothrow__ ))
+     __attribute__ ((__format__ (__scanf__, 2, 0)));
+extern int fgetc (FILE *__stream);
+extern int getc (FILE *__stream);
+extern int getchar (void);
+extern int getc_unlocked (FILE *__stream);
+extern int getchar_unlocked (void);
+extern int fgetc_unlocked (FILE *__stream);
+extern int fputc (int __c, FILE *__stream);
+extern int putc (int __c, FILE *__stream);
+extern int putchar (int __c);
+extern int fputc_unlocked (int __c, FILE *__stream);
+extern int putc_unlocked (int __c, FILE *__stream);
+extern int putchar_unlocked (int __c);
+extern int getw (FILE *__stream);
+extern int putw (int __w, FILE *__stream);
+extern char *fgets (char *__restrict __s, int __n, FILE *__restrict __stream)
+                                                         ;
+extern __ssize_t __getdelim (char **__restrict __lineptr,
+                             size_t *__restrict __n, int __delimiter,
+                             FILE *__restrict __stream) ;
+extern __ssize_t getdelim (char **__restrict __lineptr,
+                           size_t *__restrict __n, int __delimiter,
+                           FILE *__restrict __stream) ;
+extern __ssize_t getline (char **__restrict __lineptr,
+                          size_t *__restrict __n,
+                          FILE *__restrict __stream) ;
+extern int fputs (const char *__restrict __s, FILE *__restrict __stream);
+extern int puts (const char *__s);
+extern int ungetc (int __c, FILE *__stream);
+extern size_t fread (void *__restrict __ptr, size_t __size,
+       size_t __n, FILE *__restrict __stream) ;
+extern size_t fwrite (const void *__restrict __ptr, size_t __size,
+        size_t __n, FILE *__restrict __s);
+extern size_t fread_unlocked (void *__restrict __ptr, size_t __size,
+         size_t __n, FILE *__restrict __stream) ;
+extern size_t fwrite_unlocked (const void *__restrict __ptr, size_t __size,
+          size_t __n, FILE *__restrict __stream);
+extern int fseek (FILE *__stream, long int __off, int __whence);
+extern long int ftell (FILE *__stream) ;
+extern void rewind (FILE *__stream);
+extern int fseeko (FILE *__stream, __off_t __off, int __whence);
+extern __off_t ftello (FILE *__stream) ;
+extern int fgetpos (FILE *__restrict __stream, fpos_t *__restrict __pos);
+extern int fsetpos (FILE *__stream, const fpos_t *__pos);
+extern void clearerr (FILE *__stream) __attribute__ ((__nothrow__ ));
+extern int feof (FILE *__stream) __attribute__ ((__nothrow__ )) ;
+extern int ferror (FILE *__stream) __attribute__ ((__nothrow__ )) ;
+extern void clearerr_unlocked (FILE *__stream) __attribute__ ((__nothrow__ ));
+extern int feof_unlocked (FILE *__stream) __attribute__ ((__nothrow__ )) ;
+extern int ferror_unlocked (FILE *__stream) __attribute__ ((__nothrow__ )) ;
+extern void perror (const char *__s) __attribute__ ((__cold__));
+extern int fileno (FILE *__stream) __attribute__ ((__nothrow__ )) ;
+extern int fileno_unlocked (FILE *__stream) __attribute__ ((__nothrow__ )) ;
+extern int pclose (FILE *__stream);
+extern FILE *popen (const char *__command, const char *__modes)
+  __attribute__ ((__malloc__)) ;
+extern char *ctermid (char *__s) __attribute__ ((__nothrow__ ))
+                                     ;
+extern void flockfile (FILE *__stream) __attribute__ ((__nothrow__ ));
+extern int ftrylockfile (FILE *__stream) __attribute__ ((__nothrow__ )) ;
+extern void funlockfile (FILE *__stream) __attribute__ ((__nothrow__ ));
+extern int __uflow (FILE *);
+extern int __overflow (FILE *, int);
+extern __inline __attribute__ ((__gnu_inline__)) int
+vprintf (const char *__restrict __fmt, __gnuc_va_list __arg)
+{
+  return vfprintf (stdout, __fmt, __arg);
+}
+extern __inline __attribute__ ((__gnu_inline__)) int
+getchar (void)
+{
+  return getc (stdin);
+}
+extern __inline __attribute__ ((__gnu_inline__)) int
+fgetc_unlocked (FILE *__fp)
+{
+  return (__builtin_expect (((__fp)->_IO_read_ptr >= (__fp)->_IO_read_end), 0) ? __uflow (__fp) : *(unsigned char *) (__fp)->_IO_read_ptr++);
+}
+extern __inline __attribute__ ((__gnu_inline__)) int
+getc_unlocked (FILE *__fp)
+{
+  return (__builtin_expect (((__fp)->_IO_read_ptr >= (__fp)->_IO_read_end), 0) ? __uflow (__fp) : *(unsigned char *) (__fp)->_IO_read_ptr++);
+}
+extern __inline __attribute__ ((__gnu_inline__)) int
+getchar_unlocked (void)
+{
+  return (__builtin_expect (((stdin)->_IO_read_ptr >= (stdin)->_IO_read_end), 0) ? __uflow (stdin) : *(unsigned char *) (stdin)->_IO_read_ptr++);
+}
+extern __inline __attribute__ ((__gnu_inline__)) int
+putchar (int __c)
+{
+  return putc (__c, stdout);
+}
+extern __inline __attribute__ ((__gnu_inline__)) int
+fputc_unlocked (int __c, FILE *__stream)
+{
+  return (__builtin_expect (((__stream)->_IO_write_ptr >= (__stream)->_IO_write_end), 0) ? __overflow (__stream, (unsigned char) (__c)) : (unsigned char) (*(__stream)->_IO_write_ptr++ = (__c)));
+}
+extern __inline __attribute__ ((__gnu_inline__)) int
+putc_unlocked (int __c, FILE *__stream)
+{
+  return (__builtin_expect (((__stream)->_IO_write_ptr >= (__stream)->_IO_write_end), 0) ? __overflow (__stream, (unsigned char) (__c)) : (unsigned char) (*(__stream)->_IO_write_ptr++ = (__c)));
+}
+extern __inline __attribute__ ((__gnu_inline__)) int
+putchar_unlocked (int __c)
+{
+  return (__builtin_expect (((stdout)->_IO_write_ptr >= (stdout)->_IO_write_end), 0) ? __overflow (stdout, (unsigned char) (__c)) : (unsigned char) (*(stdout)->_IO_write_ptr++ = (__c)));
+}
+extern __inline __attribute__ ((__gnu_inline__)) int
+__attribute__ ((__nothrow__ )) feof_unlocked (FILE *__stream)
+{
+  return (((__stream)->_flags & 0x0010) != 0);
+}
+extern __inline __attribute__ ((__gnu_inline__)) int
+__attribute__ ((__nothrow__ )) ferror_unlocked (FILE *__stream)
+{
+  return (((__stream)->_flags & 0x0020) != 0);
+}
+static void
+platform_main_begin(void)
+{
+}
+static void
+platform_main_end(uint32_t crc, int flag)
+{
+ printf ("checksum = %X\n", crc);
+}
+static int8_t
+(safe_unary_minus_func_int8_t_s)(int8_t si )
+{
+  return
+    -si;
+}
+static int8_t
+(safe_add_func_int8_t_s_s)(int8_t si1, int8_t si2 )
+{
+  return
+    (si1 + si2);
+}
+static int8_t
+(safe_sub_func_int8_t_s_s)(int8_t si1, int8_t si2 )
+{
+  return
+    (si1 - si2);
+}
+static int8_t
+(safe_mul_func_int8_t_s_s)(int8_t si1, int8_t si2 )
+{
+  return
+    si1 * si2;
+}
+static int8_t
+(safe_mod_func_int8_t_s_s)(int8_t si1, int8_t si2 )
+{
+  return
+    ((si2 == 0) || ((si1 == (-128)) && (si2 == (-1)))) ?
+    ((si1)) :
+    (si1 % si2);
+}
+static int8_t
+(safe_div_func_int8_t_s_s)(int8_t si1, int8_t si2 )
+{
+  return
+    ((si2 == 0) || ((si1 == (-128)) && (si2 == (-1)))) ?
+    ((si1)) :
+    (si1 / si2);
+}
+static int8_t
+(safe_lshift_func_int8_t_s_s)(int8_t left, int right )
+{
+  return
+    ((left < 0) || (((int)right) < 0) || (((int)right) >= 32) || (left > ((127) >> ((int)right)))) ?
+    ((left)) :
+    (left << ((int)right));
+}
+static int8_t
+(safe_lshift_func_int8_t_s_u)(int8_t left, unsigned int right )
+{
+  return
+    ((left < 0) || (((unsigned int)right) >= 32) || (left > ((127) >> ((unsigned int)right)))) ?
+    ((left)) :
+    (left << ((unsigned int)right));
+}
+static int8_t
+(safe_rshift_func_int8_t_s_s)(int8_t left, int right )
+{
+  return
+    ((left < 0) || (((int)right) < 0) || (((int)right) >= 32))?
+    ((left)) :
+    (left >> ((int)right));
+}
+static int8_t
+(safe_rshift_func_int8_t_s_u)(int8_t left, unsigned int right )
+{
+  return
+    ((left < 0) || (((unsigned int)right) >= 32)) ?
+    ((left)) :
+    (left >> ((unsigned int)right));
+}
+static int16_t
+(safe_unary_minus_func_int16_t_s)(int16_t si )
+{
+  return
+    -si;
+}
+static int16_t
+(safe_add_func_int16_t_s_s)(int16_t si1, int16_t si2 )
+{
+  return
+    (si1 + si2);
+}
+static int16_t
+(safe_sub_func_int16_t_s_s)(int16_t si1, int16_t si2 )
+{
+  return
+    (si1 - si2);
+}
+static int16_t
+(safe_mul_func_int16_t_s_s)(int16_t si1, int16_t si2 )
+{
+  return
+    si1 * si2;
+}
+static int16_t
+(safe_mod_func_int16_t_s_s)(int16_t si1, int16_t si2 )
+{
+  return
+    ((si2 == 0) || ((si1 == (-32767-1)) && (si2 == (-1)))) ?
+    ((si1)) :
+    (si1 % si2);
+}
+static int16_t
+(safe_div_func_int16_t_s_s)(int16_t si1, int16_t si2 )
+{
+  return
+    ((si2 == 0) || ((si1 == (-32767-1)) && (si2 == (-1)))) ?
+    ((si1)) :
+    (si1 / si2);
+}
+static int16_t
+(safe_lshift_func_int16_t_s_s)(int16_t left, int right )
+{
+  return
+    ((left < 0) || (((int)right) < 0) || (((int)right) >= 32) || (left > ((32767) >> ((int)right)))) ?
+    ((left)) :
+    (left << ((int)right));
+}
+static int16_t
+(safe_lshift_func_int16_t_s_u)(int16_t left, unsigned int right )
+{
+  return
+    ((left < 0) || (((unsigned int)right) >= 32) || (left > ((32767) >> ((unsigned int)right)))) ?
+    ((left)) :
+    (left << ((unsigned int)right));
+}
+static int16_t
+(safe_rshift_func_int16_t_s_s)(int16_t left, int right )
+{
+  return
+    ((left < 0) || (((int)right) < 0) || (((int)right) >= 32))?
+    ((left)) :
+    (left >> ((int)right));
+}
+static int16_t
+(safe_rshift_func_int16_t_s_u)(int16_t left, unsigned int right )
+{
+  return
+    ((left < 0) || (((unsigned int)right) >= 32)) ?
+    ((left)) :
+    (left >> ((unsigned int)right));
+}
+static int32_t
+(safe_unary_minus_func_int32_t_s)(int32_t si )
+{
+  return
+    (si==(-2147483647-1)) ?
+    ((si)) :
+    -si;
+}
+static int32_t
+(safe_add_func_int32_t_s_s)(int32_t si1, int32_t si2 )
+{
+  return
+    (((si1>0) && (si2>0) && (si1 > ((2147483647)-si2))) || ((si1<0) && (si2<0) && (si1 < ((-2147483647-1)-si2)))) ?
+    ((si1)) :
+    (si1 + si2);
+}
+static int32_t
+(safe_sub_func_int32_t_s_s)(int32_t si1, int32_t si2 )
+{
+  return
+    (((si1^si2) & (((si1 ^ ((si1^si2) & (~(2147483647))))-si2)^si2)) < 0) ?
+    ((si1)) :
+    (si1 - si2);
+}
+static int32_t
+(safe_mul_func_int32_t_s_s)(int32_t si1, int32_t si2 )
+{
+  return
+    (((si1 > 0) && (si2 > 0) && (si1 > ((2147483647) / si2))) || ((si1 > 0) && (si2 <= 0) && (si2 < ((-2147483647-1) / si1))) || ((si1 <= 0) && (si2 > 0) && (si1 < ((-2147483647-1) / si2))) || ((si1 <= 0) && (si2 <= 0) && (si1 != 0) && (si2 < ((2147483647) / si1)))) ?
+    ((si1)) :
+    si1 * si2;
+}
+static int32_t
+(safe_mod_func_int32_t_s_s)(int32_t si1, int32_t si2 )
+{
+  return
+    ((si2 == 0) || ((si1 == (-2147483647-1)) && (si2 == (-1)))) ?
+    ((si1)) :
+    (si1 % si2);
+}
+static int32_t
+(safe_div_func_int32_t_s_s)(int32_t si1, int32_t si2 )
+{
+  return
+    ((si2 == 0) || ((si1 == (-2147483647-1)) && (si2 == (-1)))) ?
+    ((si1)) :
+    (si1 / si2);
+}
+static int32_t
+(safe_lshift_func_int32_t_s_s)(int32_t left, int right )
+{
+  return
+    ((left < 0) || (((int)right) < 0) || (((int)right) >= 32) || (left > ((2147483647) >> ((int)right)))) ?
+    ((left)) :
+    (left << ((int)right));
+}
+static int32_t
+(safe_lshift_func_int32_t_s_u)(int32_t left, unsigned int right )
+{
+  return
+    ((left < 0) || (((unsigned int)right) >= 32) || (left > ((2147483647) >> ((unsigned int)right)))) ?
+    ((left)) :
+    (left << ((unsigned int)right));
+}
+static int32_t
+(safe_rshift_func_int32_t_s_s)(int32_t left, int right )
+{
+  return
+    ((left < 0) || (((int)right) < 0) || (((int)right) >= 32))?
+    ((left)) :
+    (left >> ((int)right));
+}
+static int32_t
+(safe_rshift_func_int32_t_s_u)(int32_t left, unsigned int right )
+{
+  return
+    ((left < 0) || (((unsigned int)right) >= 32)) ?
+    ((left)) :
+    (left >> ((unsigned int)right));
+}
+static int64_t
+(safe_unary_minus_func_int64_t_s)(int64_t si )
+{
+  return
+    (si==(-9223372036854775807L -1)) ?
+    ((si)) :
+    -si;
+}
+static int64_t
+(safe_add_func_int64_t_s_s)(int64_t si1, int64_t si2 )
+{
+  return
+    (((si1>0) && (si2>0) && (si1 > ((9223372036854775807L)-si2))) || ((si1<0) && (si2<0) && (si1 < ((-9223372036854775807L -1)-si2)))) ?
+    ((si1)) :
+    (si1 + si2);
+}
+static int64_t
+(safe_sub_func_int64_t_s_s)(int64_t si1, int64_t si2 )
+{
+  return
+    (((si1^si2) & (((si1 ^ ((si1^si2) & (~(9223372036854775807L))))-si2)^si2)) < 0) ?
+    ((si1)) :
+    (si1 - si2);
+}
+static int64_t
+(safe_mul_func_int64_t_s_s)(int64_t si1, int64_t si2 )
+{
+  return
+    (((si1 > 0) && (si2 > 0) && (si1 > ((9223372036854775807L) / si2))) || ((si1 > 0) && (si2 <= 0) && (si2 < ((-9223372036854775807L -1) / si1))) || ((si1 <= 0) && (si2 > 0) && (si1 < ((-9223372036854775807L -1) / si2))) || ((si1 <= 0) && (si2 <= 0) && (si1 != 0) && (si2 < ((9223372036854775807L) / si1)))) ?
+    ((si1)) :
+    si1 * si2;
+}
+static int64_t
+(safe_mod_func_int64_t_s_s)(int64_t si1, int64_t si2 )
+{
+  return
+    ((si2 == 0) || ((si1 == (-9223372036854775807L -1)) && (si2 == (-1)))) ?
+    ((si1)) :
+    (si1 % si2);
+}
+static int64_t
+(safe_div_func_int64_t_s_s)(int64_t si1, int64_t si2 )
+{
+  return
+    ((si2 == 0) || ((si1 == (-9223372036854775807L -1)) && (si2 == (-1)))) ?
+    ((si1)) :
+    (si1 / si2);
+}
+static int64_t
+(safe_lshift_func_int64_t_s_s)(int64_t left, int right )
+{
+  return
+    ((left < 0) || (((int)right) < 0) || (((int)right) >= 32) || (left > ((9223372036854775807L) >> ((int)right)))) ?
+    ((left)) :
+    (left << ((int)right));
+}
+static int64_t
+(safe_lshift_func_int64_t_s_u)(int64_t left, unsigned int right )
+{
+  return
+    ((left < 0) || (((unsigned int)right) >= 32) || (left > ((9223372036854775807L) >> ((unsigned int)right)))) ?
+    ((left)) :
+    (left << ((unsigned int)right));
+}
+static int64_t
+(safe_rshift_func_int64_t_s_s)(int64_t left, int right )
+{
+  return
+    ((left < 0) || (((int)right) < 0) || (((int)right) >= 32))?
+    ((left)) :
+    (left >> ((int)right));
+}
+static int64_t
+(safe_rshift_func_int64_t_s_u)(int64_t left, unsigned int right )
+{
+  return
+    ((left < 0) || (((unsigned int)right) >= 32)) ?
+    ((left)) :
+    (left >> ((unsigned int)right));
+}
+static uint8_t
+(safe_unary_minus_func_uint8_t_u)(uint8_t ui )
+{
+  return -ui;
+}
+static uint8_t
+(safe_add_func_uint8_t_u_u)(uint8_t ui1, uint8_t ui2 )
+{
+  return ui1 + ui2;
+}
+static uint8_t
+(safe_sub_func_uint8_t_u_u)(uint8_t ui1, uint8_t ui2 )
+{
+  return ui1 - ui2;
+}
+static uint8_t
+(safe_mul_func_uint8_t_u_u)(uint8_t ui1, uint8_t ui2 )
+{
+  return ((unsigned int)ui1) * ((unsigned int)ui2);
+}
+static uint8_t
+(safe_mod_func_uint8_t_u_u)(uint8_t ui1, uint8_t ui2 )
+{
+  return
+    (ui2 == 0) ?
+    ((ui1)) :
+    (ui1 % ui2);
+}
+static uint8_t
+(safe_div_func_uint8_t_u_u)(uint8_t ui1, uint8_t ui2 )
+{
+  return
+    (ui2 == 0) ?
+    ((ui1)) :
+    (ui1 / ui2);
+}
+static uint8_t
+(safe_lshift_func_uint8_t_u_s)(uint8_t left, int right )
+{
+  return
+    ((((int)right) < 0) || (((int)right) >= 32) || (left > ((255) >> ((int)right)))) ?
+    ((left)) :
+    (left << ((int)right));
+}
+static uint8_t
+(safe_lshift_func_uint8_t_u_u)(uint8_t left, unsigned int right )
+{
+  return
+    ((((unsigned int)right) >= 32) || (left > ((255) >> ((unsigned int)right)))) ?
+    ((left)) :
+    (left << ((unsigned int)right));
+}
+static uint8_t
+(safe_rshift_func_uint8_t_u_s)(uint8_t left, int right )
+{
+  return
+    ((((int)right) < 0) || (((int)right) >= 32)) ?
+    ((left)) :
+    (left >> ((int)right));
+}
+static uint8_t
+(safe_rshift_func_uint8_t_u_u)(uint8_t left, unsigned int right )
+{
+  return
+    (((unsigned int)right) >= 32) ?
+    ((left)) :
+    (left >> ((unsigned int)right));
+}
+static uint16_t
+(safe_unary_minus_func_uint16_t_u)(uint16_t ui )
+{
+  return -ui;
+}
+static uint16_t
+(safe_add_func_uint16_t_u_u)(uint16_t ui1, uint16_t ui2 )
+{
+  return ui1 + ui2;
+}
+static uint16_t
+(safe_sub_func_uint16_t_u_u)(uint16_t ui1, uint16_t ui2 )
+{
+  return ui1 - ui2;
+}
+static uint16_t
+(safe_mul_func_uint16_t_u_u)(uint16_t ui1, uint16_t ui2 )
+{
+  return ((unsigned int)ui1) * ((unsigned int)ui2);
+}
+static uint16_t
+(safe_mod_func_uint16_t_u_u)(uint16_t ui1, uint16_t ui2 )
+{
+  return
+    (ui2 == 0) ?
+    ((ui1)) :
+    (ui1 % ui2);
+}
+static uint16_t
+(safe_div_func_uint16_t_u_u)(uint16_t ui1, uint16_t ui2 )
+{
+  return
+    (ui2 == 0) ?
+    ((ui1)) :
+    (ui1 / ui2);
+}
+static uint16_t
+(safe_lshift_func_uint16_t_u_s)(uint16_t left, int right )
+{
+  return
+    ((((int)right) < 0) || (((int)right) >= 32) || (left > ((65535) >> ((int)right)))) ?
+    ((left)) :
+    (left << ((int)right));
+}
+static uint16_t
+(safe_lshift_func_uint16_t_u_u)(uint16_t left, unsigned int right )
+{
+  return
+    ((((unsigned int)right) >= 32) || (left > ((65535) >> ((unsigned int)right)))) ?
+    ((left)) :
+    (left << ((unsigned int)right));
+}
+static uint16_t
+(safe_rshift_func_uint16_t_u_s)(uint16_t left, int right )
+{
+  return
+    ((((int)right) < 0) || (((int)right) >= 32)) ?
+    ((left)) :
+    (left >> ((int)right));
+}
+static uint16_t
+(safe_rshift_func_uint16_t_u_u)(uint16_t left, unsigned int right )
+{
+  return
+    (((unsigned int)right) >= 32) ?
+    ((left)) :
+    (left >> ((unsigned int)right));
+}
+static uint32_t
+(safe_unary_minus_func_uint32_t_u)(uint32_t ui )
+{
+  return -ui;
+}
+static uint32_t
+(safe_add_func_uint32_t_u_u)(uint32_t ui1, uint32_t ui2 )
+{
+  return ui1 + ui2;
+}
+static uint32_t
+(safe_sub_func_uint32_t_u_u)(uint32_t ui1, uint32_t ui2 )
+{
+  return ui1 - ui2;
+}
+static uint32_t
+(safe_mul_func_uint32_t_u_u)(uint32_t ui1, uint32_t ui2 )
+{
+  return ((unsigned int)ui1) * ((unsigned int)ui2);
+}
+static uint32_t
+(safe_mod_func_uint32_t_u_u)(uint32_t ui1, uint32_t ui2 )
+{
+  return
+    (ui2 == 0) ?
+    ((ui1)) :
+    (ui1 % ui2);
+}
+static uint32_t
+(safe_div_func_uint32_t_u_u)(uint32_t ui1, uint32_t ui2 )
+{
+  return
+    (ui2 == 0) ?
+    ((ui1)) :
+    (ui1 / ui2);
+}
+static uint32_t
+(safe_lshift_func_uint32_t_u_s)(uint32_t left, int right )
+{
+  return
+    ((((int)right) < 0) || (((int)right) >= 32) || (left > ((4294967295U) >> ((int)right)))) ?
+    ((left)) :
+    (left << ((int)right));
+}
+static uint32_t
+(safe_lshift_func_uint32_t_u_u)(uint32_t left, unsigned int right )
+{
+  return
+    ((((unsigned int)right) >= 32) || (left > ((4294967295U) >> ((unsigned int)right)))) ?
+    ((left)) :
+    (left << ((unsigned int)right));
+}
+static uint32_t
+(safe_rshift_func_uint32_t_u_s)(uint32_t left, int right )
+{
+  return
+    ((((int)right) < 0) || (((int)right) >= 32)) ?
+    ((left)) :
+    (left >> ((int)right));
+}
+static uint32_t
+(safe_rshift_func_uint32_t_u_u)(uint32_t left, unsigned int right )
+{
+  return
+    (((unsigned int)right) >= 32) ?
+    ((left)) :
+    (left >> ((unsigned int)right));
+}
+static uint64_t
+(safe_unary_minus_func_uint64_t_u)(uint64_t ui )
+{
+  return -ui;
+}
+static uint64_t
+(safe_add_func_uint64_t_u_u)(uint64_t ui1, uint64_t ui2 )
+{
+  return ui1 + ui2;
+}
+static uint64_t
+(safe_sub_func_uint64_t_u_u)(uint64_t ui1, uint64_t ui2 )
+{
+  return ui1 - ui2;
+}
+static uint64_t
+(safe_mul_func_uint64_t_u_u)(uint64_t ui1, uint64_t ui2 )
+{
+  return ((unsigned long long)ui1) * ((unsigned long long)ui2);
+}
+static uint64_t
+(safe_mod_func_uint64_t_u_u)(uint64_t ui1, uint64_t ui2 )
+{
+  return
+    (ui2 == 0) ?
+    ((ui1)) :
+    (ui1 % ui2);
+}
+static uint64_t
+(safe_div_func_uint64_t_u_u)(uint64_t ui1, uint64_t ui2 )
+{
+  return
+    (ui2 == 0) ?
+    ((ui1)) :
+    (ui1 / ui2);
+}
+static uint64_t
+(safe_lshift_func_uint64_t_u_s)(uint64_t left, int right )
+{
+  return
+    ((((int)right) < 0) || (((int)right) >= 32) || (left > ((18446744073709551615UL) >> ((int)right)))) ?
+    ((left)) :
+    (left << ((int)right));
+}
+static uint64_t
+(safe_lshift_func_uint64_t_u_u)(uint64_t left, unsigned int right )
+{
+  return
+    ((((unsigned int)right) >= 32) || (left > ((18446744073709551615UL) >> ((unsigned int)right)))) ?
+    ((left)) :
+    (left << ((unsigned int)right));
+}
+static uint64_t
+(safe_rshift_func_uint64_t_u_s)(uint64_t left, int right )
+{
+  return
+    ((((int)right) < 0) || (((int)right) >= 32)) ?
+    ((left)) :
+    (left >> ((int)right));
+}
+static uint64_t
+(safe_rshift_func_uint64_t_u_u)(uint64_t left, unsigned int right )
+{
+  return
+    (((unsigned int)right) >= 32) ?
+    ((left)) :
+    (left >> ((unsigned int)right));
+}
+float fabsf(float);
+double fabs(double);
+static float
+(safe_add_func_float_f_f)(float sf1, float sf2 )
+{
+  return
+    (fabsf((0.5f * sf1) + (0.5f * sf2)) > (0.5f * 3.40282347e+38F)) ?
+    (sf1) :
+    (sf1 + sf2);
+}
+static float
+(safe_sub_func_float_f_f)(float sf1, float sf2 )
+{
+  return
+    (fabsf((0.5f * sf1) - (0.5f * sf2)) > (0.5f * 3.40282347e+38F)) ?
+    (sf1) :
+    (sf1 - sf2);
+}
+static float
+(safe_mul_func_float_f_f)(float sf1, float sf2 )
+{
+  return
+    (fabsf((0x1.0p-100f * sf1) * (0x1.0p-28f * sf2)) > (0x1.0p-100f * (0x1.0p-28f * 3.40282347e+38F))) ?
+    (sf1) :
+    (sf1 * sf2);
+}
+static float
+(safe_div_func_float_f_f)(float sf1, float sf2 )
+{
+  return
+    ((fabsf(sf2) < 1.0f) && (((sf2 == 0.0f) || (fabsf((0x1.0p-49f * sf1) / (0x1.0p100f * sf2))) > (0x1.0p-100f * (0x1.0p-49f * 3.40282347e+38F))))) ?
+    (sf1) :
+    (sf1 / sf2);
+}
+static double
+(safe_add_func_double_f_f)(double sf1, double sf2 )
+{
+  return
+    (fabs((0.5 * sf1) + (0.5 * sf2)) > (0.5 * 1.7976931348623157e+308)) ?
+    (sf1) :
+    (sf1 + sf2);
+}
+static double
+(safe_sub_func_double_f_f)(double sf1, double sf2 )
+{
+  return
+    (fabs((0.5 * sf1) - (0.5 * sf2)) > (0.5 * 1.7976931348623157e+308)) ?
+    (sf1) :
+    (sf1 - sf2);
+}
+static double
+(safe_mul_func_double_f_f)(double sf1, double sf2 )
+{
+  return
+    (fabs((0x1.0p-100 * sf1) * (0x1.0p-924 * sf2)) > (0x1.0p-100 * (0x1.0p-924 * 1.7976931348623157e+308))) ?
+    (sf1) :
+    (sf1 * sf2);
+}
+static double
+(safe_div_func_double_f_f)(double sf1, double sf2 )
+{
+  return
+    ((fabs(sf2) < 1.0) && (((sf2 == 0.0) || (fabs((0x1.0p-974 * sf1) / (0x1.0p100 * sf2))) > (0x1.0p-100 * (0x1.0p-974 * 1.7976931348623157e+308))))) ?
+    (sf1) :
+    (sf1 / sf2);
+}
+static int32_t
+(safe_convert_func_float_to_int32_t)(float sf1 )
+{
+  return
+    ((sf1 <= (-2147483647-1)) || (sf1 >= (2147483647))) ?
+    ((2147483647)) :
+    ((int32_t)(sf1));
+}
+
+static uint32_t crc32_tab[256];
+static uint32_t crc32_context = 0xFFFFFFFFUL;
+static void
+crc32_gentab (void)
+{
+ uint32_t crc;
+ const uint32_t poly = 0xEDB88320UL;
+ int i, j;
+ for (i = 0; i < 256; i++) {
+  crc = i;
+  for (j = 8; j > 0; j--) {
+   if (crc & 1) {
+    crc = (crc >> 1) ^ poly;
+   } else {
+    crc >>= 1;
+   }
+  }
+  crc32_tab[i] = crc;
+ }
+}
+static void
+crc32_byte (uint8_t b) {
+ crc32_context =
+  ((crc32_context >> 8) & 0x00FFFFFF) ^
+  crc32_tab[(crc32_context ^ b) & 0xFF];
+}
+static void
+crc32_8bytes (uint64_t val)
+{
+ crc32_byte ((val>>0) & 0xff);
+ crc32_byte ((val>>8) & 0xff);
+ crc32_byte ((val>>16) & 0xff);
+ crc32_byte ((val>>24) & 0xff);
+ crc32_byte ((val>>32) & 0xff);
+ crc32_byte ((val>>40) & 0xff);
+ crc32_byte ((val>>48) & 0xff);
+ crc32_byte ((val>>56) & 0xff);
+}
+static void
+transparent_crc (uint64_t val, char* vname, int flag)
+{
+ crc32_8bytes(val);
+ if (flag) {
+    printf("...checksum after hashing %s : %lX\n", vname, crc32_context ^ 0xFFFFFFFFUL);
+ }
+}
+static void
+transparent_crc_bytes (char *ptr, int nbytes, char* vname, int flag)
+{
+    int i;
+    for (i=0; i<nbytes; i++) {
+        crc32_byte(ptr[i]);
+    }
+ if (flag) {
+    printf("...checksum after hashing %s : %lX\n", vname, crc32_context ^ 0xFFFFFFFFUL);
+ }
+}
+
+volatile uint64_t csmith_sink_ = 0;
 static long __undefined;
-
-/* --- Struct/Union Declarations --- */
-/* --- GLOBAL VARIABLES --- */
-static uint8_t g_11 = 0x0EL;
-static int8_t g_38 = (-1L);
-static uint32_t g_57 = 0x32AFCB06L;
-static int16_t g_91 = (-1L);
-static uint16_t g_94 = 0x414CL;
-static uint16_t g_96 = 0UL;
-static uint32_t g_98 = 0x6553ECF3L;
-static int32_t g_119 = 0x79DA46A1L;
-static int8_t g_147 = (-6L);
-static int16_t g_148 = 0x9C94L;
-static int32_t g_187 = 0x89924172L;
-static uint8_t g_189 = 255UL;
-static uint32_t g_246 = 0x2F1ED599L;
-static uint8_t g_351 = 1UL;
-static int8_t g_355 = 0L;
-static int16_t g_356 = 0xDB71L;
-static uint32_t g_358 = 4294967295UL;
-static uint8_t g_371 = 251UL;
-static uint8_t g_380 = 0x39L;
-static uint32_t g_464 = 0xB10EE143L;
-static int8_t g_527 = 7L;
-static uint16_t g_830 = 9UL;
-static int16_t g_883 = (-5L);
-static int16_t g_922 = 0xD4DDL;
-static uint8_t g_961 = 8UL;
-
-
-/* --- FORWARD DECLARATIONS --- */
-static uint8_t  func_1(void);
-static uint16_t  func_8(int32_t  p_9, uint32_t  p_10);
-static int32_t  func_13(uint32_t  p_14, uint16_t  p_15, int32_t  p_16, uint32_t  p_17, uint16_t  p_18);
-static uint16_t  func_21(const int16_t  p_22, uint32_t  p_23, uint8_t  p_24, int16_t  p_25);
-static int32_t  func_27(uint32_t  p_28, uint32_t  p_29, int32_t  p_30, uint32_t  p_31);
-static int8_t  func_32(uint8_t  p_33, int16_t  p_34, int8_t  p_35);
-static uint16_t  func_39(int32_t  p_40, uint32_t  p_41);
-static int16_t  func_46(int32_t  p_47);
-static int32_t  func_51(const int32_t  p_52, int16_t  p_53, uint16_t  p_54, int32_t  p_55);
-static int32_t  func_70(const uint32_t  p_71, int32_t  p_72, const uint32_t  p_73, int8_t  p_74);
-
-
-/* --- FUNCTIONS --- */
-/* ------------------------------------------ */
-/* 
- * reads : g_11 g_57 g_94 g_96 g_98 g_91 g_119 g_147 g_148 g_187 g_189 g_246 g_358 g_371 g_355 g_380 g_356 g_464 g_351 g_527 g_38 g_830 g_883
- * writes: g_38 g_57 g_91 g_94 g_96 g_98 g_119 g_147 g_148 g_187 g_189 g_246 g_351 g_358 g_371 g_380 g_464 g_527 g_830 g_883 g_922 g_356 g_961
- */
-static uint8_t  func_1(void)
-{ /* block id: 0 */
-    int32_t l_12 = 0xD7249AAEL;
-    int32_t l_891 = 0xA9CE9B3EL;
-    int32_t l_892 = 0L;
-    int8_t l_893 = 0L;
-    uint16_t l_897 = 65532UL;
-    int32_t l_902 = 0x6D0B85E1L;
-    uint32_t l_913 = 18446744073709551614UL;
-    int32_t l_932 = 0L;
-    int32_t l_962 = 0x5D0D2263L;
-    int8_t l_963 = 0x6DL;
-    int32_t l_964 = (-4L);
-    int32_t l_965 = 0x5A8779C1L;
-    if ((!((safe_sub_func_int16_t_s_s((safe_add_func_int16_t_s_s((((!(((l_893 = ((l_891 = (func_8(g_11, l_12) == l_12)) != (l_892 |= g_11))) && (safe_unary_minus_func_uint16_t_u(3UL))) <= (safe_add_func_int16_t_s_s(l_897, (safe_sub_func_int32_t_s_s(((safe_lshift_func_uint32_t_u_u((l_902 = 4294967291UL), 1)) || ((((g_356 <= l_12) ^ 9UL) <= l_902) <= 0x06C1488CL)), g_356)))))) == l_12) < l_897), 0UL)), g_356)) ^ g_11)))
-    { /* block id: 304 */
-        uint16_t l_906 = 1UL;
-        int32_t l_921 = 0x03BEFC0FL;
-        g_922 = (g_119 = (l_921 = (((~(safe_mod_func_uint32_t_u_u(l_906, g_96))) <= ((safe_add_func_uint32_t_u_u(((safe_add_func_uint16_t_u_u((g_57 == l_913), 65526UL)) != (0x1592AE59L > (-1L))), ((((safe_unary_minus_func_uint16_t_u((safe_rshift_func_uint16_t_u_s((safe_rshift_func_uint16_t_u_s(l_906, 4)), 1)))) >= (safe_lshift_func_int8_t_s_u(0xDFL, 0))) > g_119) | l_12))) & 4294967289UL)) > l_12)));
-        return g_98;
-    }
-    else
-    { /* block id: 309 */
-        uint16_t l_937 = 65528UL;
-        l_892 = (~(g_356 = (((safe_unary_minus_func_int32_t_s(((~((safe_add_func_uint8_t_u_u(((safe_rshift_func_uint32_t_u_s((g_187 <= (0x1647AEEEL & l_902)), 22)) >= (((((l_932 = g_119) ^ (safe_lshift_func_uint8_t_u_s((safe_rshift_func_int8_t_s_u(g_11, 7)), g_91))) ^ l_937) & ((safe_rshift_func_int32_t_s_u((safe_mod_func_uint16_t_u_u(((-1L) ^ 0x1A74L), 0x517BL)), 14)) & g_57)) != 0UL)), g_147)) || 0x03EAL)) && l_891))) < l_937) <= g_96)));
-    }
-    l_965 |= (((safe_add_func_uint8_t_u_u(l_902, (l_964 &= ((safe_lshift_func_int32_t_s_s((g_119 = l_893), (safe_add_func_int8_t_s_s((safe_lshift_func_int16_t_s_u(((g_38 = (~((g_356 = ((safe_sub_func_uint8_t_u_u(252UL, ((safe_div_func_uint32_t_u_u(((g_830 || 65532UL) | ((((g_351 != (safe_rshift_func_int32_t_s_s(0x5133D2EAL, (l_892 = ((((g_961 = (g_91 < (safe_mod_func_int32_t_s_s((safe_lshift_func_uint8_t_u_u((l_932 = (l_891 >= l_892)), l_913)), l_897)))) == l_962) > g_246) ^ 4294967286UL))))) > 0x0EL) <= l_897) <= l_891)), 0x5308706EL)) < l_963))) > 0xA6432AE5L)) > l_893))) < 0x4CL), 0)), 0x38L)))) != l_963)))) || g_147) < g_883);
-    g_119 &= (+l_892);
-    return g_830;
-}
-
-
-/* ------------------------------------------ */
-/* 
- * reads : g_11 g_57 g_94 g_96 g_98 g_91 g_119 g_147 g_148 g_187 g_189 g_246 g_358 g_371 g_355 g_380 g_356 g_464 g_351 g_527 g_38 g_830
- * writes: g_38 g_57 g_91 g_94 g_96 g_98 g_119 g_147 g_148 g_187 g_189 g_246 g_351 g_358 g_371 g_380 g_464 g_527 g_830 g_883
- */
-static uint16_t  func_8(int32_t  p_9, uint32_t  p_10)
-{ /* block id: 1 */
-    const int8_t l_26 = 1L;
-    int32_t l_881 = (-5L);
-    int32_t l_882 = 0xE30B85A9L;
-    int32_t l_890 = 0L;
-    p_9 = func_13((safe_sub_func_uint16_t_u_u(func_21(l_26, g_11, l_26, g_11), (safe_add_func_uint32_t_u_u(((g_11 < (g_355 != (safe_div_func_uint8_t_u_u(0x83L, (safe_div_func_int16_t_s_s((safe_lshift_func_int32_t_s_u(((g_883 = (safe_mod_func_uint16_t_u_u(((l_882 = (safe_div_func_int8_t_s_s((l_881 = (1UL & 0x7EL)), 0xF1L))) & 0xAA0C086AL), l_26))) < 0xE6A9493FL), g_355)), g_11)))))) & 0x16L), (-10L))))), g_355, l_26, l_26, g_355);
-    l_881 = l_890;
-    return l_890;
-}
-
-
-/* ------------------------------------------ */
-/* 
- * reads :
- * writes:
- */
-static int32_t  func_13(uint32_t  p_14, uint16_t  p_15, int32_t  p_16, uint32_t  p_17, uint16_t  p_18)
-{ /* block id: 294 */
-    uint32_t l_886 = 0x1C60B184L;
-    int32_t l_889 = 0x3D436FD0L;
-    l_889 &= (p_17 & (safe_mod_func_int32_t_s_s(l_886, (safe_rshift_func_uint16_t_u_u(p_16, 13)))));
-    return l_889;
-}
-
-
-/* ------------------------------------------ */
-/* 
- * reads : g_11 g_57 g_94 g_96 g_98 g_91 g_119 g_147 g_148 g_187 g_189 g_246 g_358 g_371 g_355 g_380 g_356 g_464 g_351 g_527 g_38 g_830
- * writes: g_38 g_57 g_91 g_94 g_96 g_98 g_119 g_147 g_148 g_187 g_189 g_246 g_351 g_358 g_371 g_380 g_464 g_527 g_830
- */
-static uint16_t  func_21(const int16_t  p_22, uint32_t  p_23, uint8_t  p_24, int16_t  p_25)
-{ /* block id: 2 */
-    const uint16_t l_50 = 1UL;
-    int32_t l_868 = (-1L);
-    l_868 = func_27((func_32(((((g_11 && (safe_add_func_uint16_t_u_u((g_38 = (p_24 || (g_11 != 0x6AL))), func_39(((safe_mod_func_uint8_t_u_u(((safe_sub_func_uint16_t_u_u(65535UL, (func_46(((p_22 && ((((l_50 ^ (func_51(l_50, (g_11 == 0x79L), g_11, g_11) >= p_24)) >= 6L) != g_11) && g_11)) | 0UL)) || g_119))) == p_25), g_355)) & 255UL), g_11)))) != p_24) > p_25) != l_50), p_25, l_50) <= p_24), g_355, g_355, l_50);
-    g_119 = (0xAB2FE517L & g_148);
-    return g_189;
-}
-
-
-/* ------------------------------------------ */
-/* 
- * reads : g_356 g_380 g_38
- * writes:
- */
-static int32_t  func_27(uint32_t  p_28, uint32_t  p_29, int32_t  p_30, uint32_t  p_31)
-{ /* block id: 285 */
-    uint8_t l_864 = 1UL;
-    int32_t l_867 = 0x49436CFFL;
-    l_867 = ((p_31 != ((1UL || (safe_rshift_func_int32_t_s_u(0x34F2BF69L, (((0x7F61L != l_864) | (g_356 > 0x4128L)) > (g_380 >= (safe_lshift_func_uint8_t_u_u(((g_38 <= l_864) ^ p_29), 6))))))) > 4294967295UL)) ^ p_30);
-    return l_867;
-}
-
-
-/* ------------------------------------------ */
-/* 
- * reads : g_189 g_57 g_527 g_464 g_246 g_380 g_148 g_351 g_38 g_91 g_96 g_98 g_119 g_187 g_371 g_147 g_355 g_94 g_356 g_11 g_358 g_830
- * writes: g_527 g_57 g_94 g_96 g_119 g_464 g_148 g_358 g_830
- */
-static int8_t  func_32(uint8_t  p_33, int16_t  p_34, int8_t  p_35)
-{ /* block id: 201 */
-    uint32_t l_600 = 0x51002C15L;
-    int32_t l_613 = 0xEA888885L;
-    int32_t l_614 = 1L;
-    uint8_t l_770 = 0xE6L;
-    uint32_t l_791 = 0x451CD1CFL;
-    uint8_t l_804 = 0xEFL;
-    int8_t l_838 = (-4L);
-    int8_t l_853 = 1L;
-    int32_t l_861 = 0L;
-    if ((l_614 &= ((p_35 && (safe_lshift_func_uint8_t_u_s(0x5EL, 4))) | ((safe_div_func_uint8_t_u_u((((g_189 != g_57) != (l_613 &= (safe_unary_minus_func_uint8_t_u(((g_527 |= l_600) > (safe_mod_func_int16_t_s_s((p_34 = ((safe_sub_func_int8_t_s_s(0xC1L, ((safe_mod_func_int32_t_s_s((safe_lshift_func_int32_t_s_u(((((p_33 ^ ((safe_rshift_func_uint8_t_u_u(((safe_mod_func_int8_t_s_s((p_35 || (0x1DL == 0x18L)), g_464)) | l_600), 5)) & g_246)) < l_600) < 1UL) <= 0xE3L), 26)), g_380)) < g_148))) < 7UL)), 0x8D94L))))))) == p_35), 9L)) > 1UL))))
-    { /* block id: 206 */
-        int32_t l_617 = 0x28102B23L;
-        uint32_t l_637 = 6UL;
-        int32_t l_654 = 0xFE2DF707L;
-        uint32_t l_655 = 0xC67B15D3L;
-        int32_t l_700 = 0x59CB603AL;
-        uint16_t l_766 = 0xF769L;
-        for (g_57 = (-9); (g_57 <= 9); g_57 = safe_add_func_int8_t_s_s(g_57, 5))
-        { /* block id: 209 */
-            int16_t l_628 = 0x8490L;
-            const int32_t l_632 = 0xFA6C3F0EL;
-            int32_t l_638 = 0xB2379CF2L;
-            uint16_t l_651 = 65526UL;
-            uint16_t l_669 = 1UL;
-            int32_t l_718 = (-1L);
-            l_638 = ((((g_94 = l_617) != 0x9FCCL) <= g_246) <= (safe_div_func_int32_t_s_s(((safe_div_func_uint8_t_u_u(((safe_sub_func_int32_t_s_s(((safe_mod_func_int16_t_s_s((l_613 >= ((l_628 = p_33) <= (+g_351))), (g_96 ^= ((((safe_div_func_uint32_t_u_u(((((l_632 <= (safe_rshift_func_int32_t_s_u((+(safe_unary_minus_func_uint32_t_u(p_33))), p_33))) || l_632) <= p_35) ^ g_38), p_33)) != p_34) <= 1L) && g_91)))) & l_600), l_632)) || p_35), l_637)) != g_380), (-1L))));
-            l_614 = g_98;
-            for (g_527 = 0; (g_527 <= 15); ++g_527)
-            { /* block id: 217 */
-                int32_t l_668 = 0xE6923AC2L;
-                uint8_t l_717 = 0x2AL;
-                int8_t l_746 = (-4L);
-                if ((((safe_add_func_uint16_t_u_u((safe_add_func_int16_t_s_s(((safe_rshift_func_uint32_t_u_s((safe_add_func_uint32_t_u_u((safe_sub_func_uint8_t_u_u((l_654 = (++l_651)), (((l_655 || p_33) || (l_669 = (safe_div_func_uint32_t_u_u((safe_lshift_func_uint16_t_u_s((l_614 = ((safe_sub_func_uint32_t_u_u((safe_mul_func_uint32_t_u_u(4294967295UL, (l_613 < ((g_119 |= (-8L)) ^ ((((safe_rshift_func_uint8_t_u_u((0x7224L | 0x4287L), ((safe_div_func_uint16_t_u_u(((g_187 < ((251UL | 0x6FL) == g_351)) <= l_613), p_33)) & g_371))) >= p_34) | l_668) && 65528UL))))), g_147)) & g_246)), 2)), l_668)))) >= l_600))), g_464)), l_637)) && 0x707C905DL), p_33)), p_35)) > l_632) | g_355))
-                { /* block id: 223 */
-                    int16_t l_698 = 0x4302L;
-                    int32_t l_699 = 0x4942BC4FL;
-                    for (l_617 = 0; (l_617 != 0); l_617 = safe_add_func_uint8_t_u_u(l_617, 1))
-                    { /* block id: 226 */
-                        if (p_34)
-                            break;
-                    }
-                    l_699 = (g_119 &= (((safe_div_func_int8_t_s_s((safe_sub_func_int16_t_s_s((safe_add_func_uint32_t_u_u(((((((-8L) >= (g_94++)) < (safe_add_func_uint8_t_u_u((safe_rshift_func_uint32_t_u_u((safe_lshift_func_int32_t_s_s((safe_sub_func_uint32_t_u_u(4294967295UL, ((safe_sub_func_int32_t_s_s((((safe_add_func_int32_t_s_s(((0xFB8AL & (0UL <= ((safe_sub_func_int32_t_s_s(p_35, 0x2747CA08L)) <= (((safe_rshift_func_uint32_t_u_s(4UL, p_35)) == (safe_mod_func_int8_t_s_s((g_57 ^ g_187), p_33))) || p_34)))) < l_613), p_35)) < l_628) || 1UL), g_96)) || p_34))), 22)), 24)), p_33))) | l_698) == l_638) != l_654), 0L)), 0xED16L)), p_35)) || p_33) ^ 1L));
-                }
-                else
-                { /* block id: 232 */
-                    int8_t l_701 = 0x61L;
-                    l_700 = 0x0914B85FL;
-                    l_701 &= (p_34 != (g_91 <= 0x225AL));
-                    g_119 = 0xB50187FCL;
-                }
-                for (g_464 = 0; (g_464 > 29); g_464++)
-                { /* block id: 239 */
-                    uint32_t l_710 = 0x2B23A961L;
-                    int32_t l_765 = 0x8BE36C76L;
-                    int32_t l_767 = 0xAC2C4CDDL;
-                    l_718 = (safe_add_func_uint16_t_u_u((((safe_lshift_func_int8_t_s_s((safe_div_func_int32_t_s_s(((l_710 || g_356) > ((l_638 = 0L) == (l_700 = ((g_148 = (-4L)) && 0x18F7L)))), p_35)), (safe_lshift_func_uint16_t_u_u((((safe_sub_func_uint16_t_u_u(((g_57 < (safe_mod_func_uint16_t_u_u((g_96 = (((g_358 = p_34) != (g_464 < p_34)) > g_11)), g_371))) && g_246), p_35)) == l_654) >= l_710), p_33)))) < 6UL) < l_717), l_710));
-                    g_119 = ((g_351 ^ ((0xDFA2L ^ (safe_div_func_int8_t_s_s(((safe_add_func_int32_t_s_s((((safe_div_func_int16_t_s_s((g_148 |= l_655), (safe_div_func_uint8_t_u_u(p_34, (p_33 = (safe_lshift_func_uint16_t_u_u((safe_mod_func_int16_t_s_s((safe_lshift_func_uint32_t_u_u((safe_rshift_func_uint8_t_u_s(((-1L) >= p_35), (+(safe_rshift_func_int32_t_s_u(((g_91 < ((safe_lshift_func_uint32_t_u_u((safe_mod_func_uint16_t_u_u(p_35, (0x4BBBL ^ g_464))), 8)) && p_33)) ^ p_34), p_35))))), g_57)), g_358)), l_600))))))) > p_34) <= g_380), g_119)) ^ 0x41D1L), 0x81L))) && g_96)) < 255UL);
-                    l_767 ^= (((safe_mod_func_uint16_t_u_u((safe_mod_func_uint16_t_u_u(l_746, (l_765 = (safe_add_func_int32_t_s_s((((l_613 &= (safe_add_func_int32_t_s_s((safe_add_func_int32_t_s_s(0xBB0361C7L, 0x22F5F7F1L)), p_33))) > ((safe_rshift_func_int16_t_s_s((g_148 = (safe_add_func_uint8_t_u_u((65535UL > p_33), (safe_lshift_func_int32_t_s_u(p_33, 3))))), (0x709F55ABL || (safe_mod_func_int8_t_s_s((((((safe_lshift_func_int8_t_s_u(((((safe_mod_func_int32_t_s_s(0x5C1D941AL, l_614)) & g_189) ^ 1UL) > l_617), 4)) < l_710) == g_96) && 0UL) || l_628), 8UL))))) <= p_34)) == 6UL), 0x0D62B8F4L))))), 5L)) & l_766) != g_371);
-                }
-                l_668 = p_35;
-            }
-        }
-        l_614 &= g_356;
-    }
-    else
-    { /* block id: 258 */
-        uint8_t l_773 = 0xC3L;
-        int32_t l_786 = 0xC2909BC1L;
-        l_613 = ((l_614 &= (safe_div_func_uint8_t_u_u(l_770, (safe_rshift_func_uint32_t_u_s(((((l_773 = l_613) != (((p_34 = (4294967287UL >= ((0x522DL & (safe_sub_func_int16_t_s_s((safe_lshift_func_uint8_t_u_u((safe_rshift_func_int32_t_s_s((((safe_lshift_func_uint8_t_u_s(((safe_sub_func_uint32_t_u_u((safe_lshift_func_uint8_t_u_u(((l_786 ^ p_33) && 0UL), 5)), (g_91 > ((((safe_div_func_int32_t_s_s(((safe_add_func_int8_t_s_s((2UL || l_770), g_148)) | l_600), l_770)) >= 252UL) > 4294967292UL) >= l_770)))) || l_791), 0)) && 0xA731L) && 0L), 16)), 5)), l_600))) == g_351))) ^ g_147) & l_786)) || 1UL) || 8UL), g_148))))) >= l_786);
-        g_119 = ((l_773 || (safe_add_func_int16_t_s_s((safe_sub_func_uint16_t_u_u(((1UL >= 0x775E9498L) == (l_613 &= g_147)), (((safe_sub_func_uint32_t_u_u((l_614 = g_91), g_96)) > ((safe_div_func_uint16_t_u_u(l_600, (p_34 = (safe_div_func_uint16_t_u_u((l_786 >= (+(!((1UL == l_770) > g_351)))), l_600))))) & g_98)) <= p_33))), p_33))) > p_33);
-    }
-    if ((l_804 = (0x3B3DL > g_380)))
-    { /* block id: 269 */
-        int32_t l_828 = 0xD616F2CDL;
-        int32_t l_829 = 0x70F91B83L;
-        g_830 &= (0x6624227BL <= (((safe_rshift_func_uint32_t_u_u((((safe_lshift_func_uint16_t_u_u(g_119, (0x4AL ^ (((l_614 = ((safe_mod_func_int32_t_s_s((safe_add_func_uint32_t_u_u(((((((l_829 = (safe_mod_func_int16_t_s_s((safe_sub_func_int16_t_s_s((g_356 == ((((safe_lshift_func_int8_t_s_s(0xB7L, 6)) >= ((!0x29B3L) && (safe_lshift_func_int32_t_s_s(((1UL ^ ((safe_rshift_func_uint8_t_u_s(1UL, (safe_add_func_int16_t_s_s(l_828, g_355)))) >= l_791)) == l_770), 16)))) | g_147) == p_35)), g_380)), p_33))) < p_34) < g_91) > l_828) >= l_791) || p_33), l_828)), p_34)) || 0UL)) < g_57) ^ l_828)))) && l_600) || 1UL), 28)) <= 1UL) <= g_527));
-        g_119 = g_830;
-    }
-    else
-    { /* block id: 274 */
-        uint32_t l_833 = 1UL;
-        int32_t l_836 = 1L;
-        int32_t l_837 = 0x44936891L;
-        l_837 = (((safe_sub_func_int32_t_s_s(l_833, p_33)) != (safe_rshift_func_uint8_t_u_u((((++g_57) < l_836) <= g_91), 3))) > g_464);
-    }
-    l_614 = (l_600 > (g_148 = (safe_sub_func_int8_t_s_s(g_119, ((((p_33 | 9L) == (p_35 = p_33)) & ((safe_lshift_func_uint32_t_u_s((g_246 > ((l_600 | p_34) > (safe_sub_func_int32_t_s_s((p_33 & g_38), l_614)))), p_33)) < g_355)) < 0x4AL)))));
-    l_861 = (((l_613 = (((0xEFL < (safe_rshift_func_int16_t_s_s(0xFF9BL, p_34))) >= ((safe_div_func_int8_t_s_s(l_853, (safe_rshift_func_uint32_t_u_s(l_804, 15)))) != (l_614 = (~(g_148 >= l_791))))) < p_35)) >= (safe_mod_func_int16_t_s_s((p_34 < 0L), p_34))) | g_246);
-    return g_371;
-}
-
-
-/* ------------------------------------------ */
-/* 
- * reads : g_355 g_380 g_356 g_94 g_464 g_527
- * writes:
- */
-static uint16_t  func_39(int32_t  p_40, uint32_t  p_41)
-{ /* block id: 194 */
-    int8_t l_579 = (-1L);
-    int32_t l_590 = 0xD83C1E56L;
-    int32_t l_591 = (-1L);
-    int32_t l_592 = 0xBD1C8521L;
-    int32_t l_593 = 8L;
-    int32_t l_594 = 0L;
-    l_594 = ((l_593 = (safe_sub_func_uint32_t_u_u(((p_40 != (((((((safe_rshift_func_uint16_t_u_u((l_592 = (safe_div_func_uint16_t_u_u((g_355 > (safe_mod_func_uint32_t_u_u((!((l_591 = (safe_sub_func_uint16_t_u_u((g_380 <= (!(safe_div_func_uint32_t_u_u(l_579, 0x346E925AL)))), (((safe_sub_func_int16_t_s_s((p_40 >= ((safe_div_func_uint16_t_u_u(((((safe_div_func_int8_t_s_s(((((l_590 &= (safe_div_func_uint8_t_u_u((safe_lshift_func_uint32_t_u_s(0xACE2E2E6L, 8)), l_579))) != (((0xCFDD4208L < g_356) & l_579) <= g_94)) >= l_579) ^ g_380), 0xABL)) && g_464) <= (-1L)) || p_41), 3L)) && g_356)), l_579)) <= 0L) < p_40)))) == g_527)), l_579))), 0x7428L))), 15)) & p_41) < 0x75L) & g_355) | l_579) >= p_41) < l_579)) || l_579), l_579))) || l_590);
-    return l_594;
-}
-
-
-/* ------------------------------------------ */
-/* 
- * reads : g_57 g_91 g_148 g_96 g_119 g_98 g_94 g_187 g_189 g_147 g_246 g_11 g_358 g_371 g_355 g_380 g_356 g_464 g_351 g_527
- * writes: g_187 g_94 g_119 g_189 g_246 g_96 g_351 g_147 g_358 g_371 g_380 g_91 g_464 g_57 g_98
- */
-static int16_t  func_46(int32_t  p_47)
-{ /* block id: 46 */
-    int8_t l_149 = 6L;
-    int32_t l_166 = (-1L);
-    int32_t l_167 = 5L;
-    uint16_t l_242 = 65533UL;
-    uint32_t l_325 = 0x950191F7L;
-    uint8_t l_327 = 0xF0L;
-    if (l_149)
-    { /* block id: 47 */
-        uint16_t l_218 = 65535UL;
-        uint32_t l_236 = 0UL;
-        int8_t l_243 = (-1L);
-        int32_t l_244 = 0x029CE55DL;
-        if ((safe_lshift_func_int8_t_s_u(((((safe_lshift_func_uint8_t_u_s(p_47, 7)) == g_57) == (safe_add_func_int16_t_s_s((-5L), (safe_sub_func_int8_t_s_s((~(safe_sub_func_uint16_t_u_u(p_47, l_149))), g_91))))) >= (l_167 ^= ((((l_166 = ((safe_unary_minus_func_uint32_t_u(g_148)) | ((safe_rshift_func_uint32_t_u_s(g_96, ((((safe_mod_func_uint16_t_u_u(p_47, g_96)) != l_149) <= p_47) < g_119))) < 0xF01BL))) & g_98) != g_94) & g_148))), g_119)))
-        { /* block id: 50 */
-            int16_t l_181 = 0L;
-            uint8_t l_186 = 1UL;
-            int32_t l_188 = 0x5F2842BFL;
-            int32_t l_190 = 0x83662F39L;
-            int32_t l_235 = 0xE89911EFL;
-            l_190 = ((0L | ((l_166 = l_149) > (safe_rshift_func_uint32_t_u_s(((+((g_94 = (safe_mod_func_uint16_t_u_u(((safe_sub_func_uint32_t_u_u((p_47 > (((safe_rshift_func_int32_t_s_s(((safe_add_func_int32_t_s_s((l_188 &= (0UL || (safe_div_func_uint16_t_u_u((g_96 < (p_47 != (((l_181 == (safe_sub_func_int32_t_s_s((((g_119 <= (g_187 |= (l_167 = (safe_add_func_uint16_t_u_u((l_149 < 4294967295UL), l_186))))) <= g_119) | p_47), l_149))) < g_119) >= p_47))), g_57)))), l_149)) == 0x1BL), 3)) | l_149) ^ l_149)), g_98)) <= l_181), g_98))) || p_47)) >= g_189), 29)))) != 9UL);
-            for (l_166 = (-2); (l_166 == 13); l_166 = safe_add_func_uint16_t_u_u(l_166, 2))
-            { /* block id: 59 */
-                uint8_t l_216 = 0xDDL;
-                int32_t l_217 = 0x2C93F04CL;
-                int8_t l_219 = 1L;
-                p_47 = ((((((g_119 = g_96) & (safe_lshift_func_uint16_t_u_u((+(safe_lshift_func_uint32_t_u_s((((safe_mod_func_int32_t_s_s((safe_add_func_int8_t_s_s(0L, 1L)), 0xB1848449L)) < (l_219 = (((safe_sub_func_uint32_t_u_u((((safe_rshift_func_uint16_t_u_s(l_166, 5)) & ((safe_add_func_int32_t_s_s((safe_sub_func_int8_t_s_s((((safe_add_func_uint32_t_u_u(1UL, (p_47 == (l_188 == ((g_189 = (l_217 = (((safe_sub_func_int16_t_s_s(0L, (-4L))) | 0xCDD84AA6L) == l_216))) != p_47))))) <= 0x1CDEL) || g_94), 0UL)), l_188)) <= l_218)) && (-8L)), l_216)) != 0x83L) < p_47))) & 0x44C0L), g_96))), g_94))) | p_47) <= p_47) | 0x50L) >= 0x9F704EBCL);
-                l_236 ^= (safe_lshift_func_int16_t_s_s((g_147 & (safe_sub_func_int32_t_s_s((l_235 ^= ((safe_lshift_func_uint8_t_u_s((((((safe_sub_func_int16_t_s_s(((l_188 = (((+l_218) == l_190) ^ ((safe_sub_func_int16_t_s_s((safe_div_func_int8_t_s_s((l_186 & (p_47 && (0UL | (p_47 != (safe_add_func_uint16_t_u_u(65531UL, (g_147 <= p_47))))))), (-7L))), g_119)) && p_47))) | 253UL), g_96)) <= l_218) >= p_47) < l_190) > l_218), p_47)) | l_149)), l_218))), g_189));
-                l_235 = (safe_div_func_int8_t_s_s(p_47, ((l_242 ^= ((4294967293UL | ((l_216 > 65527UL) == g_91)) || (safe_lshift_func_int8_t_s_u((l_236 || (!l_217)), 1)))) && ((-1L) || l_243))));
-                p_47 = l_236;
-            }
-            return p_47;
+static int32_t g_30 = 0xC11E043EL;
+static uint8_t g_95 = 1UL;
+static int32_t *g_98 = &g_30;
+static int32_t **g_97 = &g_98;
+static int32_t *** const g_96 = &g_97;
+static uint8_t *g_103 = (void*)0;
+static uint8_t **g_102 = &g_103;
+static int16_t g_104 = 0xEAFAL;
+static uint8_t g_117 = 254UL;
+static uint32_t g_158 = 18446744073709551611UL;
+static uint32_t g_167 = 4UL;
+static uint64_t g_195 = 0xE445A64C687DC4BDLL;
+static uint64_t g_197 = 0xC40A721C5E8018D8LL;
+static uint16_t g_204 = 65526UL;
+static int64_t g_206 = (-1L);
+static int64_t g_208 = (-1L);
+static int32_t g_256 = 0xA74B1B2CL;
+static int16_t g_284 = 0x4D02L;
+static int32_t ***g_308 = (void*)0;
+static int32_t ****g_307 = &g_308;
+static int32_t *g_316 = &g_30;
+static int8_t g_331 = 0xC9L;
+static uint16_t g_385 = 0x8E97L;
+static uint16_t g_387 = 0xF03EL;
+static uint16_t *g_404 = &g_385;
+static uint16_t **g_403 = &g_404;
+static uint16_t g_413 = 65535UL;
+static uint8_t g_430 = 255UL;
+static int8_t g_505 = 1L;
+static int64_t g_506 = 0L;
+static uint16_t ***g_525 = &g_403;
+static uint16_t ****g_524 = &g_525;
+static uint16_t g_579 = 0x7D23L;
+static uint8_t ***g_591 = &g_102;
+static uint8_t g_615 = 0x73L;
+static uint32_t g_648 = 0x79B58DFBL;
+static int32_t g_695 = (-8L);
+static uint64_t g_720 = 18446744073709551611UL;
+inline static const int32_t func_1(void);
+inline static const int32_t * func_2(int32_t p_3, uint32_t p_4, int32_t * p_5);
+inline static int32_t func_6(int8_t p_7, int8_t p_8, int32_t p_9, int32_t p_10);
+inline static uint8_t func_16(uint32_t p_17);
+static int8_t func_21(int32_t * p_22, uint32_t p_23);
+static uint32_t func_24(uint32_t p_25, uint8_t p_26, int16_t p_27, int32_t * const * p_28, int32_t p_29);
+inline static uint32_t func_35(uint32_t p_36, uint32_t p_37, const int32_t p_38);
+inline static int16_t func_41(uint16_t p_42, int64_t p_43, int64_t p_44, uint32_t p_45, int32_t p_46);
+inline static int8_t func_49(int8_t p_50);
+inline static int32_t *** func_54(int16_t p_55, const int32_t p_56, int8_t p_57, uint64_t p_58);
+inline static const int32_t func_1(void)
+{
+    int32_t l_12 = 0xCF30836BL;
+    int32_t *l_13 = &l_12;
+    int32_t *l_15 = &l_12;
+    int32_t **l_14 = &l_15;
+    int16_t l_583 = 1L;
+    int32_t *l_584 = &l_12;
+    const int32_t *l_609 = &l_12;
+    const int32_t **l_608 = &l_609;
+    int8_t l_614 = 7L;
+    uint32_t l_627 = 0x5E872282L;
+    int32_t *l_694 = &g_695;
+    uint32_t l_701 = 0x259E46A4L;
+    int32_t l_728 = 0x3EA0B92AL;
+    uint32_t l_731 = 1UL;
+    uint8_t l_743 = 0x63L;
+    (*l_608) = func_2((func_6(((((!l_12) , ((l_13 == ((*l_14) = (void*)0)) , func_16((*l_13)))) | (3UL ^ 0x3F425049L)) > (((safe_add_func_int32_t_s_s((((void*)0 == (*g_102)) , (*l_13)), 1L)) , g_505) & 0x48L)), g_505, (*l_13), (*l_13)) , 1L), l_583, l_584);
+    for (l_12 = (-22); (l_12 <= 8); l_12 = safe_add_func_uint8_t_u_u(l_12, 3))
+    {
+        uint8_t *l_623 = &g_117;
+        int32_t l_624 = 0xC8937AA8L;
+        int8_t *l_625 = &l_614;
+        int32_t l_626 = 1L;
+        uint16_t *l_643 = (void*)0;
+        int32_t l_706 = 2L;
+        int16_t *l_725 = (void*)0;
+        int16_t *l_726 = &g_104;
+        int16_t *l_727 = &l_583;
+        uint32_t *l_742 = &g_648;
+        uint32_t l_744 = 0x40A8940BL;
+        if (((((safe_rshift_func_uint16_t_u_s(((l_614 , g_615) >= (*g_316)), 9)) , (((**g_403) = ((((safe_rshift_func_uint32_t_u_u(g_385, g_195)) && (((g_104 = (!((*l_625) = (((safe_sub_func_int16_t_s_s((-1L), 0UL)) && (safe_mod_func_int8_t_s_s((((((*l_623) = g_197) & (((3L <= g_506) | (*l_13)) <= g_505)) , 4294967295UL) , l_624), l_624))) & l_624)))) < (*g_404)) > l_626)) == l_624) & l_627)) | l_626)) != 0x5D0C2D57L) < 1L))
+        {
+            int32_t *l_630 = &l_624;
+            (*g_316) = (safe_sub_func_uint8_t_u_u((*l_584), ((*g_316) < ((*l_630) = (*g_316)))));
         }
         else
-        { /* block id: 73 */
-            int16_t l_245 = 0x238CL;
-            --g_246;
+        {
+            int8_t l_646 = (-5L);
+            int64_t *l_647 = &g_206;
+            (*l_608) = func_2((((**g_591) != (((((*l_625) = ((safe_add_func_int8_t_s_s(g_204, (((((safe_rshift_func_int64_t_s_s(((*l_647) = ((((-7L) <= (safe_sub_func_uint8_t_u_u((((l_626 = (safe_mod_func_uint8_t_u_u((safe_sub_func_uint16_t_u_u(((safe_lshift_func_uint16_t_u_s((***g_525), (((void*)0 != l_643) || (***g_525)))) , ((safe_lshift_func_uint32_t_u_s(0x3175C0B0L, 8)) && ((*l_623) = (l_624 != g_195)))), (*g_404))), 0x6BL))) && l_626) , 0x58L), l_646))) < l_646) < 0x2D56L)), (*l_13))) & 1UL) == g_648) ^ 1L) , l_646))) < g_615)) , g_284) , l_646) , (**g_591))) && l_646), l_624, &l_624);
         }
-        g_119 = (safe_mod_func_uint8_t_u_u((safe_lshift_func_int16_t_s_s((safe_rshift_func_uint16_t_u_u((+(1L ^ (safe_mod_func_int16_t_s_s((safe_add_func_uint16_t_u_u((((safe_lshift_func_uint8_t_u_s(0xFAL, 0)) == (safe_add_func_uint32_t_u_u(l_149, (safe_div_func_uint16_t_u_u((l_244 = (safe_div_func_uint8_t_u_u(((safe_lshift_func_int16_t_s_s((safe_add_func_uint8_t_u_u(246UL, (safe_rshift_func_uint8_t_u_u((~4294967295UL), (!p_47))))), 10)) <= (safe_mod_func_int32_t_s_s((((p_47 > (((0x77L >= (safe_sub_func_int32_t_s_s((~(l_167 = (safe_mod_func_int8_t_s_s((~0L), l_218)))), p_47))) >= l_244) & g_91)) || 1UL) < l_166), l_149))), g_91))), p_47))))) == l_236), g_187)), p_47)))), 0)), l_236)), 0xB8L));
-        l_244 ^= (-1L);
+        if (((*g_316) = 0x9235D882L))
+        {
+            const int32_t *l_649 = (void*)0;
+            int64_t *l_680 = &g_506;
+            uint64_t l_683 = 18446744073709551615UL;
+            if (l_626)
+            {
+                (*l_608) = l_649;
+            }
+            else
+            {
+                uint32_t *l_655 = (void*)0;
+                uint32_t *l_656 = (void*)0;
+                uint32_t *l_657 = &g_648;
+                const int32_t l_677 = 0L;
+                (*l_608) = &l_677;
+            }
+            (*g_316) = (safe_sub_func_uint32_t_u_u(((((((l_626 >= l_624) != 0x3ED97059L) != ((*l_680) = (&l_609 == (void*)0))) , (*l_584)) | (((safe_sub_func_int32_t_s_s((-1L), (-1L))) | l_683) | g_206)) && l_626), 0xBFA46E38L));
+            (*l_608) = (void*)0;
+        }
+        else
+        {
+            uint32_t l_702 = 0x0B364640L;
+            uint32_t *l_703 = (void*)0;
+            uint32_t *l_704 = (void*)0;
+            int16_t l_705 = 6L;
+            int16_t *l_714 = &l_583;
+            int64_t *l_719 = &g_506;
+            (*g_97) = (*l_14);
+            (*g_316) = (~(((((safe_sub_func_uint16_t_u_u(0x2F94L, ((*l_13) && ((safe_rshift_func_int64_t_s_s((safe_sub_func_int8_t_s_s(g_197, (((*l_714) = g_505) , (safe_rshift_func_uint64_t_u_u(l_624, (&g_197 == (((safe_add_func_uint32_t_u_u((&g_208 == l_719), l_626)) || 0xD4L) , (void*)0))))))), g_208)) ^ l_706)))) , 0L) && (****g_524)) || l_705) < 0xD9B3L));
+        }
+        l_744 = ((g_720 | ((safe_add_func_int64_t_s_s(((l_728 = ((*l_727) = ((*l_726) = (safe_add_func_uint32_t_u_u(((void*)0 == l_584), 1UL))))) < (l_624 , (l_624 <= ((safe_mod_func_int8_t_s_s(l_731, ((((*g_316) = (safe_add_func_uint32_t_u_u((safe_sub_func_uint64_t_u_u((((safe_mod_func_int32_t_s_s((((l_624 & (((safe_rshift_func_uint16_t_u_u((&g_167 == l_742), (**g_403))) | l_743) != 0xFAE0L)) , g_331) != (****g_524)), 0x46A5720FL)) <= l_626) ^ l_626), g_413)), g_167))) != l_624) || l_624))) & g_195)))), (*l_13))) < g_284)) && g_204);
+        (**g_96) = (void*)0;
+    }
+    return (*g_316);
+}
+inline static const int32_t * func_2(int32_t p_3, uint32_t p_4, int32_t * p_5)
+{
+    uint8_t ***l_589 = &g_102;
+    uint8_t ****l_590 = (void*)0;
+    int32_t l_597 = 0x2A50666EL;
+    int32_t *l_600 = &l_597;
+    int32_t * const *l_603 = &g_98;
+    int32_t * const ** const l_602 = &l_603;
+    int32_t * const ** const * const l_601 = &l_602;
+    int32_t * const ** const *l_605 = &l_602;
+    int32_t * const ** const **l_604 = &l_605;
+    const int32_t *l_606 = &l_597;
+    const int32_t *l_607 = (void*)0;
+    (*l_600) = ((*p_5) = ((*g_316) = (safe_sub_func_uint64_t_u_u(((((safe_lshift_func_int32_t_s_s(((((g_591 = l_589) != l_589) >= g_204) == ((safe_mod_func_int32_t_s_s((safe_sub_func_uint32_t_u_u((g_204 && (g_506 = (~(((((((g_95 & (l_597 != (p_3 , ((safe_add_func_uint64_t_u_u(0xA8003F03D110F9C7LL, ((l_597 , p_4) || l_597))) == p_3)))) , p_3) == p_4) < 1UL) == 1UL) > p_4) | l_597)))), l_597)), l_597)) == p_4)), l_597)) || l_597) , p_3) != l_597), l_597))));
+    (*l_604) = l_601;
+    (*g_97) = &p_3;
+    return l_607;
+}
+inline static int32_t func_6(int8_t p_7, int8_t p_8, int32_t p_9, int32_t p_10)
+{
+    int16_t l_566 = 0xCE60L;
+    int32_t *l_567 = &g_256;
+    uint8_t **l_570 = &g_103;
+    uint64_t *l_574 = &g_197;
+    uint64_t l_575 = 0UL;
+    uint64_t *l_576 = &l_575;
+    int64_t *l_577 = (void*)0;
+    int64_t *l_578 = &g_206;
+    int32_t **l_580 = &g_316;
+    g_579 = ((g_117 ^ ((*l_578) = (((*l_576) = (((((((safe_sub_func_uint32_t_u_u((safe_sub_func_int64_t_s_s(l_566, ((((*l_567) = ((*g_316) = l_566)) & p_7) || ((*l_567) , (((safe_add_func_int32_t_s_s(p_8, (((l_570 = (void*)0) == ((!(safe_rshift_func_int32_t_s_u(((*l_567) = (((((*l_574) = g_331) && (((*l_567) ^ 0x45A0C8EC84020D6ALL) > 0x4CL)) >= (*l_567)) >= g_256)), g_95))) , &g_103)) & 0L))) != p_7) == p_9))))), l_566)) & (****g_524)) , p_8) < 0x6F21DA734F60C505LL) > p_8) || 0x524075B9BCCC8380LL) == l_575)) == g_331))) ^ 4UL);
+    l_580 = &l_567;
+    (*l_580) = (*l_580);
+    for (g_387 = 0; (g_387 < 40); g_387 = safe_add_func_uint64_t_u_u(g_387, 6))
+    {
+    }
+    return p_9;
+}
+inline static uint8_t func_16(uint32_t p_17)
+{
+    uint32_t l_18 = 5UL;
+    int32_t *l_52 = &g_30;
+    int32_t **l_51 = &l_52;
+    int32_t *l_419 = &g_256;
+    uint8_t *l_426 = &g_95;
+    int32_t l_471 = (-1L);
+    l_18 = 0L;
+    (*l_419) = ((**l_51) = (((safe_sub_func_uint8_t_u_u(p_17, (func_21((func_24(g_30, p_17, (((safe_lshift_func_int16_t_s_s(l_18, ((safe_rshift_func_int16_t_s_u(g_30, 12)) > (func_35(p_17, (g_30 & ((func_41((safe_mod_func_uint8_t_u_u((g_30 >= ((func_49(((void*)0 == l_51)) ^ 1UL) != 0x26L)), g_158)), (*l_52), p_17, p_17, p_17) != p_17) != p_17)), (*g_98)) <= 4294967295UL)))) , (void*)0) == &l_52), &l_52, p_17) , (*l_51)), p_17) , p_17))) == g_95) ^ 0xCEL));
+    for (g_284 = 0; (g_284 <= 5); g_284 = safe_add_func_uint8_t_u_u(g_284, 1))
+    {
+        uint32_t l_427 = 6UL;
+        int8_t *l_428 = (void*)0;
+        int8_t *l_429 = &g_331;
+        uint16_t l_437 = 0xF5E2L;
+        int64_t *l_443 = &g_206;
+        int64_t **l_442 = &l_443;
+        uint64_t *l_444 = &g_197;
+        (**l_51) = (*l_52);
+        (*l_52) = (((g_430 = ((*l_429) = (4294967292UL || ((safe_lshift_func_int8_t_s_u(p_17, (((safe_mod_func_int8_t_s_s((p_17 == (**l_51)), (((((void*)0 == l_426) != (p_17 | (((p_17 , ((0xD88F5EB5AFFE6685LL & (**l_51)) < g_167)) | 6L) && 65531UL))) || p_17) || 0x320FEFA8L))) == l_427) , p_17))) >= g_204)))) <= p_17) , 1L);
+        (**l_51) = ((((~(*l_52)) == (!(safe_add_func_int16_t_s_s(0L, (((safe_add_func_uint16_t_u_u(l_427, (l_427 != l_437))) , 1UL) ^ (safe_rshift_func_int16_t_s_s(0xEF36L, (safe_add_func_int16_t_s_s((((*l_442) = &g_206) == ((l_444 == (void*)0) , (void*)0)), l_437))))))))) || 1UL) && 18446744073709551611UL);
+    }
+    for (g_197 = 0; (g_197 != 51); g_197++)
+    {
+        uint8_t l_456 = 3UL;
+        int16_t *l_459 = &g_104;
+        int64_t *l_460 = &g_208;
+        uint8_t ***l_469 = &g_102;
+        uint8_t ****l_468 = &l_469;
+        uint8_t ***** const l_467 = &l_468;
+        int64_t *l_470 = &g_206;
+        uint8_t *l_472 = &g_117;
+        int32_t l_478 = 0xD6E8F570L;
+        int32_t ***l_479 = &g_97;
+        uint8_t l_500 = 0UL;
+        int32_t l_559 = 0x31CFBA77L;
+    }
+    return p_17;
+}
+static int8_t func_21(int32_t * p_22, uint32_t p_23)
+{
+    int32_t l_352 = 0x4FAF9D59L;
+    int32_t l_388 = (-1L);
+    uint32_t *l_401 = (void*)0;
+    uint32_t *l_402 = &g_167;
+    uint16_t **l_405 = &g_404;
+    int32_t l_414 = (-1L);
+    uint64_t *l_415 = &g_195;
+    int64_t *l_416 = &g_208;
+    int32_t *l_417 = &l_414;
+    if (l_352)
+    {
+        int32_t l_378 = 0L;
+        int8_t *l_379 = &g_331;
+        uint16_t *l_380 = &g_204;
+        int32_t *l_381 = (void*)0;
+        int32_t l_382 = (-1L);
+        int32_t l_383 = 1L;
+        uint16_t *l_384 = &g_385;
+        uint16_t *l_386 = &g_387;
+        uint32_t *l_389 = (void*)0;
+        uint32_t *l_390 = &g_167;
+        int32_t *l_391 = &l_378;
+        (*g_98) = (safe_sub_func_int8_t_s_s((safe_mod_func_uint32_t_u_u(((*l_390) = (0x8CL && ((((!p_23) && (safe_lshift_func_uint32_t_u_u((safe_add_func_int8_t_s_s(g_195, (l_383 = (safe_add_func_uint16_t_u_u(((*l_386) = ((*l_384) = (((safe_add_func_int32_t_s_s((l_382 = ((g_30 & ((l_352 = (((*g_98) , &g_167) == (((safe_rshift_func_int16_t_s_u((safe_add_func_uint16_t_u_u(((*l_380) = (((((safe_rshift_func_int8_t_s_u((safe_sub_func_int16_t_s_s((((safe_sub_func_uint32_t_u_u(0x81F3CD54L, (p_23 <= ((*l_379) = (safe_lshift_func_uint8_t_u_u((l_378 = p_23), 5)))))) <= g_208) < l_352), g_256)), p_23)) < p_23) >= (-7L)) | p_23) , 1UL)), g_206)), 13)) != g_30) , &g_167))) , p_23)) && 8UL)), (*g_316))) != l_383) , g_197))), l_388))))), 0))) || g_284) == 0xA8L))), (*p_22))), 255UL));
+        (*g_97) = l_391;
+        for (g_158 = 0; (g_158 > 57); g_158 = safe_add_func_int8_t_s_s(g_158, 2))
+        {
+            return g_385;
+        }
     }
     else
-    { /* block id: 80 */
-        uint32_t l_322 = 0x76F3828BL;
-        int32_t l_323 = 0xC156C5B6L;
-        int32_t l_357 = 0xFC5051C7L;
-        int32_t l_376 = 0L;
-        uint32_t l_386 = 1UL;
-        const uint32_t l_393 = 4294967290UL;
-        int32_t l_444 = 0x65D163BBL;
-        for (g_246 = (-22); (g_246 != 56); g_246 = safe_add_func_int8_t_s_s(g_246, 6))
-        { /* block id: 83 */
-            uint16_t l_308 = 0xCBBBL;
-            int32_t l_321 = 1L;
-            uint32_t l_324 = 1UL;
-            uint8_t l_326 = 0x2AL;
-            int16_t l_328 = 0xE0FEL;
-            int32_t l_329 = (-3L);
-            l_329 = (safe_add_func_uint32_t_u_u((safe_sub_func_uint16_t_u_u(((safe_lshift_func_uint32_t_u_u((((1UL == ((l_321 = ((g_189 = ((safe_rshift_func_int16_t_s_u((safe_div_func_int32_t_s_s(((safe_add_func_uint16_t_u_u(p_47, 0xA3A5L)) && (safe_add_func_uint16_t_u_u(g_148, (safe_add_func_int16_t_s_s(((l_327 |= (((((0xBFBAL & (safe_add_func_uint16_t_u_u((safe_mod_func_int8_t_s_s((((((safe_rshift_func_uint16_t_u_s((p_47 > (l_308 = l_167)), ((safe_sub_func_int32_t_s_s((safe_rshift_func_uint16_t_u_s((l_323 = (254UL & (((safe_mod_func_int32_t_s_s((safe_div_func_int8_t_s_s((((l_166 = ((safe_lshift_func_uint16_t_u_s(((safe_lshift_func_uint8_t_u_u(l_321, p_47)) <= g_94), l_322)) <= l_321)) != 1UL) & l_321), g_57)), 0xFDB3C9B6L)) && g_11) & l_242))), g_98)), p_47)) || l_324))) != p_47) != 0L) & p_47) || 0xD3AF8A97L), 255UL)), p_47))) || g_189) < 0x67C3L) || l_325) | l_326)) > l_322), g_98))))), p_47)), p_47)) <= l_324)) <= l_328)) <= 0x34FBL)) != 0xFE9E5AFBL) <= 0xAC07442CL), g_91)) <= p_47), p_47)), 0L));
-            p_47 = ((safe_mod_func_uint32_t_u_u((safe_add_func_int8_t_s_s(((((safe_mod_func_uint8_t_u_u((((g_147 = (((g_96 != p_47) < g_187) && (+((0UL != ((safe_unary_minus_func_int32_t_s((((l_329 = (((((~(safe_div_func_int16_t_s_s(l_167, (safe_unary_minus_func_uint8_t_u((g_189++)))))) & ((--g_96) <= (g_351 = (l_323 = (~((safe_div_func_uint32_t_u_u(0x1D1B8B10L, g_57)) >= (((safe_add_func_uint16_t_u_u((l_166 = (g_94 = ((0x7D06L | g_246) != 0xADL))), p_47)) <= 6L) >= g_119))))))) || (-1L)) ^ l_322) <= p_47)) >= p_47) < p_47))) & 0x614CL)) <= p_47)))) <= 0xEBL) <= p_47), g_148)) ^ g_119) >= g_119) & (-5L)), l_308)), 0xA3040AC3L)) != p_47);
-            p_47 = 0x19AB1BEFL;
-            for (l_326 = 0; (l_326 > 7); l_326++)
-            { /* block id: 103 */
-                int8_t l_354 = 0x3BL;
-                int16_t l_377 = 0L;
-                int32_t l_446 = 0x528FEA07L;
-                ++g_358;
-                p_47 = (safe_mod_func_uint32_t_u_u(((safe_add_func_int8_t_s_s(((safe_add_func_uint8_t_u_u((0x4568L == p_47), (-3L))) && (safe_add_func_uint8_t_u_u((safe_add_func_int8_t_s_s((g_147 = (l_167 != (0x97F0C942L <= (l_377 = ((l_323 = ((g_371 ^= (g_119 |= 1L)) && ((p_47 || (((((safe_add_func_int16_t_s_s((0x53BE1FAAL ^ l_357), p_47)) & 0x8FL) && g_246) & 0x39L) == l_376)) && g_355))) > 0x2AF9L))))), p_47)), g_57))), 0x68L)) & g_189), g_246));
-                if ((safe_rshift_func_uint8_t_u_s(p_47, (1UL == 0x3F3D5685L))))
-                { /* block id: 111 */
-                    uint16_t l_381 = 65529UL;
-                    int32_t l_398 = (-2L);
-                    g_380 = (g_119 = p_47);
-                    l_381 = l_323;
-                    if ((safe_add_func_int16_t_s_s(((((safe_lshift_func_int32_t_s_s(l_386, 1)) && (((0xEEF1L && ((l_376 = (g_358 &= (safe_rshift_func_int8_t_s_u((l_242 != l_324), 2)))) || (safe_mod_func_int16_t_s_s((((((((0xA509L && (l_321 &= g_94)) ^ 0x57L) >= ((g_380 ^ ((safe_sub_func_uint32_t_u_u((g_358 = g_94), p_47)) | p_47)) & (-1L))) && 0xB5E61D60L) < g_119) & 0L) >= g_356), p_47)))) ^ (-1L)) ^ g_371)) <= l_377) != 0xECC3L), l_381)))
-                    { /* block id: 119 */
-                        if (l_393)
-                            break;
-                        g_119 = 0x7B9D4476L;
-                    }
-                    else
-                    { /* block id: 122 */
-                        if (p_47)
-                            break;
-                        l_398 = (safe_lshift_func_int16_t_s_s((0x0FL <= (safe_rshift_func_int16_t_s_s((g_91 = p_47), 3))), 14));
-                    }
+    {
+        return l_388;
+    }
+    if (g_256)
+        goto lbl_418;
+lbl_418:
+    p_22 = ((p_23 != (((~(!((*l_417) = (((safe_sub_func_uint32_t_u_u((((g_206 = ((p_23 ^ (!(((*l_416) = (((((*l_415) = ((((*l_402) = (safe_add_func_uint8_t_u_u(p_23, p_23))) | ((l_405 = g_403) != (l_388 , &g_404))) == (g_284 | (safe_lshift_func_uint16_t_u_u((~((safe_add_func_int32_t_s_s(((*g_316) = (safe_add_func_uint16_t_u_u(0xF74BL, g_413))), l_414)) || 252UL)), 13))))) , l_414) < p_23) >= g_284)) && p_23))) != g_413)) , l_352) == p_23), 0x6C251B4DL)) > l_414) > l_414)))) && 0x04488DE925BD9CEDLL) , 8L)) , (void*)0);
+    l_417 = p_22;
+    return g_331;
+}
+static uint32_t func_24(uint32_t p_25, uint8_t p_26, int16_t p_27, int32_t * const * p_28, int32_t p_29)
+{
+    int32_t *l_348 = &g_30;
+    uint8_t ***l_351 = &g_102;
+    uint8_t ****l_350 = &l_351;
+    uint8_t *****l_349 = &l_350;
+    l_348 = (*g_97);
+    (*l_348) = ((l_349 = l_349) == (void*)0);
+    return g_30;
+}
+inline static uint32_t func_35(uint32_t p_36, uint32_t p_37, const int32_t p_38)
+{
+    uint32_t l_326 = 4UL;
+    int8_t *l_330 = &g_331;
+    int32_t *l_343 = &g_30;
+    int32_t ** const **l_344 = (void*)0;
+    int32_t ** const *l_346 = (void*)0;
+    int32_t ** const **l_345 = &l_346;
+    int16_t l_347 = 0x01FAL;
+    (*g_97) = ((((safe_rshift_func_int32_t_s_u(((0xD9L && ((l_326 > ((*l_330) = (+(l_326 || ((safe_rshift_func_int16_t_s_s(g_206, 13)) > (l_326 != l_326)))))) <= (safe_mod_func_int16_t_s_s((+((safe_sub_func_uint8_t_u_u((safe_sub_func_int64_t_s_s((~(safe_rshift_func_uint8_t_u_s(((g_30 != (0x38L != (((~0xCA3CL) < 0xE3L) == 6L))) < g_95), 7))), g_284)), 0xB3L)) || p_37)), 6L)))) == l_326), p_37)) && l_326) > p_38) , l_343);
+    l_347 = ((((*l_345) = (*g_307)) != (*g_307)) , (*g_98));
+    return p_36;
+}
+inline static int16_t func_41(uint16_t p_42, int64_t p_43, int64_t p_44, uint32_t p_45, int32_t p_46)
+{
+    int16_t l_301 = (-2L);
+    uint8_t *l_302 = &g_117;
+    int32_t l_303 = 0x3036B4E7L;
+    int16_t *l_306 = &g_104;
+    uint8_t l_317 = 252UL;
+    int32_t *l_318 = &g_256;
+    uint16_t ***l_319 = (void*)0;
+    uint16_t ****l_320 = &l_319;
+    uint16_t *l_323 = &g_204;
+    uint16_t **l_322 = &l_323;
+    uint16_t ***l_321 = &l_322;
+    (*l_318) = (p_46 = ((safe_rshift_func_int32_t_s_u((((safe_sub_func_uint8_t_u_u((l_303 = ((*l_302) = l_301)), (safe_mod_func_int32_t_s_s(((g_284 = (((*l_306) = ((1UL || (-1L)) <= 251UL)) != (g_307 != &g_96))) < (safe_add_func_int8_t_s_s(g_158, ((safe_unary_minus_func_int32_t_s(((((safe_sub_func_uint32_t_u_u(((safe_sub_func_int16_t_s_s(((1UL < p_44) , 1L), g_158)) & p_45), p_46)) != l_301) , g_316) != (void*)0))) && p_45)))), p_45)))) != l_301) & g_195), 12)) < l_317));
+    l_321 = ((*l_320) = l_319);
+    return p_46;
+}
+inline static int8_t func_49(int8_t p_50)
+{
+    uint32_t l_53 = 0UL;
+    int16_t l_61 = 0x81F5L;
+    int32_t *l_71 = &g_30;
+    int32_t * const *l_70 = &l_71;
+    uint16_t l_76 = 1UL;
+    int32_t ***l_294 = (void*)0;
+    int32_t ****l_293 = &l_294;
+    int32_t l_295 = 0x505B793AL;
+    l_53 = g_30;
+    return g_208;
+}
+inline static int32_t *** func_54(int16_t p_55, const int32_t p_56, int8_t p_57, uint64_t p_58)
+{
+    int32_t l_87 = (-9L);
+    int32_t ***l_92 = (void*)0;
+    uint64_t *l_194 = &g_195;
+    uint64_t *l_196 = &g_197;
+    uint32_t *l_198 = &g_167;
+    uint16_t *l_203 = &g_204;
+    int64_t *l_205 = &g_206;
+    int64_t *l_207 = &g_208;
+    uint8_t *l_263 = &g_117;
+    const uint8_t **l_280 = (void*)0;
+    const uint8_t ***l_279 = &l_280;
+    int16_t *l_281 = &g_104;
+    int16_t *l_282 = (void*)0;
+    int16_t *l_283 = &g_284;
+    int32_t *l_287 = &g_256;
+    int8_t l_290 = 0x61L;
+    int64_t *l_291 = &g_208;
+lbl_229:
+    for (p_58 = 0; (p_58 >= 18); p_58 = safe_add_func_int32_t_s_s(p_58, 4))
+    {
+        int32_t *l_83 = &g_30;
+        int32_t **l_82 = &l_83;
+        int32_t ***l_81 = &l_82;
+        int32_t l_84 = 0xCDB7A897L;
+        uint8_t *l_93 = (void*)0;
+        uint8_t *l_94 = &g_95;
+        uint32_t l_165 = 0x33B3E5AAL;
+        uint64_t l_182 = 1UL;
+        uint32_t l_183 = 0x147BCB45L;
+        const int32_t *l_185 = &l_84;
+        uint8_t ***l_187 = &g_102;
+        uint8_t ****l_186 = &l_187;
+        const int32_t **l_189 = &l_185;
+        if ((safe_lshift_func_uint32_t_u_u(((l_81 != &l_82) || ((((((*l_94) = (l_84 < ((((safe_mod_func_uint8_t_u_u(7UL, l_87)) >= (safe_sub_func_int8_t_s_s(((safe_add_func_int32_t_s_s((((((((void*)0 == l_92) == ((p_58 || 5UL) ^ p_58)) & p_56) , g_30) , p_56) && p_57), p_58)) && 0x60L), g_30))) , (*l_81)) != (void*)0))) , g_96) != (void*)0) != p_58) > g_30)), g_30)))
+        {
+            uint8_t **l_100 = &l_93;
+            uint8_t ***l_99 = &l_100;
+            int32_t l_115 = 1L;
+            uint8_t *l_116 = &g_117;
+            int32_t *l_118 = &l_84;
+            int32_t *l_119 = (void*)0;
+            (*l_99) = (void*)0;
+            l_87 = (+((*l_118) = ((g_30 & (g_95 , (((g_104 = (((*l_99) = (void*)0) == g_102)) && (safe_lshift_func_int32_t_s_u(((safe_mod_func_uint32_t_u_u(g_104, (l_115 = ((safe_sub_func_int16_t_s_s(p_56, 0L)) , ((safe_mod_func_int8_t_s_s(((safe_rshift_func_int16_t_s_s(g_95, ((((*l_116) = ((***l_81) < l_115)) != 0x21L) | 0L))) == p_56), 0x30L)) , l_115))))) | p_57), g_30))) <= 2L))) <= 255UL)));
+        }
+        else
+        {
+            uint8_t **l_128 = &l_93;
+            int32_t l_157 = 0xFA0E0CC2L;
+            uint8_t *****l_188 = (void*)0;
+            for (g_117 = 0; (g_117 == 35); g_117 = safe_add_func_uint64_t_u_u(g_117, 7))
+            {
+                uint8_t ***l_122 = &g_102;
+                int32_t l_129 = 0x00AB31FBL;
+                if ((&g_102 == l_122))
+                {
+                    int32_t *l_124 = &l_87;
+                    int32_t l_127 = (-4L);
+                    l_129 = (((g_30 ^ (+((*l_124) = 0xA731AC79L))) , (p_55 = ((((((0x16L == (*l_124)) , (g_104 ^ (safe_lshift_func_int16_t_s_u(((((l_127 , l_128) == l_128) >= (*l_124)) != 0UL), p_56)))) | p_58) , 0L) && p_58) , g_104))) >= g_117);
                 }
                 else
-                { /* block id: 127 */
-                    int32_t l_416 = 0x9F5A178EL;
-                    int32_t l_445 = 0L;
-                    if ((g_119 |= (l_329 = (p_47 = (safe_lshift_func_uint8_t_u_s((safe_lshift_func_int32_t_s_s((~p_47), 7)), ((g_148 || ((((safe_lshift_func_uint8_t_u_u(g_91, 7)) < (safe_rshift_func_uint8_t_u_s(((p_47 >= 0x7486EB96L) < (((((g_187 >= p_47) != ((safe_rshift_func_uint8_t_u_s(((((l_166 = (safe_div_func_uint8_t_u_u(g_147, (l_416 = (safe_lshift_func_int32_t_s_u(((p_47 && p_47) >= g_371), 1)))))) < p_47) > 0L) == 0UL), 3)) | 0x8FL)) & l_324) <= p_47) <= l_325)), 6))) && p_47) & 0x64L)) | 0xC8043FA1L)))))))
-                    { /* block id: 133 */
-                        int32_t l_447 = 0x71A9B2B1L;
-                        g_119 = (safe_lshift_func_int8_t_s_u((safe_sub_func_int8_t_s_s((safe_rshift_func_int8_t_s_u(g_246, ((((safe_sub_func_int16_t_s_s(l_242, ((p_47 & (g_96 = l_416)) == p_47))) >= (((((safe_mod_func_int16_t_s_s(((safe_div_func_int8_t_s_s((~(((-3L) != ((safe_unary_minus_func_uint16_t_u((l_446 = (l_445 = (safe_rshift_func_int32_t_s_u((safe_rshift_func_int32_t_s_s((safe_add_func_uint32_t_u_u((+((safe_rshift_func_int8_t_s_s((l_328 >= (251UL >= ((~(~g_147)) <= l_377))), g_246)) != p_47)), l_444)), 28)), 2)))))) || 4294967295UL)) & 65535UL)), p_47)) == l_393), l_377)) & p_47) ^ 0x3C70DB10L) != p_47) & 7UL)) == 0xB3L) ^ 0L))), g_187)), p_47));
-                        return l_447;
+                {
+                    int64_t l_144 = 0xF694DF9DF524304BLL;
+                    int8_t l_155 = 0x61L;
+                    for (p_57 = 0; (p_57 > (-14)); p_57--)
+                    {
+                        uint8_t ***l_134 = &g_102;
+                        int32_t l_156 = 0L;
+                        uint32_t *l_166 = &g_167;
+                        uint32_t *l_184 = &l_183;
                     }
-                    else
-                    { /* block id: 139 */
-                        int32_t l_461 = 0L;
-                        if (l_329)
-                            break;
-                        l_461 = (((0x0D2EL || 65530UL) || ((l_329 = ((p_47 > (!(l_446 = p_47))) <= ((safe_sub_func_uint8_t_u_u((g_189 = 0x5DL), (g_147 = (safe_add_func_uint16_t_u_u(1UL, (g_94 = (safe_lshift_func_int32_t_s_s(p_47, 22)))))))) <= (safe_mod_func_int32_t_s_s(((safe_sub_func_int8_t_s_s(l_386, (((((safe_mod_func_int16_t_s_s(g_356, l_326)) & g_91) > 4UL) && p_47) < l_325))) != g_246), l_461))))) || p_47)) < l_445);
-                    }
-                    for (g_96 = 0; (g_96 == 29); g_96++)
-                    { /* block id: 150 */
-                        uint32_t l_467 = 4294967295UL;
-                        int32_t l_469 = 0L;
-                        int32_t l_482 = 0xD4355E04L;
-                        ++g_464;
-                        g_119 = ((((l_467 = 1UL) & (safe_unary_minus_func_uint16_t_u((l_469 = (l_445 <= l_445))))) >= ((++g_94) >= (p_47 || ((safe_sub_func_int16_t_s_s((safe_mod_func_uint16_t_u_u((safe_mod_func_uint8_t_u_u((g_380 = (((l_323 = (0x72D5C1FEL == (((safe_div_func_uint8_t_u_u(p_47, p_47)) ^ p_47) ^ p_47))) < p_47) ^ g_355)), 0x8DL)), 0x828CL)), 0x76B6L)) > p_47)))) <= l_482);
-                    }
-                    for (l_354 = (-15); (l_354 <= (-4)); ++l_354)
-                    { /* block id: 161 */
-                        uint16_t l_502 = 0xC442L;
-                        int32_t l_526 = 0x69D5A18FL;
-                        g_119 &= (safe_mod_func_int8_t_s_s(l_446, (safe_sub_func_int32_t_s_s((safe_div_func_uint16_t_u_u((safe_mod_func_uint8_t_u_u((((l_416 != ((l_242 & (l_445 = (0xFDL < (+(safe_rshift_func_int32_t_s_u((((p_47 >= 0x39L) == (safe_add_func_int8_t_s_s(((safe_unary_minus_func_int32_t_s((((safe_unary_minus_func_int8_t_s((safe_div_func_uint8_t_u_u((l_502 |= 0x1EL), (1L && (1UL || g_356)))))) < p_47) || l_416))) != 0L), p_47))) & g_187), g_98)))))) >= 0x22650834L)) ^ l_326) == l_166), p_47)), p_47)), 5UL))));
-                        p_47 = (g_148 || ((safe_add_func_uint16_t_u_u((safe_sub_func_int32_t_s_s(0x1200FA1EL, (g_57 = (safe_lshift_func_uint8_t_u_s(l_502, 0))))), 9UL)) >= (g_96 = (l_377 || (((safe_sub_func_int16_t_s_s((safe_div_func_uint32_t_u_u((!(safe_rshift_func_int8_t_s_u(((l_446 = (safe_sub_func_int32_t_s_s((((safe_sub_func_int32_t_s_s(g_91, (safe_div_func_int8_t_s_s(0L, (l_526 = ((((0L > (g_98--)) <= ((((safe_add_func_int16_t_s_s(p_47, g_355)) > 0x6CFF65F1L) | l_502) == p_47)) | l_502) & 0x3D2DFCA0L)))))) > g_356) >= g_351), 0x0FC03453L))) || l_526), g_91))), g_11)), l_445)) & l_502) >= p_47)))));
-                        l_329 |= g_11;
-                        g_119 = g_527;
-                    }
-                    for (l_325 = (-15); (l_325 > 7); l_325 = safe_add_func_int32_t_s_s(l_325, 9))
-                    { /* block id: 176 */
-                        g_119 = 0x516010A2L;
-                        return p_47;
-                    }
+                    if (l_157)
+                        continue;
+                    l_185 = &p_56;
                 }
-                if ((safe_lshift_func_uint16_t_u_s((l_326 || ((((p_47 && ((((safe_sub_func_uint16_t_u_u((g_94++), (l_308 != (((safe_mod_func_int8_t_s_s(((g_464 ^ (g_246 <= (safe_sub_func_int16_t_s_s(p_47, (safe_sub_func_uint8_t_u_u(((g_91 = l_377) == (safe_mod_func_uint8_t_u_u((safe_lshift_func_int16_t_s_s((safe_sub_func_uint8_t_u_u(((((safe_lshift_func_uint8_t_u_s(l_308, 1)) ^ (safe_mod_func_uint8_t_u_u(((l_167 == l_324) != p_47), p_47))) <= (-1L)) ^ 1UL), 0L)), g_464)), 0xB7L))), 0xDCL)))))) > l_324), g_356)) ^ g_98) ^ g_187)))) >= l_325) >= l_328) && 0L)) > 0xB04BL) < 0xE3512DB8L) != l_327)), 9)))
-                { /* block id: 183 */
-                    p_47 = ((-1L) && 5L);
-                    if (p_47)
-                        break;
-                }
-                else
-                { /* block id: 186 */
-                    int8_t l_558 = 0x76L;
-                    p_47 = ((+(((((!((safe_rshift_func_uint8_t_u_s((g_371 &= (l_558 != p_47)), (3L == l_558))) & (safe_lshift_func_uint16_t_u_s((safe_rshift_func_uint16_t_u_s((safe_sub_func_int32_t_s_s(g_355, ((0xB7L ^ (((((g_98 <= l_325) <= 0xA9CAL) >= l_242) ^ l_321) != 4294967286UL)) < 0x53L))), 14)), 12)))) > g_147) ^ 4294967287UL) > 0xD9L) <= l_377)) & g_148);
-                }
+            }
+            l_186 = l_186;
+        }
+        (*l_189) = &p_56;
+    }
+    if ((safe_lshift_func_uint64_t_u_s((((*l_196) = ((*l_194) = ((safe_add_func_uint16_t_u_u(g_95, g_95)) > p_58))) , (((l_198 = (void*)0) != (void*)0) | (((*l_207) = ((*l_205) = (safe_mod_func_uint64_t_u_u(((*l_196) = (p_57 , (((*l_203) = ((~(p_56 && ((~0x05B1A2021D835F26LL) , 1L))) > g_158)) <= g_195))), 0x138955F0A0F73881LL)))) && g_95))), 30)))
+    {
+        uint8_t **l_219 = &g_103;
+        int32_t l_227 = 0x89F62BFEL;
+        int32_t * const *l_236 = (void*)0;
+        int32_t * const **l_235 = &l_236;
+        const uint16_t l_241 = 0x03D1L;
+        if ((((void*)0 == l_92) & g_30))
+        {
+            int32_t *l_211 = (void*)0;
+            int32_t l_212 = 0x64C4BAC2L;
+            const int32_t *l_214 = &l_87;
+            const int32_t **l_213 = &l_214;
+            uint16_t *l_215 = &g_204;
+            uint16_t **l_216 = (void*)0;
+            int16_t l_228 = 0xB45BL;
+            l_212 = (p_55 && (safe_rshift_func_uint32_t_u_s(0xBE8D7CBBL, 4)));
+            (*l_213) = &p_56;
+            l_212 = (p_56 > (((((l_203 = (l_215 = l_215)) == ((safe_rshift_func_int64_t_s_s(((&g_103 != (p_58 , l_219)) || ((250UL ^ (safe_mod_func_uint64_t_u_u(((safe_unary_minus_func_int8_t_s((((*l_207) = (safe_rshift_func_uint64_t_u_u(p_56, 9))) | ((*l_194) = ((p_55 < l_227) < l_228))))) , 3UL), g_95))) > (***g_96))), 48)) , (void*)0)) | p_57) < p_56) , g_95));
+            if (l_228)
+                goto lbl_229;
+        }
+        else
+        {
+            uint32_t l_242 = 0xED5F3CC4L;
+            if (g_104)
+                goto lbl_229;
+            l_242 = (safe_lshift_func_int64_t_s_u(((((&g_204 != &g_204) > ((safe_unary_minus_func_int64_t_s((safe_rshift_func_uint32_t_u_u(((l_227 , (((l_227 && 0xF101BA2FL) < ((((-4L) ^ (((void*)0 != l_235) ^ (((safe_sub_func_int8_t_s_s((safe_lshift_func_uint64_t_u_s((&g_167 != (void*)0), 60)), 0x48L)) != p_57) == p_57))) > g_167) , 1UL)) & p_55)) && p_58), l_241)))) > p_57)) , g_206) & 251UL), g_204));
+            (*g_97) = &l_87;
+        }
+        l_87 = (g_167 >= (***g_96));
+        for (g_197 = 0; (g_197 > 5); ++g_197)
+        {
+            int32_t *l_245 = &l_227;
+            const int64_t *l_264 = (void*)0;
+            (*l_245) = (***g_96);
+            for (g_195 = (-8); (g_195 > 17); ++g_195)
+            {
+                int16_t l_255 = 0x47C1L;
+                int64_t **l_265 = &l_207;
+                int64_t l_267 = (-9L);
+                int32_t *l_271 = &g_256;
+                g_256 = (safe_lshift_func_uint32_t_u_s(g_167, (((*l_245) = ((+((safe_mod_func_uint16_t_u_u(((safe_mod_func_int64_t_s_s((((void*)0 == &g_97) >= l_255), g_95)) <= (((p_58 = l_255) > g_158) & (*g_98))), 0xA8B3L)) > g_195)) < 1L)) != p_55)));
+                (*l_271) = (safe_lshift_func_int64_t_s_u(0x18954A2B7FD2DEE4LL, ((safe_lshift_func_uint32_t_u_s((safe_lshift_func_uint64_t_u_u(((((*g_102) = (*l_219)) != (l_263 = l_263)) | (((*l_245) = (p_56 , (l_264 != ((*l_265) = (void*)0)))) | ((+l_267) || ((((+((((safe_sub_func_uint16_t_u_u(l_267, l_255)) ^ 65535UL) , p_57) || 1L)) | 0xF6DBDAB2L) , 5L) & g_117)))), 20)), 31)) || g_206)));
+                if (p_56)
+                    continue;
+                (*l_245) = 0L;
             }
         }
     }
-    return p_47;
-}
-
-
-/* ------------------------------------------ */
-/* 
- * reads : g_57 g_11 g_94 g_96 g_98 g_91 g_119 g_147 g_148
- * writes: g_57 g_91 g_94 g_96 g_98 g_119 g_147 g_148
- */
-static int32_t  func_51(const int32_t  p_52, int16_t  p_53, uint16_t  p_54, int32_t  p_55)
-{ /* block id: 4 */
-    int32_t l_56 = 0x2FBF3F07L;
-    const uint16_t l_79 = 0xEA6CL;
-    int32_t l_97 = (-1L);
-    int32_t l_106 = 0xF91B2076L;
-    int32_t l_107 = 0xF8C36B4AL;
-    uint32_t l_146 = 0UL;
-    g_57++;
-    for (l_56 = 21; (l_56 != 24); l_56++)
-    { /* block id: 8 */
-        int16_t l_62 = 3L;
-        int32_t l_69 = 0x2B46FAC5L;
-        int32_t l_77 = 0x64292628L;
-        int32_t l_78 = (-9L);
-        int32_t l_95 = (-1L);
-        l_97 = ((g_11 & (l_62 = p_53)) ^ (safe_lshift_func_int16_t_s_s((g_96 |= ((safe_add_func_uint32_t_u_u((g_94 |= (((safe_lshift_func_int32_t_s_u(p_52, (l_69 = g_11))) != ((p_54 >= ((func_70(((l_77 = (safe_add_func_uint8_t_u_u(p_53, (l_78 |= l_77)))) & 1L), l_56, l_79, g_11) || l_56) & l_56)) | g_57)) <= 0x8877E475L)), g_57)) != l_95)), 6)));
+    else
+    {
+        int32_t *l_272 = &g_256;
+        g_256 = (***g_96);
+        (*l_272) = 8L;
     }
-    g_98 &= l_56;
-    if ((l_107 = (l_106 |= (9UL || (l_97 = ((0x7EEACC20L || (((g_91 == (!((safe_rshift_func_int16_t_s_u((safe_rshift_func_uint16_t_u_s(p_52, 3)), p_52)) | p_55))) | 0UL) & (((2L <= ((l_56 = (l_79 | 0xC629L)) || g_98)) ^ 1L) <= 1L))) ^ l_97))))))
-    { /* block id: 31 */
-        uint8_t l_118 = 6UL;
-        int32_t l_120 = 0x26BCB33DL;
-        int32_t l_142 = (-9L);
-        int32_t l_145 = 0x9EB03130L;
-        l_106 ^= (l_120 |= (g_119 &= (safe_mod_func_uint16_t_u_u((safe_add_func_int16_t_s_s((g_91 = p_54), ((l_107 != (safe_mod_func_int16_t_s_s(((((((safe_sub_func_uint8_t_u_u((0x6BL < (l_79 == l_118)), 255UL)) ^ 0L) ^ 0x6EL) < (l_118 == 0xA5C6425FL)) & g_98) && 0xC3L), g_11))) != 0x49FEL))), (-1L)))));
-        g_148 &= (((((safe_mod_func_int16_t_s_s((-1L), (l_107 = (safe_lshift_func_uint8_t_u_s((((l_120 = (g_147 = ((safe_rshift_func_uint8_t_u_s(((g_98 >= (safe_sub_func_uint16_t_u_u(((((safe_div_func_int32_t_s_s((safe_unary_minus_func_int32_t_s(1L)), (safe_sub_func_int8_t_s_s(g_57, (safe_sub_func_uint8_t_u_u(((safe_add_func_int8_t_s_s((l_120 & l_97), (safe_rshift_func_uint8_t_u_s(l_79, ((safe_sub_func_uint8_t_u_u((((p_54--) ^ (l_145 = p_53)) && p_53), l_120)) > 0x4DL))))) && g_11), (-10L))))))) == g_91) || l_146) | g_91), (-2L)))) != g_98), p_52)) | p_52))) && g_147) && g_119), 6))))) | p_52) != 1UL) & p_52) < 0xF6D6L);
+    if ((safe_lshift_func_uint32_t_u_u((((safe_rshift_func_int16_t_s_u(((((*l_263) = (safe_rshift_func_int8_t_s_u((l_279 == &l_280), (((*l_291) = (((*l_283) = ((*l_281) = (g_117 , p_58))) , ((*l_205) = ((safe_rshift_func_uint32_t_u_s((((((void*)0 == &l_280) || ((0x77DB0D6EL | ((*l_287) = 3L)) && (safe_add_func_uint64_t_u_u(0x687B01C497E377CFLL, 1UL)))) != l_290) >= g_158), 29)) >= g_95)))) , 0x79L)))) || 255UL) | g_95), g_167)) < p_56) ^ p_55), l_87)))
+    {
+        uint8_t l_292 = 255UL;
+        (*l_287) = (l_292 || 3L);
     }
     else
-    { /* block id: 42 */
-        return g_11;
+    {
+        (*l_287) = (0UL >= ((*l_203) = p_55));
     }
-    return l_146;
-}
-
-
-/* ------------------------------------------ */
-/* 
- * reads : g_57 g_11
- * writes: g_91
- */
-static int32_t  func_70(const uint32_t  p_71, int32_t  p_72, const uint32_t  p_73, int8_t  p_74)
-{ /* block id: 13 */
-    uint16_t l_80 = 1UL;
-    int32_t l_87 = (-6L);
-    int32_t l_88 = 0x4F50F898L;
-    int32_t l_92 = (-8L);
-    int32_t l_93 = 0xDB887736L;
-    p_72 ^= p_73;
-    l_80 = p_71;
-    l_93 ^= ((g_57 && (l_92 = ((g_91 = (((safe_mod_func_uint8_t_u_u((((-9L) >= (l_87 = (safe_div_func_uint32_t_u_u((l_80 ^ 0x35L), (safe_rshift_func_uint32_t_u_u(l_80, 31)))))) != g_11), (l_88 ^= g_57))) < ((((l_80 | (((safe_rshift_func_uint32_t_u_u(4294967293UL, 20)) <= l_80) >= l_80)) && l_80) && g_11) >= 0xBEB855BDL)) > g_57)) || 0x0DL))) & 3UL);
     return l_92;
 }
-
-
-
-
-/* ---------------------------------------- */
 int main (void)
 {
     int print_hash_value = 0;
     platform_main_begin();
     func_1();
-    csmith_sink_ = g_11;
-    csmith_sink_ = g_38;
-    csmith_sink_ = g_57;
-    csmith_sink_ = g_91;
-    csmith_sink_ = g_94;
-    csmith_sink_ = g_96;
-    csmith_sink_ = g_98;
-    csmith_sink_ = g_119;
-    csmith_sink_ = g_147;
-    csmith_sink_ = g_148;
-    csmith_sink_ = g_187;
-    csmith_sink_ = g_189;
-    csmith_sink_ = g_246;
-    csmith_sink_ = g_351;
-    csmith_sink_ = g_355;
-    csmith_sink_ = g_356;
-    csmith_sink_ = g_358;
-    csmith_sink_ = g_371;
-    csmith_sink_ = g_380;
-    csmith_sink_ = g_464;
-    csmith_sink_ = g_527;
-    csmith_sink_ = g_830;
-    csmith_sink_ = g_883;
-    csmith_sink_ = g_922;
-    csmith_sink_ = g_961;
+    g_98 = 0;
+    csmith_sink_ = g_30;
+    csmith_sink_ = g_95;
+    csmith_sink_ = g_104;
+    csmith_sink_ = g_117;
+    csmith_sink_ = g_158;
+    csmith_sink_ = g_167;
+    csmith_sink_ = g_195;
+    csmith_sink_ = g_197;
+    csmith_sink_ = g_204;
+    csmith_sink_ = g_206;
+    csmith_sink_ = g_208;
+    csmith_sink_ = g_256;
+    csmith_sink_ = g_284;
+    csmith_sink_ = g_331;
+    csmith_sink_ = g_385;
+    csmith_sink_ = g_387;
+    csmith_sink_ = g_413;
+    csmith_sink_ = g_430;
+    csmith_sink_ = g_505;
+    csmith_sink_ = g_506;
+    csmith_sink_ = g_579;
+    csmith_sink_ = g_615;
+    csmith_sink_ = g_648;
+    csmith_sink_ = g_695;
+    csmith_sink_ = g_720;
     platform_main_end(0,0);
     return 0;
 }
-
-/************************ statistics *************************
-XXX max struct depth: 0
-breakdown:
-   depth: 0, occurrence: 160
-XXX total union variables: 0
-
-XXX max expression depth: 51
-breakdown:
-   depth: 1, occurrence: 109
-   depth: 2, occurrence: 14
-   depth: 3, occurrence: 3
-   depth: 4, occurrence: 1
-   depth: 5, occurrence: 1
-   depth: 8, occurrence: 1
-   depth: 11, occurrence: 1
-   depth: 14, occurrence: 1
-   depth: 15, occurrence: 1
-   depth: 16, occurrence: 1
-   depth: 18, occurrence: 2
-   depth: 19, occurrence: 2
-   depth: 21, occurrence: 2
-   depth: 22, occurrence: 2
-   depth: 23, occurrence: 1
-   depth: 24, occurrence: 3
-   depth: 25, occurrence: 4
-   depth: 26, occurrence: 3
-   depth: 28, occurrence: 2
-   depth: 29, occurrence: 1
-   depth: 30, occurrence: 1
-   depth: 31, occurrence: 3
-   depth: 32, occurrence: 1
-   depth: 33, occurrence: 2
-   depth: 34, occurrence: 3
-   depth: 35, occurrence: 3
-   depth: 37, occurrence: 1
-   depth: 39, occurrence: 1
-   depth: 41, occurrence: 1
-   depth: 51, occurrence: 1
-
-XXX total number of pointers: 0
-
-XXX times a non-volatile is read: 716
-XXX times a non-volatile is write: 228
-XXX times a volatile is read: 0
-XXX    times read thru a pointer: 0
-XXX times a volatile is write: 0
-XXX    times written thru a pointer: 0
-XXX times a volatile is available for access: 0
-XXX percentage of non-volatile access: 100
-
-XXX forward jumps: 0
-XXX backward jumps: 0
-
-XXX stmts: 107
-XXX max block depth: 5
-breakdown:
-   depth: 0, occurrence: 32
-   depth: 1, occurrence: 18
-   depth: 2, occurrence: 11
-   depth: 3, occurrence: 11
-   depth: 4, occurrence: 18
-   depth: 5, occurrence: 17
-
-XXX percentage a fresh-made variable is used: 16.8
-XXX percentage an existing variable is used: 83.2
-XXX total OOB instances added: 0
-********************* end of statistics **********************/
-

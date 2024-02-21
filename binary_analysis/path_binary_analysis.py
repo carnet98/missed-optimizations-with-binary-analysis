@@ -52,8 +52,7 @@ def filter(program, settings):
     unnecessary_writes = []
     globals_list = []
     for setting in settings:
-        preprocessed_program = setting.preprocess_program(program)
-        compiled, project, globals = binary_analysis_utils.compile_globals_project(preprocessed_program, setting)
+        compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         globals_list.append(globals)
         cfg = binary_analysis_utils.get_cfg(project)
         if binary_analysis_utils.check_loop(cfg):
@@ -170,6 +169,7 @@ def main():
             else:
                 print(path + " does not exist.")
         dir_name = "../data_path_analysis/program_" + str(counter)
+        program = settings[0].preprocess_program(program, make_compiler_agnostic=True)
         interesting = filter(program, settings)
         if interesting:
             while(True):

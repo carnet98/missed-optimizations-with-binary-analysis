@@ -54,8 +54,7 @@ def filter(program, settings):
     setting_data_dict = {}
     program = annotate_with_static(program)
     for setting in settings:
-        preprocessed_program = setting.preprocess_program(program)
-        compiled, project, globals = binary_analysis_utils.compile_globals_project(preprocessed_program, setting)
+        compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         setting_str = binary_analysis_utils.setting_str_f(setting)
         try:
             cfg = binary_analysis_utils.get_cfg(project)
@@ -177,6 +176,7 @@ def main():
             else:
                 print(path + " does not exist.")
         dir_name = "../data_extended_variable_analysis_static/program_" + str(counter)
+        program = settings[0].preprocess_program(program, make_compiler_agnostic=True)
         interesting = filter(program, settings)
         if interesting:
             while(True):

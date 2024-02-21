@@ -1,19 +1,31 @@
 #include "csmith.h"
-int32_t a;
-int32_t *b();
-uint16_t c() {
-  for (a = 0; a >= 0; a = safe_sub_func_int16_t_s_s(a, 8))
-    b();
+ static volatile uint32_t a;
+ static int32_t b;
+ static int32_t *c;
+ static int8_t d;
+ static int32_t *e(int32_t *, int8_t, int32_t *);
+ static int32_t **f(int32_t **, uint8_t);
+ static uint8_t *g(int32_t *, uint8_t, uint32_t, const int32_t *);
+ static int32_t h() {
+  e(c, b, &b);
   return 0;
 }
-int32_t *b(uint32_t d) {
-  for (d = 0; d != 44; d = safe_add_func_int32_t_s_s(d, 2)) {
-    int32_t e;
-    if (d) {
-      int32_t *f = &e;
-      *f = 0;
-    }
-  }
+ static int32_t *e(int32_t *, int8_t, int32_t *) {
+  f(&c, 0);
   return 0;
 }
-int main() { c(); }
+ static int32_t **f(int32_t **, uint8_t i) {
+  int32_t *j = &b;
+  *j = (g(&b, 0, i, &b), i);
+  return 0;
+}
+ static uint8_t *g(int32_t *, uint8_t, uint32_t, const int32_t *l) {
+  int8_t *k = &d;
+  *k = *l;
+  return k;
+}
+int main() {
+  h();
+  a = d;
+  platform_main_end(0, 0);
+}
