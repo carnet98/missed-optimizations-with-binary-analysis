@@ -36,7 +36,7 @@ TOOL_BINARY_PATH = "../clang_tools/build/bin/"
 
 
 def main():
-    program_num = 1000
+    program_num = 10000
     program_list = []
     csmith = True
     gcc_path = "/usr/bin/gcc"

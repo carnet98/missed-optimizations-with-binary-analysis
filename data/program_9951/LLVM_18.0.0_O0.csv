@@ -1,0 +1,16 @@
+var_name,constant_write,var_write,read
+__abi_tag,0,0,0
+completed.0,0,0,0
+__do_global_dtor[...],0,0,0
+__frame_dummy_in[...],0,0,0
+g_2,1,2,34
+g_5,1,2,3
+g_11,2,3,30
+g_37,3,4,21
+g_40,2,2,16
+crc32_context,0,8,22
+crc32_tab,0,0,9
+__FRAME_END__,0,0,0
+_DYNAMIC,0,0,0
+_GLOBAL_OFFSET_TABLE_,0,0,0
+_IO_stdin_used,0,0,0

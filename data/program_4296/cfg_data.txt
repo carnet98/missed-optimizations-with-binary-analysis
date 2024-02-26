@@ -1,0 +1,2 @@
+node ratio,0.72
+edge ratio,0.6216216216216216

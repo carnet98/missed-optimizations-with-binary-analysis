@@ -1,0 +1,17 @@
+var_name,constant_write,var_write,read
+__abi_tag,0,0,0
+completed.0,0,0,0
+__do_global_dtor[...],0,0,0
+__frame_dummy_in[...],0,0,0
+g_2,2,1,99
+g_58,3,4,95
+g_132,4,28,80
+g_301,1,1,70
+g_1019,0,0,1
+g_1040,0,0,0
+g_1117,0,0,4
+__FRAME_END__,0,0,0
+_DYNAMIC,0,0,0
+_GLOBAL_OFFSET_TABLE_,0,0,0
+csmith_sink_,0,7,0
+_IO_stdin_used,0,0,0
