@@ -103,14 +103,10 @@ def main():
     setting_data_dict = {}
     for setting in settings:
         temp_program = setting.preprocess_program(program, make_compiler_agnostic=True)
-        setting_str = binary_analysis_utils.setting_str_f(setting)
-        binary_analysis_utils.save_program(temp_program, "../program_examples/preprocessed_" + setting_str)
         compiled, project, globals = binary_analysis_utils.compile_globals_project(temp_program, setting)
         globals_list.append(globals)
         cfg = binary_analysis_utils.get_cfg(project)
         data = binary_analysis_utils.extended_variable_analysis(project, cfg, globals)
-        setting_data_dict[setting_str] = data
-    binary_analysis_utils.interesting_filter(setting_data_dict, settings)
 
 if __name__ == "__main__":
     main()

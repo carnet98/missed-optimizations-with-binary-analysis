@@ -685,7 +685,10 @@ def remove_unnecessary(nodes_ext, project, globals):
 
 # performs variable analysis also considering registers
 def extended_variable_analysis(project, cfg, globals):
-    nodes_ext = get_backtrack_info(project, cfg, globals)
+    for g in globals:
+        if g.startswith("_"):
+            globals.remove(g)
+    nodes_ext = get_backtrack_info(project, cfg, globals)    
     nodes_ext = remove_unnecessary(nodes_ext, project, globals)
     df = get_data_from_nodes_ext(nodes_ext, globals)
     return df
@@ -763,11 +766,15 @@ def path_analysis(nodes_ext, globals, project):
 # check if the unnecessary write data is interesting
 def path_analysis_filter(globals, unnecessary_writes):
     result = False
-    for g in globals:
-        val = unnecessary_writes[0][g]
-        for unnecessary_dict in unnecessary_writes:
-            if not unnecessary_dict[g] == val:
-                result = True
+    has_all_zero = []
+    for unnecessary_dict in unnecessary_writes:
+        is_all_zero = True
+        for g in globals:
+            if not unnecessary_dict[g] == 0:
+                is_all_zero = False
+        has_all_zero.append(is_all_zero)
+    if True in has_all_zero and False in has_all_zero:
+        result = True
     return result
 
 # compiles program and creates a angr-project

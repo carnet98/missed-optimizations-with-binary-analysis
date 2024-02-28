@@ -24,6 +24,8 @@ from static_globals.instrumenter import annotate_with_static
 
 import binary_analysis_utils
 
+import extended_variable_binary_analysis
+
 import subprocess
 
 import angr
@@ -76,7 +78,7 @@ def filter(program, settings):
     print("node max: " + str(node_max) + "; edge max: " + str(edge_max))
     print("node min: " + str(node_min) + "; edge min: " + str(edge_min))
     print("node ratio: " + str(node_ratio) + "; edge ratio: " + str(edge_ratio))
-    result = (node_ratio < threshold) or (edge_ratio < threshold)
+    result = ((node_ratio < threshold) or (edge_ratio < threshold)) and extended_variable_binary_analysis.filter(program, settings)
     return result
 
 def main():
