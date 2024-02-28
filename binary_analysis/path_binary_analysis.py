@@ -54,7 +54,10 @@ def filter(program, settings):
     for setting in settings:
         compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
         globals_list.append(globals)
-        cfg = binary_analysis_utils.get_cfg(project)
+        try:
+            cfg = binary_analysis_utils.get_cfg(project)
+        except:
+            return False
         if binary_analysis_utils.check_loop(cfg):
                 return False
         nodes_ext = binary_analysis_utils.get_cfg_info(project, cfg, globals)
