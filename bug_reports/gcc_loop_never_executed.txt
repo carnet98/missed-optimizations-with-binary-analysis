@@ -1,0 +1,14 @@
+Title: Missing Loop Optimization for Unexecuted Loop
+
+In the following code the for-loop is never executed because 'a' is initialized to zero. GCC -O3 and -Os compile to a loop while clang is able to optimize.
+
+static int a = 0;
+static char b;
+short(c)(short d, short e) { return d - e; }
+int foo() {
+    for (; a; a = c(a, 7))
+        ;
+    return a;
+}
+
+https://godbolt.org/z/v8xnbKx6e

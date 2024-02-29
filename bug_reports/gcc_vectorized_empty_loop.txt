@@ -1,0 +1,16 @@
+Title: Loop is vectorized instead of removed
+
+This simple for-loop is compiled to complex vectorized code instead of optmizing the loop like clang is able to.
+
+unsigned short a;
+int main() {
+    int counter = 0;
+    // n and a are mutliples of 4
+    int n = 4;
+    a *= n;
+    for (; a > 0; a += n)
+        counter++;
+    return counter;
+}
+
+https://godbolt.org/z/M6n3vjb88
