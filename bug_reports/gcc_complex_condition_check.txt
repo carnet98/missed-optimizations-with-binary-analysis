@@ -1,7 +1,8 @@
-Title: Loop Condition check is more complex than it needs
+Title: Loop Condition check is more complex than it needs (fixed)
 
 GCC -O3 performs a much more complex loop condition check than clang is able to.
 
+Source:
 short a = 51;
 static char b;
 int main() {
@@ -10,4 +11,18 @@ int main() {
     return a;
 }
 
-https://godbolt.org/z/PbEaTTro8
+Assembly:
+main:
+        cmpb    $0, b(%rip)
+        movzwl  a(%rip), %eax
+        jg      .L2
+        andl    $1, %eax
+        movb    $1, b(%rip)
+        movw    %ax, a(%rip)
+.L2:
+        cwtl
+        ret
+a:
+        .value  51
+
+https://godbolt.org/z/cvGWqT1E9

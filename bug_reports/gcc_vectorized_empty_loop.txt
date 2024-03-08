@@ -2,6 +2,9 @@ Title: Loop is vectorized instead of removed
 
 This simple for-loop is compiled to complex vectorized code instead of optmizing the loop like clang is able to.
 
+https://godbolt.org/z/c3fjWbWEz
+
+Source:
 unsigned short a;
 int main() {
     int counter = 0;
@@ -12,5 +15,136 @@ int main() {
         counter++;
     return counter;
 }
+x86 -O3 Assembly:
+main:
+        movzwl  a(%rip), %edx
+        salw    $2, %dx
+        je      .L24
+        movl    $-4, %ecx
+        subl    %edx, %ecx
+        cmpw    $52, %cx
+        jbe     .L15
+        shrw    $2, %cx
+        movd    %edx, %xmm0
+        movl    $8, %edi
+        xorl    %eax, %eax
+        addl    $1, %ecx
+        punpcklwd       %xmm0, %xmm0
+        movd    %edi, %xmm3
+        movdqa  .LC0(%rip), %xmm1
+        movl    %ecx, %esi
+        pshufd  $0, %xmm0, %xmm0
+        movl    $2097184, %edi
+        pshufd  $0, %xmm3, %xmm3
+        shrw    $3, %si
+        paddw   .LC1(%rip), %xmm0
+        movd    %edi, %xmm2
+        movzwl  %si, %esi
+        pshufd  $0, %xmm2, %xmm2
+.L5:
+        addl    $1, %eax
+        movdqa  %xmm1, %xmm4
+        movdqa  %xmm0, %xmm5
+        paddd   %xmm3, %xmm1
+        paddw   %xmm2, %xmm0
+        cmpl    %eax, %esi
+        jne     .L5
+        movl    %ecx, %esi
+        movl    %ecx, %eax
+        andl    $-8, %esi
+        andl    $32760, %eax
+        andl    $7, %ecx
+        leal    (%rdx,%rsi,4), %edx
+        je      .L6
+        cmpw    $-4, %dx
+        je      .L25
+        cmpw    $-8, %dx
+        je      .L26
+        cmpw    $-12, %dx
+        je      .L27
+        cmpw    $-16, %dx
+        je      .L28
+        cmpw    $-20, %dx
+        je      .L29
+        cmpw    $-24, %dx
+        je      .L30
+        addl    $7, %eax
+        addl    $28, %edx
+.L14:
+        movw    %dx, a(%rip)
+        ret
+.L26:
+        addl    $2, %eax
+        xorl    %edx, %edx
+        jmp     .L14
+.L24:
+        movw    $0, a(%rip)
+        xorl    %eax, %eax
+        ret
+.L15:
+        xorl    %eax, %eax
+        andb    $4, %cl
+        jne     .L4
+        movl    $1, %eax
+        addw    $4, %dx
+        je      .L14
+.L4:
+        addl    $2, %eax
+        addw    $8, %dx
+        jne     .L4
+        jmp     .L14
+.L6:
+        paddd   .LC5(%rip), %xmm4
+        paddw   .LC7(%rip), %xmm5
+        pshufd  $255, %xmm4, %xmm0
+        pextrw  $7, %xmm5, %edx
+        movd    %xmm0, %eax
+        jmp     .L14
+.L25:
+        addl    $1, %eax
+        xorl    %edx, %edx
+        jmp     .L14
+.L27:
+        addl    $3, %eax
+        xorl    %edx, %edx
+        jmp     .L14
+.L28:
+        addl    $4, %eax
+        xorl    %edx, %edx
+        jmp     .L14
+.L29:
+        addl    $5, %eax
+        xorl    %edx, %edx
+        jmp     .L14
+.L30:
+        addl    $6, %eax
+        xorl    %edx, %edx
+        jmp     .L14
+a:
+        .zero   2
+.LC0:
+        .long   0
+        .long   1
+        .long   2
+        .long   3
+.LC1:
+        .value  0
+        .value  4
+        .value  8
+        .value  12
+        .value  16
+        .value  20
+        .value  24
+        .value  28
+.LC5:
+        .long   5
+        .long   5
+        .long   5
+        .long   5
+.LC7:
+        .long   262148
+        .long   262148
+        .long   262148
+        .long   262148
 
-https://godbolt.org/z/M6n3vjb88
+
