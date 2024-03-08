@@ -56,12 +56,12 @@ def filter(program, settings):
         globals_list.append(globals)
         try:
             cfg = binary_analysis_utils.get_cfg(project)
+            if binary_analysis_utils.check_loop(cfg):
+                return False
+            nodes_ext = binary_analysis_utils.get_cfg_info(project, cfg, globals)
+            unnecessary_writes.append(binary_analysis_utils.path_analysis(nodes_ext, globals, project))
         except:
             return False
-        if binary_analysis_utils.check_loop(cfg):
-                return False
-        nodes_ext = binary_analysis_utils.get_cfg_info(project, cfg, globals)
-        unnecessary_writes.append(binary_analysis_utils.path_analysis(nodes_ext, globals, project))
     globals = binary_analysis_utils.global_intersection(globals_list)
     return binary_analysis_utils.path_analysis_filter(globals, unnecessary_writes)
 
