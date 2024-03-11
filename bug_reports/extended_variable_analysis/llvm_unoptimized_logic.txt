@@ -1,0 +1,51 @@
+[Missing Optimizaiton] Clang misses optimization of logic.
+
+Clang is not able to optimize the logic operation unlike gcc.
+https://godbolt.org/z/jhnv7evGq
+
+Source:
+int a, c;
+static int b = 4294967295;
+char d;
+int main() {
+    c = 0;
+    for (; c < 8; c = c + 3){
+        d < b && (b = 0);
+    }
+    return d;
+}
+
+Assembly:
+main:                                   # @main
+        movsbl  d(%rip), %eax
+        movzbl  b(%rip), %ecx
+        leal    -1(%rcx), %edx
+        cmpb    %dl, %al
+        setl    %sil
+        orb     %sil, %cl
+        leal    -1(%rcx), %edx
+        cmpb    %dl, %al
+        setl    %dl
+        orb     %dl, %cl
+        orb     %dl, %sil
+        notb    %sil
+        leal    -1(%rcx), %edx
+        cmpb    %dl, %al
+        setge   %dil
+        testb   %dil, %sil
+        jne     .LBB0_2
+        cmpb    %dl, %al
+        setl    %dl
+        orb     %cl, %dl
+        movb    %dl, b(%rip)
+.LBB0_2:
+        movl    $9, c(%rip)
+        retq
+c:
+        .long   0                               # 0x0
+
+d:
+        .byte   0                               # 0x0
+
+a:
+        .long   0                               # 0x0
