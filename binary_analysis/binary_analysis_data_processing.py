@@ -348,17 +348,14 @@ def main():
         program_path = "../data/" + dir + "/program.c"
         if os.path.exists(program_path):
             f = open(program_path, "r")
-            sanitizer = Sanitizer()
-            generator = CSmithGenerator(sanitizer)
-            print(generator.include_path)
             program = SourceProgram(
                 code=f.read(),
                 language=Language.C,
                 defined_macros=(),
                 include_paths=(),
-                system_include_paths=("/usr/include/csmith/csmith.h"),
+                system_include_paths=(),
                 flags=(),)
-            program = settings[0].preprocess_program(program, make_compiler_agnostic=True)
+            program = settings[0].preprocess_program(program, make_compiler_agnostic=True, additional_flags=("-I/usr/include/csmith"))
             programs.append(program)
             f.close()
         else:
