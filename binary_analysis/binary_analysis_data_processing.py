@@ -355,7 +355,7 @@ def main():
                 include_paths=(),
                 system_include_paths=(),
                 flags=(),)
-            program = settings[0].preprocess_program(program, make_compiler_agnostic=True, additional_flags="-I/usr/include/csmith")
+            program = settings[0].preprocess_program(program, make_compiler_agnostic=True, additional_flags=("-I/usr/include/csmith",))
             programs.append(program)
             f.close()
         else:
