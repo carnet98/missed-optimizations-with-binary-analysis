@@ -343,6 +343,8 @@ def main():
     for dir in dirs:
         counter += 1
         print(counter)
+        if counter > 20:
+            break
         program_path = "../data/" + dir + "/program.c"
         if os.path.exists(program_path):
             f = open(program_path, "r")
