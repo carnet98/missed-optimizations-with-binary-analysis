@@ -222,9 +222,6 @@ def get_globals_data(programs, settings):
         globals_data.loc[counter] = entry
         counter += 1
     return globals_data
-            
-
-
 
 def main():
     gcc_path = "/usr/bin/gcc"
@@ -330,7 +327,6 @@ def main():
     f.write(report_str)
     f.close()
     
-
     # get programs
     programs = []
     for dir in dirs:
@@ -344,6 +340,7 @@ def main():
                 include_paths=(),
                 system_include_paths=(),
                 flags=(),)
+            program = settings[0].preprocess_program(program, make_compiler_agnostic=True)
             programs.append(program)
             f.close()
         else:
