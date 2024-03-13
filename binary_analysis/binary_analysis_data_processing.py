@@ -350,6 +350,7 @@ def main():
             f = open(program_path, "r")
             sanitizer = Sanitizer()
             generator = CSmithGenerator(sanitizer)
+            print(generator.include_path)
             program = SourceProgram(
                 code=f.read(),
                 language=Language.C,
