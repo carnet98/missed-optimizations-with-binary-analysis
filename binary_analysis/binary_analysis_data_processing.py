@@ -62,7 +62,7 @@ class EntryOption(Enum):
 
 def setting_str_f(setting):
     setting_json = setting.to_json_dict()
-    setting_str = setting_json["compiler"]["project"] + "_" +  setting_json["compiler"]["revision"] + "_" + setting_json["opt_level"]
+    setting_str = setting_json["compiler"]["project"] + "_" + setting_json["opt_level"]
     return setting_str
 
 # get list of setting str
