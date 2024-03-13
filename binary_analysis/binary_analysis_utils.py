@@ -242,8 +242,8 @@ def get_globals_primitive(program):
                 if "g_" in word and word not in g:
                     g.append(word)
     return g
-    setting1_result = setting1.compile_program(program, ASMCompilationOutput(None), additional_flags=("-I/usr/include/csmith"))
-    setting2_result = setting2.compile_program(program, ASMCompilationOutput(None), additional_flags=("-I/usr/include/csmith"))
+    setting1_result = setting1.compile_program(program, ASMCompilationOutput(None), additional_flags="-I/usr/include/csmith")
+    setting2_result = setting2.compile_program(program, ASMCompilationOutput(None), additional_flags="-I/usr/include/csmith")
     setting1_assembly = setting1_result.output.read()
     setting2_assembly = setting2_result.output.read()
     interesting = False
@@ -779,7 +779,7 @@ def path_analysis_filter(globals, unnecessary_writes):
 
 # compiles program and creates a angr-project
 def compile_globals_project(program, setting):
-    compiled_program = setting.compile_program(program, ExeCompilationOutput(None), additional_flags=("-I/usr/include/csmith"))
+    compiled_program = setting.compile_program(program, ExeCompilationOutput(None), additional_flags="-I/usr/include/csmith")
     project = angr.Project(compiled_program.output.filename, load_options={'auto_load_libs': False})
     # globals = get_globals_primitive(program) + ["global"]
     globals = get_globals(compiled_program)
