@@ -170,12 +170,15 @@ def total_accesses_for_setting(setting_reports, df):
         df.loc[len(df)] = [report.setting_str, access_num, const_write_num, const_write_percent, var_write_num, var_write_percent, read_num, read_percent]
 
 def get_cfg_data(programs, settings):
+    limit = 10
     counter = 0
     setting_columns = list(map(setting_str_f, settings))
     print(setting_columns)
     cfg_data = pd.DataFrame(columns=setting_columns)
     for program in programs:
         print(counter)
+        if counter > limit:
+            break
         setting_entry = []
         try:
             for setting in settings:
@@ -193,12 +196,15 @@ def get_cfg_data(programs, settings):
     return cfg_data
 
 def get_interesting_data(programs, settings):
+    limit = 10
     sums = [0, 0, 0, 0, 0]
     columns = ["variable_analysis", "extended_variable_analysis", "path_analysis", "cfg_analysis", "cfg_extended_analysis"]
     interesting_data = pd.DataFrame(columns=columns)
     counter = 0
     for program in programs:
         print(counter)
+        if counter > limit:
+            break
         entry = []
         entry.append(variable_binary_analysis.filter(program, settings))
         entry.append(extended_variable_binary_analysis.filter(program, settings))
@@ -210,11 +216,14 @@ def get_interesting_data(programs, settings):
     return interesting_data
 
 def get_globals_data(programs, settings):
+    limit = 10
     columns = list(map(setting_str_f, settings))
     globals_data = pd.DataFrame(columns=columns)
     counter = 0
     for program in programs:
         print(counter)
+        if counter > limit:
+            break
         entry = []
         for setting in settings:
             compiled_program, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
@@ -306,8 +315,8 @@ def main():
     clang_settings = [clang_0, clang_1, clang_2, clang_3]
     settings = gcc_settings + clang_settings
 
+    '''
     # get info about the ratios of constant, variable writes and read operations.
-    
     setting_reports = setup_setting_reports(settings)
     for dir in dirs:
         print(counter)
@@ -326,10 +335,14 @@ def main():
     f = open("../evaluation/report.txt", "w")
     f.write(report_str)
     f.close()
-    
+    '''
+    print("get programs")
     # get programs
     programs = []
+    counter = 0
     for dir in dirs:
+        counter += 1
+        print(counter)
         program_path = "../data/" + dir + "/program.c"
         if os.path.exists(program_path):
             f = open(program_path, "r")
@@ -346,7 +359,7 @@ def main():
         else:
             print(program_path + " does not exist.")
     counter = 0
-
+    print("got programs")
     # get info about cfgs
     cfg_data = get_cfg_data(programs, settings)
     cfg_data.to_csv("../evaluation/cfg_data.csv")
