@@ -102,7 +102,7 @@ def get_file(setting_str, files):
     for file in files:
         file_split = file[:-4].split("_")
         setting_split = setting_str.split("_")
-        if file_split[0] == setting_split[0] and file_split[len(file_split) - 1] == setting_split[len(file_split) - 1]:
+        if file_split[0] == setting_split[0] and file_split[len(file_split) - 1] == setting_split[len(setting_split) - 1]:
             return file
     raise Exception("no file found for setting: " + setting_str)
 
