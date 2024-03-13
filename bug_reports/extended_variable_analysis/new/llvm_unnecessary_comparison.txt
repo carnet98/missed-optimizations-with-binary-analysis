@@ -1,0 +1,32 @@
+Title: Unnecessary comparison instead of simple write operation
+
+Clang -O3 compares c to zero even though the value is known in advance the function d() is never called.
+
+https://godbolt.org/z/dWTbTzT8c
+
+Source:
+int a, b;
+static int c = 0;
+void d() { c = 24; }
+int main() {
+  b = c;
+}
+
+
+x86 -O3 Assembly:
+d:                                      # @d
+        movb    $1, c(%rip)
+        retq
+main:                                   # @main
+        xorl    %eax, %eax
+        cmpb    $0, c(%rip)
+        movl    $24, %ecx
+        cmovel  %eax, %ecx
+        movl    %ecx, b(%rip)
+        xorl    %eax, %eax
+        retq
+b:
+        .long   0                               # 0x0
+
+a:
+        .long   0                               # 0x0

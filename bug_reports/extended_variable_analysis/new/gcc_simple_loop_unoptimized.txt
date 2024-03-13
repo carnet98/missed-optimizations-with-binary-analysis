@@ -1,0 +1,45 @@
+Title: Missing Loop optimization
+
+GCC -O3 is not able to optmize the loop away as clang is able to. It is clear that b = 0 in the end of the program and that the loop body does not change the computation in a iteration.
+
+Source:
+int a, b, c;
+static int *d = &c;
+int main() {
+  char e;
+  for (; b; --b) {
+    e = c;
+    *d = e;
+  }
+}
+
+
+x86 -O3 Assembly:
+main:
+        movl    b(%rip), %eax
+        testl   %eax, %eax
+        je      .L2
+        movl    c(%rip), %edx
+        leal    -1(%rax), %ecx
+        testb   $1, %al
+        je      .L3
+        movsbl  %dl, %edx
+        movl    %ecx, %eax
+        testl   %ecx, %ecx
+        je      .L13
+.L3:
+        movsbl  %dl, %edx
+        subl    $2, %eax
+        jne     .L3
+.L13:
+        movl    %edx, c(%rip)
+        movl    $0, b(%rip)
+.L2:
+        xorl    %eax, %eax
+        ret
+c:
+        .zero   4
+b:
+        .zero   4
+a:
+        .zero   4

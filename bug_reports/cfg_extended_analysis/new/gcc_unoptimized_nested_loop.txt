@@ -1,0 +1,53 @@
+Title: Nested loops with no impact are not optimized away
+
+GCC -O3 is not able to optimize away the nested loops. The loops do not write any global variable and have no impact on the output. By replacing the h(j) update by j++, the optimization is catched.
+
+https://godbolt.org/z/hnevWT7rK
+
+Source:
+int c, e, g;
+static int(h)(int i) { return i && c > 0 ? 0 : i + c; }
+int main() {
+    for (int i = 0; i != 4; i = i + 2) {
+        for (int j = 0; j != 4; j = h(j)){
+            ;
+        }
+    }
+    g = 0 != e;
+    return g;
+}
+
+
+x86 -O3 Assembly:
+main:
+        movl    c(%rip), %eax
+        testl   %eax, %eax
+        jle     .L6
+.L3:
+        cmpl    $4, %eax
+        jne     .L3
+.L4:
+        movl    e(%rip), %edx
+        xorl    %eax, %eax
+        testl   %edx, %edx
+        setne   %al
+        movl    %eax, g(%rip)
+        ret
+.L6:
+        xorl    %edx, %edx
+.L2:
+        addl    %eax, %edx
+        cmpl    $4, %edx
+        jne     .L2
+        xorl    %edx, %edx
+.L5:
+        addl    %eax, %edx
+        cmpl    $4, %edx
+        jne     .L5
+        jmp     .L4
+g:
+        .zero   4
+e:
+        .zero   4
+c:
+        .zero   4

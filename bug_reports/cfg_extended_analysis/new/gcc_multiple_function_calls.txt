@@ -1,0 +1,68 @@
+Title: Missing Optimization after multiple function calls
+
+GCC -O3 does not inline the function if there are more than two calls. This also only happens in the main function. Changing the name of the main function and/or reducing the number of function calls to 2, enables the optimization.
+
+https://godbolt.org/z/KM71WrYac
+
+Source
+int a, c, d;
+int *b, *e;
+static int *f() {
+  int *g = &d;
+  int **h = &b;
+  *g = 1;
+  *h = &c;
+  if (*b)
+    for (; d; d = d + 8)
+      ;
+  return &d;
+}
+int main() {
+  f();
+  f();
+  f();
+}
+
+x86 -O3 Assembly:
+f.part.0:
+        movl    d(%rip), %eax
+        testl   %eax, %eax
+        je      .L1
+        movl    $0, d(%rip)
+.L1:
+        ret
+main:
+        movl    $1, d(%rip)
+        movl    c(%rip), %ecx
+        testl   %ecx, %ecx
+        je      .L5
+        xorl    %eax, %eax
+        call    f.part.0
+.L5:
+        movl    $1, d(%rip)
+        movl    c(%rip), %edx
+        testl   %edx, %edx
+        je      .L6
+        xorl    %eax, %eax
+        call    f.part.0
+.L6:
+        movl    $1, d(%rip)
+        movl    c(%rip), %eax
+        movq    $c, b(%rip)
+        testl   %eax, %eax
+        je      .L7
+        xorl    %eax, %eax
+        call    f.part.0
+.L7:
+        xorl    %eax, %eax
+        ret
+e:
+        .zero   8
+b:
+        .zero   8
+d:
+        .zero   4
+c:
+        .zero   4
+a:
+        .zero   4

@@ -1,0 +1,37 @@
+Title: Unnecessary Write to static variable
+
+GCC -O3 generates code that writes -1 to c. c is never used afterwards and therefore could be simplified as clang is able to.
+
+https://godbolt.org/z/ccTv8re93
+
+Source:
+int a;
+long b, d;
+static char c = 221;
+int main() {
+  ++d;
+  for (; c >= 0; --c)
+    ;
+  b = d;
+}
+
+x86 -O3 Assembly:
+main:
+        movq    d(%rip), %rax
+        addq    $1, %rax
+        cmpb    $0, c(%rip)
+        movq    %rax, d(%rip)
+        js      .L2
+        movb    $-1, c(%rip)
+.L2:
+        movq    %rax, b(%rip)
+        xorl    %eax, %eax
+        ret
+c:
+        .byte   -35
+d:
+        .zero   8
+b:
+        .zero   8
+a:
+        .zero   4

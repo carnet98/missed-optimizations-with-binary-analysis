@@ -1,6 +1,6 @@
 [Missing Optimizaiton] Clang misses optimization of logic.
 
-Clang is not able to optimize the logic operation unlike gcc.
+Clang -O3 is not able to optimize the logic operation unlike gcc.
 https://godbolt.org/z/jhnv7evGq
 
 Source:
@@ -15,7 +15,7 @@ int main() {
     return d;
 }
 
-Assembly:
+x86 -O3 Assembly:
 main:                                   # @main
         movsbl  d(%rip), %eax
         movzbl  b(%rip), %ecx

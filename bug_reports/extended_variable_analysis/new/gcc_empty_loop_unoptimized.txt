@@ -1,6 +1,6 @@
 Title: Empty loop is not optimized away.
 
-GCC misses to remove the code for the empty loop.
+GCC -O3 misses to remove the code for the empty loop.
 
 https://godbolt.org/z/j6Yvdz743
 
@@ -15,7 +15,7 @@ int main() {
   b = d;
 }
 
-Assembly:
+x86 -O3 Assembly:
 main:
         movq    d(%rip), %rax
         addq    $1, %rax

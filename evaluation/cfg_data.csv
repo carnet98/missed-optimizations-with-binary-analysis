@@ -1,0 +1,7 @@
+,GCC_13.2.1_O0,GCC_13.2.1_O1,GCC_13.2.1_O2,GCC_13.2.1_O3,LLVM_16.0.6_O0,LLVM_16.0.6_O1,LLVM_16.0.6_O2,LLVM_16.0.6_O3
+0,"{'nodes': 1596, 'edges': 2541}","{'nodes': 132, 'edges': 231}","{'nodes': 51, 'edges': 75}","{'nodes': 49, 'edges': 71}","{'nodes': 1552, 'edges': 2475}","{'nodes': 16, 'edges': 21}","{'nodes': 14, 'edges': 17}","{'nodes': 14, 'edges': 17}"
+1,"{'nodes': 1642, 'edges': 2593}","{'nodes': 308, 'edges': 553}","{'nodes': 111, 'edges': 165}","{'nodes': 109, 'edges': 161}","{'nodes': 1658, 'edges': 2611}","{'nodes': 37, 'edges': 44}","{'nodes': 32, 'edges': 37}","{'nodes': 32, 'edges': 37}"
+2,"{'nodes': 18, 'edges': 24}","{'nodes': 9, 'edges': 10}","{'nodes': 9, 'edges': 10}","{'nodes': 9, 'edges': 10}","{'nodes': 18, 'edges': 24}","{'nodes': 9, 'edges': 10}","{'nodes': 9, 'edges': 10}","{'nodes': 9, 'edges': 10}"
+3,"{'nodes': 364, 'edges': 549}","{'nodes': 17, 'edges': 24}","{'nodes': 13, 'edges': 16}","{'nodes': 13, 'edges': 16}","{'nodes': 372, 'edges': 560}","{'nodes': 9, 'edges': 10}","{'nodes': 9, 'edges': 10}","{'nodes': 9, 'edges': 10}"
+4,"{'nodes': 435, 'edges': 675}","{'nodes': 28, 'edges': 41}","{'nodes': 26, 'edges': 38}","{'nodes': 17, 'edges': 20}","{'nodes': 469, 'edges': 716}","{'nodes': 27, 'edges': 41}","{'nodes': 11, 'edges': 12}","{'nodes': 11, 'edges': 12}"
+5,"{'nodes': 1039, 'edges': 1581}","{'nodes': 29, 'edges': 41}","{'nodes': 24, 'edges': 32}","{'nodes': 24, 'edges': 32}","{'nodes': 1065, 'edges': 1593}","{'nodes': 40, 'edges': 56}","{'nodes': 9, 'edges': 10}","{'nodes': 9, 'edges': 10}"

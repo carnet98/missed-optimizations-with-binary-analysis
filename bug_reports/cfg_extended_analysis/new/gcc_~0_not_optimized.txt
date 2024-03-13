@@ -1,0 +1,58 @@
+Title: Unable to optimize ~0 and when function argument is written before the call
+
+GCC -O3 is unable to optimize the loops and cannot figure out that e() always puts out 0. By removing either the loops or ~ the optimization works fine.
+
+Source:
+int a, b = 10;
+static int c;
+int d;
+static int(e)(int f, int g) { return g == 0 ? 0 : f / g; }
+int main() {
+    for (; b; --b) {
+        for (int i = d; i; i = i + 1){
+            c = 8;
+        }
+    }
+    return e(~0, c);
+}
+
+x86 -O3 Assembly:
+main:
+        movl    b(%rip), %eax
+        movl    d(%rip), %edx
+        testl   %eax, %eax
+        je      .L7
+        testl   %edx, %edx
+        jne     .L8
+.L14:
+        subl    $1, %eax
+        jne     .L14
+        xorl    %eax, %eax
+.L5:
+        movl    $0, b(%rip)
+        testb   %al, %al
+        je      .L7
+        movl    $8, c(%rip)
+        movl    $8, %eax
+.L3:
+        movl    %eax, %ecx
+        orl     $-1, %edx
+        orl     $-1, %eax
+        idivl   %ecx
+        ret
+.L7:
+        movl    c(%rip), %eax
+        testl   %eax, %eax
+        jne     .L3
+        ret
+.L8:
+        movl    $1, %eax
+        jmp     .L5
+d:
+        .zero   4
+b:
+        .long   10
+a:
+        .zero   4
+
+

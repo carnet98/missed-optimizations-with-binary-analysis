@@ -1,0 +1,53 @@
+Title: Missing optimization for multiple condition statements
+
+GCC -O3 is not able to optimize the [b && (g = 0)] statement even though g is static and 0. So the statement does not change the value of g. This further prevents the optimiziation of the later statements.
+
+https://godbolt.org/z/r7P7qajYn
+
+Source:
+int b;
+int *e = &b;
+static int g = 0;
+
+int main() {
+    b && (g = 0);
+    if (3 - g){
+        *e = b;
+    }
+    if (253 - (9 | g)){
+        *e = b;
+    }
+    return *e;
+}
+
+x86 -O3 Assembly:
+main:
+        movl    b(%rip), %eax
+        testl   %eax, %eax
+        je      .L2
+        movq    e(%rip), %rdx
+        xorl    %edi, %edi
+        movl    %edi, g(%rip)
+        movl    %eax, (%rdx)
+        movl    b(%rip), %eax
+.L3:
+        movl    %eax, (%rdx)
+        ret
+.L2:
+        movl    g(%rip), %ecx
+        movq    e(%rip), %rdx
+        cmpl    $3, %ecx
+        je      .L3
+        xorl    %esi, %esi
+        orl     $9, %ecx
+        movl    %esi, (%rdx)
+        cmpl    $253, %ecx
+        jne     .L8
+        ret
+.L8:
+        movl    b(%rip), %eax
+        jmp     .L3
+e:
+        .quad   b
+b:
+        .zero   4

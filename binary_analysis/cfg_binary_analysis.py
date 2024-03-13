@@ -81,6 +81,36 @@ def filter(program, settings):
     result = ((node_ratio < threshold) or (edge_ratio < threshold)) and extended_variable_binary_analysis.filter(program, settings)
     return result
 
+# check interstingness (simple)
+def filter_simple(program, settings):
+    # print(program.code)
+    threshold = 0.4
+    setting_data_dict = {}
+    # program = annotate_with_static(program)
+    node_num = []
+    edge_num = []
+    for setting in settings:
+        compiled, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
+        setting_str = binary_analysis_utils.setting_str_f(setting)
+        try:
+            cfg = binary_analysis_utils.get_cfg(project)
+            node_num.append(len(cfg.graph.nodes))
+            edge_num.append(len(cfg.graph.edges))
+        except:
+            print("EXCEPTION")
+            return False
+    node_max = max(node_num)
+    node_min = min(node_num)
+    edge_max = max(edge_num)
+    edge_min = min(edge_num)
+    node_ratio = node_min / node_max
+    edge_ratio = edge_min / edge_max
+    print("node max: " + str(node_max) + "; edge max: " + str(edge_max))
+    print("node min: " + str(node_min) + "; edge min: " + str(edge_min))
+    print("node ratio: " + str(node_ratio) + "; edge ratio: " + str(edge_ratio))
+    result = ((node_ratio < threshold) or (edge_ratio < threshold))
+    return result
+
 def main():
     program_num = 30
     program_list = []

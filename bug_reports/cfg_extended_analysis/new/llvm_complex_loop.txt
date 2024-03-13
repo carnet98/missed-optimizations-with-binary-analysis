@@ -1,0 +1,129 @@
+Title: Unbable to optimize simple loop and function
+
+Clang -O3 is not able to optimize the loop and loop body and generates very complex code. gcc is able to optimize the program a much smaller and simpler assembly. 
+
+https://godbolt.org/z/qecj6o43o
+```
+Source:
+int a, b, c;
+int d;
+int *e = &a;
+static char(f)(char g) { return g << b; }
+int main() {
+    for (; d; ++d){
+        c = f(*e);
+    }
+    return c;
+}
+```
+
+x86 -O3 Assembly:
+```
+main:                                   # @main
+        movl    d(%rip), %esi
+        testl   %esi, %esi
+        je      .LBB0_9
+        pushq   %rbp
+        pushq   %rbx
+        movq    e(%rip), %rdx
+        movl    b(%rip), %ecx
+        movl    %esi, %r8d
+        negl    %r8d
+        cmpl    $12, %r8d
+        jae     .LBB0_10
+.LBB0_2:
+        movl    %esi, %edi
+.LBB0_3:
+        movl    %edi, %esi
+        testb   $1, %dil
+        je      .LBB0_5
+        movl    (%rdx), %eax
+        shll    %cl, %eax
+        movsbl  %al, %eax
+        movl    %eax, c(%rip)
+        leal    1(%rdi), %esi
+        movl    %esi, d(%rip)
+.LBB0_5:
+        cmpl    $-1, %edi
+        je      .LBB0_8
+        incl    %esi
+.LBB0_7:                                # =>This Inner Loop Header: Depth=1
+        movl    (%rdx), %eax
+        shll    %cl, %eax
+        movsbl  %al, %eax
+        movl    %eax, c(%rip)
+        movl    %esi, d(%rip)
+        movl    (%rdx), %eax
+        shll    %cl, %eax
+        movsbl  %al, %eax
+        movl    %eax, c(%rip)
+        leal    1(%rsi), %edi
+        movl    %edi, d(%rip)
+        addl    $2, %esi
+        cmpl    $1, %esi
+        jne     .LBB0_7
+.LBB0_8:
+        popq    %rbx
+        popq    %rbp
+        retq
+.LBB0_9:
+        movl    c(%rip), %eax
+        retq
+.LBB0_10:
+        leaq    4(%rdx), %rdi
+        leaq    d(%rip), %r10
+        leaq    c+4(%rip), %r9
+        cmpq    %r10, %r9
+        seta    %r11b
+        leaq    c(%rip), %rax
+        leaq    d+4(%rip), %rbx
+        cmpq    %rax, %rbx
+        seta    %bpl
+        cmpq    %rax, %rdi
+        seta    %al
+        cmpq    %r9, %rdx
+        setb    %r9b
+        cmpq    %r10, %rdi
+        seta    %dil
+        cmpq    %rbx, %rdx
+        setb    %r10b
+        testb   %r11b, %bpl
+        jne     .LBB0_2
+        andb    %r9b, %al
+        jne     .LBB0_2
+        andb    %r10b, %dil
+        jne     .LBB0_2
+        movl    %r8d, %r9d
+        andl    $-8, %r9d
+        leal    (%rsi,%r9), %edi
+        movl    (%rdx), %eax
+        shll    %cl, %eax
+        movsbl  %al, %eax
+        movl    %eax, c(%rip)
+        movl    %r9d, %r11d
+        negl    %r11d
+        xorl    %r10d, %r10d
+.LBB0_14:                               # =>This Inner Loop Header: Depth=1
+        addl    $-8, %r10d
+        cmpl    %r10d, %r11d
+        jne     .LBB0_14
+        subl    %r10d, %esi
+        movl    %esi, d(%rip)
+        cmpl    %r8d, %r9d
+        jne     .LBB0_3
+        jmp     .LBB0_8
+a:
+        .long   0                               # 0x0
+
+e:
+        .quad   a
+
+d:
+        .long   0                               # 0x0
+
+c:
+        .long   0                               # 0x0
+
+b:
+        .long   0                               # 0x0
+```
