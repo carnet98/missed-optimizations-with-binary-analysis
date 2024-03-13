@@ -177,17 +177,17 @@ def get_cfg_data(programs, settings):
     for program in programs:
         print(counter)
         setting_entry = []
-        for setting in settings:
-            entry = {}
-            try:
+        try:
+            for setting in settings:
+                entry = {}
                 compiled_program, project, globals = binary_analysis_utils.compile_globals_project(program, setting)
                 cfg = binary_analysis_utils.get_cfg(project)
                 entry["nodes"] = len(cfg.graph.nodes)
                 entry["edges"] = len(cfg.graph.edges)
                 setting_entry.append(entry)
-            except:
-                print("cfg not generated")
-                continue
+        except:
+            print("cfg not generated")
+            continue
         cfg_data.loc[counter] = setting_entry
         counter += 1
     return cfg_data
