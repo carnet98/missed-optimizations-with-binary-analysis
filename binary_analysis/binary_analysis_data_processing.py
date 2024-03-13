@@ -356,7 +356,7 @@ def main():
                 language=Language.C,
                 defined_macros=(),
                 include_paths=(),
-                system_include_paths=("/usr/include/csmith/"),
+                system_include_paths=("/usr/include/csmith/csmith.h"),
                 flags=(),)
             program = settings[0].preprocess_program(program, make_compiler_agnostic=True)
             programs.append(program)
