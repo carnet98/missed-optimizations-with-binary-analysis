@@ -1,3 +1,7 @@
+"""
+This file contains most of the binary analysis functionalities.
+"""
+
 import sys
 
 import os
@@ -369,6 +373,7 @@ def check_block(block, g_map):
                 if var_obj_2:
                     instr_obj = Instruction_Entry(mnemonic, op_str_list, constant, False, value1)
                     var_obj_2.instructions.append(instr_obj)
+            # handle xor instrucitons
             if mnemonic == "xor":
                 constant = False
                 if var_obj_1 and var_obj_2 and var_obj_1 == var_obj_2:

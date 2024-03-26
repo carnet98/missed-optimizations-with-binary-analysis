@@ -1,1 +1,0 @@
-# Diopter: Differential Optimization Tester

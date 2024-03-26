@@ -1,0 +1,20 @@
+-O0
+difference high value interval: (4810, 655)
+difference low value interval: (-1615, -4554)
+ratio high value interval: (177.03846153846155, 1.356401384083045)
+ratio low value interval: (0.2791461412151067, 0.005438477226376614)
+-O1
+difference high value interval: (1983, 935)
+difference low value interval: (-23, -184)
+ratio high value interval: (120.6, 25.636363636363637)
+ratio low value interval: (0.4782608695652174, 0.025423728813559324)
+-O2
+difference high value interval: (234, 62)
+difference low value interval: (-24, -1849)
+ratio high value interval: (24.4, 5.2)
+ratio low value interval: (0.5, 0.054945054945054944)
+-O3
+difference high value interval: (293, 57)
+difference low value interval: (-15, -505)
+ratio high value interval: (41.8, 4.823529411764706)
+ratio low value interval: (0.5882352941176471, 0.054945054945054944)

@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+"""
+This script contains the Simple Variable Analysis Filter with static variables.
+Arguments:
+--sample <source.c>: Source file as single sample
+--clang_path <path-to-clang-executable>: Path to the clang executable under test (default from /usr/bin/clang)
+--gcc_path <path-to-gcc-executable>: Path to the gcc executable under test (default from /usr/bin/gcc)
+Change the program num in the main function to get more interesting reduced programs.
+"""
+
 import sys
 import os
 

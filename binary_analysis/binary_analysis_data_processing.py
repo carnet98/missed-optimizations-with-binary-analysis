@@ -1,3 +1,6 @@
+"""
+This script takes the programs in the ../data/ directory and processes the data and stores the results in the ../evaluation directory
+"""
 import sys
 import os
 sys.path.insert(0, '..')

@@ -1,5 +1,14 @@
 #!/usr/bin/env python3
 
+"""
+This script generates 10'000 samples and performs binary analysis to get the accesses to global variables.
+Arguments:
+--sample <source.c>: Source file as single sample
+--clang_path <path-to-clang-executable>: Path to the clang executable under test (default from /usr/bin/clang)
+--gcc_path <path-to-gcc-executable>: Path to the gcc executable under test (default from /usr/bin/gcc)
+Change the program num in the main function to get more samples.
+"""
+
 import sys
 import os
 sys.path.insert(0, '..')

@@ -1,10 +1,15 @@
+g_1:
+        .long   5
+g_2:
+        .long   6
 main:
         pushq   %rbp
         movq    %rsp, %rbp
-        movl    x(%rip), %eax
+        movl    $3, -4(%rbp)
+        movl    $1, -8(%rbp)
+        movl    -4(%rbp), %eax
         movl    %eax, g_1(%rip)
-        movl    y(%rip), %eax
-        testl   %eax, %eax
+        cmpl    $0, -8(%rbp)
         jne     .L2
         movl    $3, g_1(%rip)
         jmp     .L3

@@ -96,8 +96,9 @@ def main():
             flags=(),)
         f.close()
     else:
-        print(path + " does not exist.")
-    
+        print(path + " does not exist")
+        
+    # test code; try and test funcitons from binary analysis utils
     print(program.code)
     globals_list = []
     setting_data_dict = {}
@@ -106,7 +107,11 @@ def main():
         compiled, project, globals = binary_analysis_utils.compile_globals_project(temp_program, setting)
         globals_list.append(globals)
         cfg = binary_analysis_utils.get_cfg(project)
-        data = binary_analysis_utils.extended_variable_analysis(project, cfg, globals)
+        nodes_ext = binary_analysis_utils.get_cfg_info(project, cfg, globals)
+        print(binary_analysis_utils.setting_str_f(setting))
+        for node_ext in nodes_ext:
+            print(node_ext.to_string())
+        # data = binary_analysis_utils.extended_variable_analysis(project, cfg, globals)
 
 if __name__ == "__main__":
     main()
