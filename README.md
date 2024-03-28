@@ -10,23 +10,34 @@ Missing compiler optimizations prevent compilers to generate binary files with o
 The filters are located in the `./binary_analysis/` directory:
 
 Simple Variable analysis:
+
 `variable_binary_analysis.py`
+
 `variable_binary_analysis_static.py`
 
 Extended Variable analysis:
+
 `extended_variable_binary_analysis.py`
+
 `extended_variable_binary_analysis_static.py`
 
 Path Analysis:
+
 `path_binary_analysis.py`
 
 CFG Analysis + CFG Extended Analysis:
+
 `cfg_binary_analysis.py`
 
+
 All filters take the following arguments:
+
 `--sample <source.c>`: Source file as single sample (in `./program_examples/`, otherwise CSmith programs are generated.
+
 `--clang_path <path-to-clang-executable>`: Path to the clang executable under test (default from `/usr/bin/clang`)
+
 `--gcc_path <path-to-gcc-executable>`: Path to the gcc executable under test (default from `/usr/bin/gcc`)
+
 
 Change the `program_num` in the main function to get more interesting reduced programs.
 
